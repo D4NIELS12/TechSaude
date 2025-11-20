@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">TechSaude</string>
+    <string-array name="idiomas">
+        <item>Português</item>
+        <item>Inglês</item>
+        <item>Espanhol</item>
+    </string-array>
+    <string name="txtCpfPaciente">Digite seu CPF:</string>
+    <string name="txtSenhapaciente">Digite sua Senha:</string>
+    <string name="lblCadastrar">Cadastrar</string>
+    <string name="lblEsqueciSenha">Esqueci minha senha</string>
+    <string name="txtNomeCadastrar">Digite seu Nome:</string>
+    <string name="txtEmailCadastro">Digite seu E-mail:</string>
+    <string name="txtNascCadastro">Data de Nascimento:</string>
+    <string name="txtSenhaCadastro">Digite sua senha:</string>
+    <string name="txtCrmMedico">Digite seu CRM:</string>
+    <string name="txtSenhaMedico">Digite sua Senha</string>
+    <string name="txtEnunciado">Como podemos cuidar da sua saúde hoje?</string>
+    <string name="btnConsulta">"Consulta Médica"</string>
+    <string name="btnExames">Exames</string>
+    <string name="btnVacinas">Vacinas</string>
+    <string name="txtNovaSenha">Digite sua Nova Senha:</string>
+    <string name="open_drawer">Abrir menu</string>
+    <string name="close_drawer">Fechar menu</string>
+
+    <string name="nav_app_bar_open_drawer_description">Abrir menu</string>
+    <string name="nav_app_bar_close_drawer_description">Fechar menu</string>
+    <string name="nav_app_bar_navigate_up_description">Navegar para cima</string>
+    <string name="navtoobar">I</string>
+    <string name="scrollView">I</string>
+    <string name="txtTituloProntuario">PRONTUÁRIO</string>
+    <string name="cbxDiabetes">Diabetes</string>
+    <string name="auto_complete_medico">Médico</string>
+</resources>

@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/azulEscuro"
+    android:padding="15dp">
+
+
+        <ImageView
+            android:id="@+id/imgTechsaude"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="start"
+            app:srcCompat="@drawable/techsaudebranco" />
+
+
+
+
+    <TextView
+        android:id="@+id/txtNomeNav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="..."
+        android:textAlignment="center"
+        android:textColor="@color/branco"
+        android:layout_marginStart="27dp"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+</LinearLayout>

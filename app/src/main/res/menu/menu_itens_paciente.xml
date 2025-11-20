@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_inicio"
+            android:icon="@drawable/botao_de_inicio"
+            android:title="Ínicio" />
+
+
+
+        <item
+            android:id="@+id/nav_Perfil"
+            android:icon="@drawable/perfil"
+            android:title="Perfil" />
+
+
+
+        <item
+            android:id="@+id/nav_Area_Paciente"
+            android:icon="@drawable/saude"
+            android:title="Área do paciente" />
+
+
+
+        <item
+            android:id="@+id/nav_Prontuario"
+            android:icon="@drawable/bloco_de_anotacoes"
+            android:title="Prontuário" />
+
+
+
+        <item
+            android:id="@+id/nav_Agendamentos"
+            android:icon="@drawable/calendario"
+            android:title="Agendamentos" />
+
+
+
+        <item
+            android:id="@+id/nav_Configurações"
+            android:icon="@drawable/engrenagem"
+            android:title="Configurações" />
+    </group>
+</menu>

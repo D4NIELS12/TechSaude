@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cinza"
+    tools:context=".AgendarExames">
+
+    <ImageView
+        android:id="@+id/btnVoltarConsulta"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/voltar" />
+
+    <!-- 🔹 Cabeçalho -->
+
+    <!-- 🔹 Subtítulo -->
+
+    <View
+        android:id="@+id/viewRecipienteImagem"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/recipienteimagem"
+        app:layout_constraintStart_toEndOf="@id/btnVoltarConsulta"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgExame"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="17dp"
+        android:contentDescription="Símbolo de Exame"
+        app:layout_constraintStart_toEndOf="@id/btnVoltarConsulta"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/exame_medico" />
+
+    <TextView
+        android:id="@+id/textTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:text="Agendar Exames"
+        android:textColor="@color/preto"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/viewRecipienteImagem"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textDescricao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Escolha o Exame e o médico de sua preferência"
+        android:textAlignment="center"
+        android:textColor="@color/preto"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/viewRecipienteImagem" />
+
+    <!-- 🔹 Especialidade -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Exame"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="12dp"
+        app:boxBackgroundMode="filled"
+        android:background="@drawable/recipiente_texto"
+        android:hint="Tipo de exame"
+        app:endIconMode="dropdown_menu"
+        app:layout_constraintTop_toBottomOf="@id/textDescricao">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_exame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:textColor="@color/preto"
+            android:backgroundTint="@color/branco"
+            android:textSize="18sp"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 🔹 Médico -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Medico"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/recipiente_texto"
+        app:boxBackgroundMode="filled"
+        android:hint="Médico"
+        app:endIconMode="dropdown_menu"
+        app:layout_constraintTop_toBottomOf="@id/Exame">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_medico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:textColor="@color/preto"
+            android:backgroundTint="@color/branco"
+            android:textSize="18sp"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 🔹 Data -->
+
+    <!-- 🔹 Horário -->
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="346dp"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/recipiente_texto"
+        android:focusable="false"
+        android:hint="Data do exame"
+        android:textColor="@color/preto"
+        android:textColorHint="@color/preto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Medico" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/time"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="12dp"
+        app:boxBackgroundMode="filled"
+        android:background="@drawable/recipiente_texto"
+        android:hint="Horário do exame"
+        app:endIconMode="dropdown_menu"
+        app:layout_constraintTop_toBottomOf="@id/editTextDate">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:backgroundTint="@color/branco"
+            android:textColor="@color/preto"
+            android:textSize="18sp"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 🔹 Botão -->
+    <Button
+        android:id="@+id/ConfirmarExame"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/azulEscuro"
+        android:text="Confirmar Agendamento"
+        android:textColor="@color/branco"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/time" />
+
+    <!-- 🔹 Rodapé -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/azulEscuro"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="Logo TechSaúde"
+            android:src="@drawable/techsaudebranco" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

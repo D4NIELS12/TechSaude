@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_inicio_medico"
+            android:icon="@drawable/botao_de_inicio"
+            android:title="Ínicio" />
+
+
+        <item
+            android:id="@+id/nav_Perfil_medico"
+            android:icon="@drawable/perfil"
+            android:title="Perfil" />
+
+
+        <item
+            android:id="@+id/nav_Calendario_Medico"
+            android:title="Calendário"
+            android:icon="@drawable/calendario"/>
+
+
+        <item
+            android:id="@+id/nav_dicas"
+            android:title="Dicas de Saúde"/>
+
+
+        <item
+            android:id="@+id/nav_relatorios"
+            android:title="Relatórios"/>
+
+
+        <item
+            android:id="@+id/nav_Configurações_medico"
+            android:icon="@drawable/engrenagem"
+            android:title="Configurações" />
+    </group>
+
+</menu>

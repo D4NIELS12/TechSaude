@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/cinza">
+
+    <!-- Conteúdo principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:theme="@style/ThemeOverlay.Material3.ActionBar">
+
+
+            <ImageView
+                android:id="@+id/imgTechsaude"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="start"
+                android:background="@drawable/recipienteimagem"
+                android:onClick="ClickMenu"
+                app:srcCompat="@drawable/techsaudebranco" />
+
+            <TextView
+                android:id="@+id/txtNomeDaTela"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome da Tela"
+                android:layout_marginStart="30dp"
+                android:textStyle="bold"
+                android:textSize="45sp"
+                android:layout_gravity="center"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <!-- Menu lateral -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:itemTextColor="@color/branco"
+        android:background="@color/azulEscuro"
+        app:itemBackground="@drawable/nav_item_background"
+        app:menu="@menu/menu_itens_paciente"
+        app:headerLayout="@layout/activity_nav_header"
+        app:itemIconTint="@color/branco">
+
+            <TextView
+                android:id="@+id/nav_sair"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="65dp"
+                android:layout_marginBottom="15dp"
+                android:text="Sair"
+                android:textAppearance="@style/NavDrawerTextStyle"
+                android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="50dp"
+            app:srcCompat="@drawable/sair"
+            app:tint="@color/branco"
+            />
+
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>
