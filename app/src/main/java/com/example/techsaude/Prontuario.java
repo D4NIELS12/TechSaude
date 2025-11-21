@@ -1,20 +1,11 @@
 package com.example.techsaude;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,7 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +30,9 @@ public class Prontuario extends Fragment {
     CheckBox checkDiabetes, checkHipertensao, checkAsma, checkColesterol, checkObesidade, checkNenhuma;
     MaterialButton btnSalvarProntuario;
 
+    String URL_INSERIR   = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/inserir_prontuario.php";
+    String URL_ATUALIZAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/atualizar_prontuario.php";
+    String URL_VERIFICAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/verificar_prontuario.php?cpfUsuario=";
 
     @Nullable
     @Override
@@ -41,10 +40,8 @@ public class Prontuario extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // Inflar o layout
         View view = inflater.inflate(R.layout.activity_prontuario, container, false);
 
-        // Inicializar os campos usando a View
         editPeso = view.findViewById(R.id.editPeso);
         editAltura = view.findViewById(R.id.editAltura);
         editSintomas = view.findViewById(R.id.editSintomas);
@@ -61,8 +58,9 @@ public class Prontuario extends Fragment {
 
         btnSalvarProntuario = view.findViewById(R.id.btnSalvarProntuario);
 
-        checkNenhuma.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
+        // Regras checkbox
+        checkNenhuma.setOnCheckedChangeListener((b, checked) -> {
+            if (checked) {
                 checkDiabetes.setChecked(false);
                 checkHipertensao.setChecked(false);
                 checkAsma.setChecked(false);
@@ -71,139 +69,159 @@ public class Prontuario extends Fragment {
             }
         });
 
-        CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
-            if (isChecked) {
-                checkNenhuma.setChecked(false);
-            }
-        };
+        View.OnClickListener limparNenhuma = v -> checkNenhuma.setChecked(false);
+        checkDiabetes.setOnClickListener(limparNenhuma);
+        checkHipertensao.setOnClickListener(limparNenhuma);
+        checkAsma.setOnClickListener(limparNenhuma);
+        checkColesterol.setOnClickListener(limparNenhuma);
+        checkObesidade.setOnClickListener(limparNenhuma);
 
-        checkDiabetes.setOnCheckedChangeListener(listener);
-        checkHipertensao.setOnCheckedChangeListener(listener);
-        checkAsma.setOnCheckedChangeListener(listener);
-        checkColesterol.setOnCheckedChangeListener(listener);
-        checkObesidade.setOnCheckedChangeListener(listener);
-
-
-        // Ação do botão salvar
-        btnSalvarProntuario.setOnClickListener(v -> inserirOuAtualizarProntuario());
+        btnSalvarProntuario.setOnClickListener(v -> salvarProntuario());
 
         return view;
     }
 
-    private void inserirOuAtualizarProntuario() {
-        // Captura os valores digitados
-        String alturaStr = editAltura.getText().toString().trim();
+    // =============================================
+    // SALVAR PRONTUÁRIO (INSERT OU UPDATE)
+    // =============================================
+    private void salvarProntuario() {
+
         String pesoStr = editPeso.getText().toString().trim();
+        String alturaStr = editAltura.getText().toString().trim();
         String sintomas = editSintomas.getText().toString().trim();
         String alergias = editAlergias.getText().toString().trim();
         String observacoes = editObservacoes.getText().toString().trim();
         String alertas = editAlertas.getText().toString().trim();
         String condicoes = getCondicoesSelecionadas();
 
-        // Validação básica
-        if (alturaStr.isEmpty() || pesoStr.isEmpty() || sintomas.isEmpty() || condicoes.isEmpty()) {
-            Toast.makeText(requireContext(), "Preencha os campos obrigatórios: altura, peso, Condições e sintomas.", Toast.LENGTH_SHORT).show();
+        if (pesoStr.isEmpty() || alturaStr.isEmpty() || sintomas.isEmpty() || condicoes.isEmpty()) {
+            Toast.makeText(requireContext(), "Preencha todos os campos obrigatórios.", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        double peso = Double.parseDouble(pesoStr);
+        double altura = Double.parseDouble(alturaStr);
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("loginUsuario_prefs", getContext().MODE_PRIVATE);
+        String cpfUsuario = prefs.getString("cpf", "");
+
+
+        String data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
         try {
-            double altura = Double.parseDouble(alturaStr);
-            double peso = Double.parseDouble(pesoStr);
+            JSONObject dados = new JSONObject();
+            dados.put("cpfUsuario", cpfUsuario);
+            dados.put("data_registro", data);
+            dados.put("peso", peso);
+            dados.put("altura", altura);
+            dados.put("sintomas", sintomas);
+            dados.put("alergias", alergias);
+            dados.put("condicoes", condicoes);
+            dados.put("observacoes", observacoes);
+            dados.put("alertas", alertas);
 
-            // Recupera o CPF do usuário logado
-            SharedPreferences prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-            String cpfUsuario = prefs.getString("cpfUsuario", "");
+            verificarProntuario(cpfUsuario,
+                    existe -> {
+                        if (existe) atualizarProntuario(dados);
+                        else inserirProntuario(dados);
+                    });
 
-            if (cpfUsuario.isEmpty()) {
-                Toast.makeText(requireContext(), "Erro: CPF do usuário não encontrado.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            DatabaseHelper dbHelper = new DatabaseHelper(requireContext());
-            String dataRegistro = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-
-            // ✅ Verifica se o prontuário já existe
-            if (dbHelper.existeProntuario(cpfUsuario)) {
-                // Atualiza o prontuário existente
-                boolean sucesso = dbHelper.atualizarProntuario(
-                        cpfUsuario,
-                        peso,
-                        altura,
-                        sintomas,
-                        alergias,
-                        condicoes,
-                        observacoes,
-                        alertas
-                );
-
-                Toast.makeText(requireContext(),
-                        sucesso ? "Prontuário atualizado com sucesso!" : "Erro ao atualizar prontuário.",
-                        Toast.LENGTH_SHORT).show();
-
-            } else {
-                // Insere um novo prontuário
-                boolean sucesso = dbHelper.inserirProntuario(
-                        cpfUsuario,
-                        dataRegistro,
-                        peso,
-                        altura,
-                        sintomas,
-                        alergias,
-                        condicoes,
-                        observacoes,
-                        alertas
-                );
-
-                Toast.makeText(requireContext(),
-                        sucesso ? "Prontuário criado com sucesso!" : "Erro ao criar prontuário.",
-                        Toast.LENGTH_SHORT).show();
-
-                if (sucesso) limparCampos();
-            }
-
-        } catch (NumberFormatException e) {
-            Toast.makeText(requireContext(), "Verifique os valores de peso e altura.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "Erro inesperado: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(requireContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
+    // =============================================
+    // VERIFICAR SE EXISTE PRONTUÁRIO
+    // =============================================
+    private void verificarProntuario(String idUsuario, Callback callback) {
 
+        JsonObjectRequest req = new JsonObjectRequest(
+                Request.Method.GET,
+                URL_VERIFICAR + idUsuario,
+                null,
+                response -> {
+                    try {
+                        callback.onResult(response.getBoolean("existe"));
+                    } catch (Exception e) {
+                        callback.onResult(false);
+                    }
+                },
+                error -> callback.onResult(false)
+        );
 
+        Volley.newRequestQueue(requireContext()).add(req);
+    }
+
+    interface Callback {
+        void onResult(boolean existe);
+    }
+
+    // =============================================
+    // INSERIR PRONTUÁRIO
+    // =============================================
+    private void inserirProntuario(JSONObject dados) {
+
+        Limpar();
+        JsonObjectRequest req = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_INSERIR,
+                dados,
+                response -> Toast.makeText(requireContext(), "Prontuário criado com sucesso!", Toast.LENGTH_SHORT).show(),
+                error -> Toast.makeText(requireContext(), "Erro ao criar prontuário.", Toast.LENGTH_SHORT).show()
+        );
+
+        Volley.newRequestQueue(requireContext()).add(req);
+    }
+
+    // =============================================
+    // ATUALIZAR PRONTUÁRIO
+    // =============================================
+    private void atualizarProntuario(JSONObject dados) {
+
+        Limpar();
+        JsonObjectRequest req = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_ATUALIZAR,
+                dados,
+                response -> Toast.makeText(requireContext(), "Prontuário atualizado!", Toast.LENGTH_SHORT).show(),
+                error -> Toast.makeText(requireContext(), "Erro ao atualizar prontuário.", Toast.LENGTH_SHORT).show()
+        );
+
+        Volley.newRequestQueue(requireContext()).add(req);
+    }
+
+    // =============================================
+    // MONTAR TEXTO DAS CONDIÇÕES
+    // =============================================
     private String getCondicoesSelecionadas() {
-        StringBuilder condicoes = new StringBuilder();
+        StringBuilder c = new StringBuilder();
 
-        if (checkNenhuma.isChecked()) {
-            return "Nenhuma das opções";
-        }
+        if (checkNenhuma.isChecked()) return "Nenhuma";
 
-        if (checkDiabetes.isChecked()) condicoes.append("Diabetes, ");
-        if (checkHipertensao.isChecked()) condicoes.append("Hipertensão, ");
-        if (checkAsma.isChecked()) condicoes.append("Asma, ");
-        if (checkColesterol.isChecked()) condicoes.append("Colesterol Alto, ");
-        if (checkObesidade.isChecked()) condicoes.append("Obesidade, ");
+        if (checkDiabetes.isChecked())     c.append("Diabetes, ");
+        if (checkHipertensao.isChecked())  c.append("Hipertensão, ");
+        if (checkAsma.isChecked())         c.append("Asma, ");
+        if (checkColesterol.isChecked())   c.append("Colesterol Alto, ");
+        if (checkObesidade.isChecked())    c.append("Obesidade, ");
 
-        // Remove a última vírgula e espaço, se houver
-        if (condicoes.length() > 0)
-            condicoes.setLength(condicoes.length() - 2);
+        if (c.length() > 0)
+            c.setLength(c.length() - 2);
 
-        return condicoes.toString();
+        return c.toString();
     }
-
-
-    private void limparCampos() {
-        editPeso.setText("");
-        editAltura.setText("");
-        editSintomas.setText("");
-        editAlergias.setText("");
-        editObservacoes.setText("");
-        editAlertas.setText("");
-
-        checkDiabetes.setChecked(false);
-        checkHipertensao.setChecked(false);
+    private void Limpar() {
         checkAsma.setChecked(false);
-        checkColesterol.setChecked(false);
+        checkHipertensao.setChecked(false);
         checkObesidade.setChecked(false);
+        checkDiabetes.setChecked(false);
+        checkColesterol.setChecked(false);
         checkNenhuma.setChecked(false);
+        editPeso.setText(null);
+        editAltura.setText(null);
+        editSintomas.setText(null);
+        editAlergias.setText(null);
+        editObservacoes.setText(null);
+        editAlertas.setText(null);
     }
 }
