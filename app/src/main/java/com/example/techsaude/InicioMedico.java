@@ -26,7 +26,7 @@ public class InicioMedico extends Fragment {
         View view = inflater.inflate(R.layout.activity_inicio_medico, container, false);
 
         // Referência ao CardView do XML
-        View cardAgenda = view.findViewById(R.id.cardAgenda);
+        View cardAgenda = view.findViewById(R.id.cardCalendario);
 
         // Clique para abrir a Agenda Médica
         cardAgenda.setOnClickListener(v -> {

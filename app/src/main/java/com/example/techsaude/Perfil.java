@@ -23,7 +23,7 @@ public class Perfil extends Fragment {
 
     private TextView lblNome, lblCPF, lblEmail, lblNascimento,
             lblEndereco, lblTelefone, lblSexo;
-    String URL_BUSCAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/buscar_prontuario.php?cpfUsuario=";
+    String URL_BUSCAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/buscar_prontuario.php?idUsuario=";
     LinearLayout viewRelatorio;
 
     public Perfil() {
@@ -75,10 +75,10 @@ public class Perfil extends Fragment {
         lblTelefone.setText(telefone);
         lblSexo.setText(sexoExtenso);
 
+        int idUsuario = prefs.getInt("idUsuario",0);
 
-
-        if (cpf != null && !cpf.isEmpty()) {
-            carregarProntuario(cpf);
+        if (idUsuario != 0) {
+            carregarProntuario(idUsuario);
         }
 
 
@@ -110,11 +110,11 @@ public class Perfil extends Fragment {
         }
     }
 
-    private void carregarProntuario(String cpfUsuario) {
+    private void carregarProntuario(int idUsuario) {
 
         JsonObjectRequest req = new JsonObjectRequest(
                 Request.Method.GET,
-                URL_BUSCAR + cpfUsuario,
+                URL_BUSCAR + idUsuario,
                 null,
                 response -> {
                     try {
