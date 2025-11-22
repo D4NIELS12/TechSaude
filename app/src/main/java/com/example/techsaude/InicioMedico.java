@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +25,7 @@ public class InicioMedico extends Fragment {
         View view = inflater.inflate(R.layout.activity_inicio_medico, container, false);
 
         // Referência ao CardView do XML
-        View cardAgenda = view.findViewById(R.id.cardAgenda);
+        View cardAgenda = view.findViewById(R.id.cardVacina);
 
         // Clique para abrir a Agenda Médica
         cardAgenda.setOnClickListener(v -> {
