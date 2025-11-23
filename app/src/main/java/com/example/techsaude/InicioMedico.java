@@ -25,10 +25,10 @@ public class InicioMedico extends Fragment {
         View view = inflater.inflate(R.layout.activity_inicio_medico, container, false);
 
         // Referência ao CardView do XML
-        View cardAgenda = view.findViewById(R.id.cardVacina);
+        View cardProximasConsultas = view.findViewById(R.id.cardProximasConsultas);
 
         // Clique para abrir a Agenda Médica
-        cardAgenda.setOnClickListener(v -> {
+        cardProximasConsultas.setOnClickListener(v -> {
             if (getActivity() != null) {
                 Intent it = new Intent(getActivity(), AgendaMedica.class);
                 startActivity(it);

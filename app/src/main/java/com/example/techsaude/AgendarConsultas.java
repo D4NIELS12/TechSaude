@@ -3,6 +3,7 @@ package com.example.techsaude;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -63,6 +64,9 @@ public class AgendarConsultas extends AppCompatActivity {
         editTextDate = findViewById(R.id.editTextDate);
         btnConfirmarConsulta = findViewById(R.id.btnConfirmarConsulta);
 
+        SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
         // Carrega lista de especialidades ao abrir o app
         carregarEspecialidades();
 
@@ -171,13 +175,14 @@ public class AgendarConsultas extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        String medicoFormatado = medico.replace("Dr. ", "").trim();
 
         editor.putString("especialidadeConsulta", especialidade);
-        editor.putString("medicoConsulta", medico);
+        editor.putString("medicoConsulta", medicoFormatado);
         editor.putString("dataConsulta", data);
         editor.putString("horarioConsulta", horario);
         editor.putString("valorConsulta", valor);
-        editor.putString("statusConsulta", "PENDENTE");
+        editor.putString("statusConsulta", "Agendada");
 
         editor.apply();
 
@@ -185,6 +190,7 @@ public class AgendarConsultas extends AppCompatActivity {
         Intent it = new Intent(AgendarConsultas.this, FormaPagamento.class);
         startActivity(it);
     }
+
 
 
     // ============================================================

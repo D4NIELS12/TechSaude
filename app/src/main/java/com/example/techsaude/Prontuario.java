@@ -32,7 +32,7 @@ public class Prontuario extends Fragment {
 
     String URL_INSERIR   = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/inserir_prontuario.php";
     String URL_ATUALIZAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/atualizar_prontuario.php";
-    String URL_VERIFICAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/verificar_prontuario.php?cpfUsuario=";
+    String URL_VERIFICAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/verificar_prontuario.php?idUsuario=";
 
     @Nullable
     @Override
@@ -103,14 +103,14 @@ public class Prontuario extends Fragment {
         double altura = Double.parseDouble(alturaStr);
 
         SharedPreferences prefs = requireContext().getSharedPreferences("loginUsuario_prefs", getContext().MODE_PRIVATE);
-        String cpfUsuario = prefs.getString("cpf", "");
+        int idUsuario = prefs.getInt("idUsuario", 0);
 
 
         String data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
         try {
             JSONObject dados = new JSONObject();
-            dados.put("cpfUsuario", cpfUsuario);
+            dados.put("idUsuario", idUsuario);
             dados.put("data_registro", data);
             dados.put("peso", peso);
             dados.put("altura", altura);
@@ -120,7 +120,7 @@ public class Prontuario extends Fragment {
             dados.put("observacoes", observacoes);
             dados.put("alertas", alertas);
 
-            verificarProntuario(cpfUsuario,
+            verificarProntuario(String.valueOf(idUsuario),
                     existe -> {
                         if (existe) atualizarProntuario(dados);
                         else inserirProntuario(dados);

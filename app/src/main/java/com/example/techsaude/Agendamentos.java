@@ -25,7 +25,6 @@ public class Agendamentos extends Fragment {
     private MaterialCalendarView calendarView;
     private TextView txtDetalhes;
     private Button btnAlterar;
-    private DatabaseHelper dbHelper;
 
     // Mapa com data -> lista de descrições
     private HashMap<String, List<String>> agendamentos = new HashMap<>();
@@ -44,7 +43,6 @@ public class Agendamentos extends Fragment {
         calendarView = view.findViewById(R.id.calendarView);
         txtDetalhes = view.findViewById(R.id.txtDetalhes);
         btnAlterar = view.findViewById(R.id.btnAlterarAgendamento); // Adicione no XML
-        dbHelper = new DatabaseHelper(requireContext());
 
         calendarView.setCurrentDate(CalendarDay.today());
         calendarView.addDecorator(new PastDaysDecorator());
@@ -80,48 +78,68 @@ public class Agendamentos extends Fragment {
     }
 
     private void carregarAgendamentosDoBanco() {
+
         agendamentos.clear();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // CONSULTAS
-        Cursor c1 = db.rawQuery("SELECT especialidadeConsulta, medicoConsulta, dataConsulta, horarioConsulta FROM TB_Consulta", null);
-        if (c1.moveToFirst()) {
-            do {
-                String especialidade = c1.getString(0);
-                String medico = c1.getString(1);
-                String data = normalizarData(c1.getString(2));
-                String hora = c1.getString(3);
-                adicionarAgendamento(data, "Consulta (" + especialidade + ") com " + medico + " às " + hora);
-            } while (c1.moveToNext());
-        }
-        c1.close();
+        int idUsuario = requireActivity()
+                .getSharedPreferences("loginUsuario_prefs", getContext().MODE_PRIVATE)
+                .getInt("idUsuario", 0);
 
-        // EXAMES
-        Cursor c2 = db.rawQuery("SELECT tipoExame, medicoExame, dataExame, horarioExame FROM TB_Exame", null);
-        if (c2.moveToFirst()) {
-            do {
-                String tipo = c2.getString(0);
-                String medico = c2.getString(1);
-                String data = normalizarData(c2.getString(2));
-                String hora = c2.getString(3);
-                adicionarAgendamento(data, "Exame (" + tipo + ") com " + medico + " às " + hora);
-            } while (c2.moveToNext());
-        }
-        c2.close();
+        String URL_LISTAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_consulta.php?idUsuario=" + idUsuario;
 
-        // VACINAS
-        Cursor c3 = db.rawQuery("SELECT tipoVacina, dataVacina FROM TB_Vacina", null);
-        if (c3.moveToFirst()) {
-            do {
-                String tipo = c3.getString(0);
-                String data = normalizarData(c3.getString(1));
-                adicionarAgendamento(data, "Vacina: " + tipo);
-            } while (c3.moveToNext());
-        }
-        c3.close();
+        com.android.volley.toolbox.JsonObjectRequest request =
+                new com.android.volley.toolbox.JsonObjectRequest(
+                        com.android.volley.Request.Method.GET,
+                        URL_LISTAR,
+                        null,
+                        response -> {
+                            try {
+                                boolean success = response.getBoolean("success");
+                                if (!success) {
+                                    txtDetalhes.setText("Nenhum agendamento encontrado.");
+                                    return;
+                                }
 
-        db.close();
+                                org.json.JSONArray array = response.getJSONArray("consultas");
+
+                                for (int i = 0; i < array.length(); i++) {
+
+                                    org.json.JSONObject obj = array.getJSONObject(i);
+
+                                    String data = obj.getString("dataConsulta");      // yyyy-MM-dd
+                                    String horario = obj.getString("horarioConsulta"); // HH:mm:ss
+                                    String especialidade = obj.getString("especialidadeConsulta");
+                                    String medico = obj.getString("nome_completoMedico");
+
+                                    // Ajustar horário (remover segundos)
+                                    if (horario.length() == 8) {
+                                        horario = horario.substring(0,5);
+                                    }
+
+                                    String descricao =
+                                            "Médico: " + medico +
+                                                    " | Especialidade: " + especialidade +
+                                                    " | Horário: " + horario;
+
+                                    adicionarAgendamento(data, descricao);
+                                }
+
+                                marcarAgendamentosNoCalendario();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                txtDetalhes.setText("Erro ao carregar consultas.");
+                            }
+                        },
+                        error -> {
+                            error.printStackTrace();
+                            txtDetalhes.setText("Falha ao conectar ao servidor.");
+                        }
+                );
+
+        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(request);
     }
+
 
     private void marcarAgendamentosNoCalendario() {
         List<CalendarDay> diasComAgendamento = new ArrayList<>();
