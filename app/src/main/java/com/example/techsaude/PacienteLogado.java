@@ -40,11 +40,11 @@ public class PacienteLogado extends AppCompatActivity {
         nav_sair = (TextView) findViewById(R.id.nav_sair);
         txtNomeDaTela = (TextView) findViewById(R.id.txtNomeDaTela);
 
-        // ⚠️ IMPORTANTE: acessar o header APÓS inicializar o navView
+        //acessar o header APÓS inicializar o navView
         View headerView = navView.getHeaderView(0);
         txtNomePacienteNav = headerView.findViewById(R.id.txtNomeNav);
 
-        // 🔹 Recuperar o nome do usuário do SharedPreferences
+        //Recuperar o nome do usuário do SharedPreferences
         SharedPreferences prefs = getSharedPreferences("loginUsuario_prefs", MODE_PRIVATE);
         String nome = prefs.getString("nome", "Usuário");
         if (nome != null && !nome.isEmpty()) {

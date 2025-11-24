@@ -147,7 +147,7 @@
 
     <!-- Card: Vacinas -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardVacinas"
+        android:id="@+id/cardVacina"
         android:layout_width="330dp"
         android:layout_height="140dp"
         android:layout_marginTop="16dp"

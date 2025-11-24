@@ -31,4 +31,11 @@
     <string name="txtTituloProntuario">PRONTUÁRIO</string>
     <string name="cbxDiabetes">Diabetes</string>
     <string name="auto_complete_medico">Médico</string>
+    <string name="Titulo_cardCalendario">Calendário</string>
+    <string name="Descricao_cardCalendario">Visualize seus atendimentos por data</string>
+    <string name="Titulo_cardReceituario">Receituário</string>
+    <string name="descrisao_cardReceituario">Acesse e edite seus receituários</string>
+    <string name="Titulo_cardPacientes">Pacientes</string>
+    <string name="Descricao_cardPaciente">Veja informações dos seus pacientes</string>
+    <string name="Titulo_TelaMedico">BEM-VINDO AO SEU PAINEL</string>
 </resources>

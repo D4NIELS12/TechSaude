@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,16 +25,25 @@ public class InicioMedico extends Fragment {
         View view = inflater.inflate(R.layout.activity_inicio_medico, container, false);
 
         // Referência ao CardView do XML
-        View cardAgenda = view.findViewById(R.id.cardCalendario);
+        View cardProximasConsultas = view.findViewById(R.id.cardProximasConsultas);
+        View cardCalendario = view.findViewById(R.id.cardCalendario);
+        View cardPacientes = view.findViewById(R.id.cardPacientes);
+        View cardReceituario = view.findViewById(R.id.cardReceituario);
 
         // Clique para abrir a Agenda Médica
-        cardAgenda.setOnClickListener(v -> {
+        cardProximasConsultas.setOnClickListener(v -> {
             if (getActivity() != null) {
                 Intent it = new Intent(getActivity(), AgendaMedica.class);
                 startActivity(it);
             }
         });
 
+        cardCalendario.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                Intent it = new Intent(getActivity(), AgendamentosMedico.class);
+                startActivity(it);
+            }
+        });
         return view;
     }
 }

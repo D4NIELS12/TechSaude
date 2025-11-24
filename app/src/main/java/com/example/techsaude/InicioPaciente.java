@@ -21,7 +21,7 @@ public class InicioPaciente extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        CardView Card_Vacinas = view.findViewById(R.id.cardVacinas);
+        CardView Card_Vacinas = view.findViewById(R.id.cardVacina);
         CardView Card_Consultas = view.findViewById(R.id.cardConsultas);
         CardView Card_Exame = view.findViewById(R.id.cardExames);
 
