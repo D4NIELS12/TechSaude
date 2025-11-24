@@ -26,6 +26,9 @@ public class InicioMedico extends Fragment {
 
         // Referência ao CardView do XML
         View cardProximasConsultas = view.findViewById(R.id.cardProximasConsultas);
+        View cardCalendario = view.findViewById(R.id.cardCalendario);
+        View cardPacientes = view.findViewById(R.id.cardPacientes);
+        View cardReceituario = view.findViewById(R.id.cardReceituario);
 
         // Clique para abrir a Agenda Médica
         cardProximasConsultas.setOnClickListener(v -> {
@@ -35,6 +38,12 @@ public class InicioMedico extends Fragment {
             }
         });
 
+        cardCalendario.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                Intent it = new Intent(getActivity(), AgendamentosMedico.class);
+                startActivity(it);
+            }
+        });
         return view;
     }
 }

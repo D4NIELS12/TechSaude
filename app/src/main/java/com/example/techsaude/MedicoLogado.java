@@ -64,7 +64,7 @@ public class MedicoLogado extends AppCompatActivity
                 replaceFragment(new PerfilMedico(), "Perfil");
             }/* else if (id == R.id.nav_dicas) {
                 replaceFragment(new Dicas(), "Dicas");
-            }else if (id == R.id.nav_relatorios) {
+            }/* else if (id == R.id.nav_relatorios) {
                 replaceFragment(new Relatorios(), "Relatórios");
             }else if (id == R.id.nav_Configurações_medico) {
                 replaceFragment(new ConfiguracoesMedico(), "Configurações");
