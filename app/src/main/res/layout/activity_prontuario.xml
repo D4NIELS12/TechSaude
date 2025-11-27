@@ -53,6 +53,7 @@
                     android:minHeight="48dp"
                     android:padding="10dp"
                     android:textColor="@color/preto"
+                    android:textColorHint="#F06E6C6C"
                     android:textSize="16sp" />
 
                 <EditText
@@ -65,6 +66,7 @@
                     android:minHeight="48dp"
                     android:padding="10dp"
                     android:textColor="@color/preto"
+                    android:textColorHint="#F06E6C6C"
                     android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -97,14 +99,15 @@
                     android:id="@+id/editSintomas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_fundo"
+                    android:gravity="top"
                     android:hint="Descreva os sintomas"
                     android:inputType="textMultiLine"
                     android:lines="3"
-                    android:gravity="top"
-                    android:background="@drawable/edittext_fundo"
                     android:padding="10dp"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"/>
+                    android:textColorHint="#F06E6C6C"
+                    android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -136,14 +139,15 @@
                     android:id="@+id/editAlergias"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_fundo"
+                    android:gravity="top"
                     android:hint="Liste as alergias"
                     android:inputType="textMultiLine"
                     android:lines="2"
-                    android:gravity="top"
-                    android:background="@drawable/edittext_fundo"
                     android:padding="10dp"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"/>
+                    android:textColorHint="#F06E6C6C"
+                    android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -175,51 +179,57 @@
                     android:id="@+id/checkDiabetes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/azulEscuro"
                     android:text="Diabetes"
-                    android:textSize="16sp"
-                    android:buttonTint="@color/azulEscuro"/>
+                    android:textColor="#F06E6C6C"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/checkHipertensao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/azulEscuro"
                     android:text="Hipertensão"
-                    android:textSize="16sp"
-                    android:buttonTint="@color/azulEscuro"/>
+                    android:textColor="#F06E6C6C"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/checkAsma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/azulEscuro"
                     android:text="Asma"
-                    android:textSize="16sp"
-                    android:buttonTint="@color/azulEscuro"/>
+                    android:textColor="#F06E6C6C"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/checkColesterol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/azulEscuro"
                     android:text="Colesterol Alto"
-                    android:textSize="16sp"
-                    android:buttonTint="@color/azulEscuro"/>
+                    android:textColor="#F06E6C6C"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/checkObesidade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/azulEscuro"
                     android:text="Obesidade"
-                    android:textSize="16sp"
-                    android:buttonTint="@color/azulEscuro"/>
+                    android:textColor="#F06E6C6C"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/checkNenhuma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nenhuma das opções"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:layout_marginTop="6dp"
                     android:buttonTint="@color/azulEscuro"
-                    android:layout_marginTop="6dp"/>
+                    android:text="Nenhuma das opções"
+                    android:textColor="#F06E6C6C"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -251,14 +261,15 @@
                     android:id="@+id/editObservacoes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_fundo"
+                    android:gravity="top"
                     android:hint="Informações adicionais"
                     android:inputType="textMultiLine"
                     android:lines="3"
-                    android:gravity="top"
-                    android:background="@drawable/edittext_fundo"
                     android:padding="10dp"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"/>
+                    android:textColorHint="#F06E6C6C"
+                    android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -290,14 +301,15 @@
                     android:id="@+id/editAlertas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_fundo"
+                    android:gravity="top"
                     android:hint="Informe alertas importantes"
                     android:inputType="textMultiLine"
                     android:lines="2"
-                    android:gravity="top"
-                    android:background="@drawable/edittext_fundo"
                     android:padding="10dp"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"/>
+                    android:textColorHint="#F06E6C6C"
+                    android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

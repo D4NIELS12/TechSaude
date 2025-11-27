@@ -39,4 +39,5 @@
     <string name="Descricao_cardPaciente">Veja informações dos seus pacientes</string>
     <string name="Titulo_TelaMedico">BEM-VINDO AO SEU PAINEL</string>
     <string name="Titulo_AgendamentosMedico">Calendário</string>
+    <string name="Titulo_Receituario">Receituário</string>
 </resources>
