@@ -26,28 +26,29 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
+        app:cardBackgroundColor="@color/branco"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
-        app:layout_constraintTop_toBottomOf="@id/imgVoltar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgVoltar"
         app:strokeColor="@color/azulEscuro"
         app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:gravity="center_horizontal">
+            android:padding="24dp">
 
             <!-- Logo e título -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="90dp"
@@ -62,10 +63,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Forma de Pagamento"
+                    android:textAlignment="center"
                     android:textColor="@color/preto"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <!-- Linha separadora -->
@@ -81,10 +82,10 @@
                 android:id="@+id/rgOpcoes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rbPIX"
@@ -92,10 +93,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/azulEscuro"
+                    android:gravity="center"
                     android:text="PIX"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/rbCartao"
@@ -103,10 +104,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/azulEscuro"
+                    android:gravity="center"
                     android:text="Crédito / Débito"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/rbDinheiro"
@@ -114,10 +115,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/azulEscuro"
+                    android:gravity="center"
                     android:text="Dinheiro"
                     android:textColor="@color/preto"
-                    android:textSize="16sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
             </RadioGroup>
 
 
@@ -139,12 +140,12 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/azulEscuro"
+                android:elevation="4dp"
+                android:letterSpacing="0.05"
                 android:text="Confirmar"
                 android:textColor="@color/branco"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.05"
-                android:elevation="4dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
