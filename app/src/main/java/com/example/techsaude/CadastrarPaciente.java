@@ -86,7 +86,7 @@ public class CadastrarPaciente extends AppCompatActivity {
         // 🔹 Máscaras
         aplicarMascaraCPF();
         aplicarMascaraTelefone();
-        aplicarMascaraData();
+        aplicarMascaraDataNascimento();
 
 
         // 🔹 Botão de cadastro
@@ -132,10 +132,24 @@ public class CadastrarPaciente extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
+                String str = s.toString().replaceAll("[^\\d]", "");
+                StringBuilder mascara = new StringBuilder();
+
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(3, str.length())));
+                }
+                if (str.length() > 3) {
+                    mascara.append(".").append(str.substring(3, Math.min(6, str.length())));
+                }
+                if (str.length() > 6) {
+                    mascara.append(".").append(str.substring(6, Math.min(9, str.length())));
+                }
+                if (str.length() > 9) {
+                    mascara.append("-").append(str.substring(9, Math.min(11, str.length())));
+                }
                 isUpdating = true;
 
-                String str = s.toString().replaceAll("[^\\d]", "");
-                txtCpfCadastrarPaciente.setText(formatarCPF(str));
+                txtCpfCadastrarPaciente.setText(mascara.toString());
                 txtCpfCadastrarPaciente.setSelection(txtCpfCadastrarPaciente.getText().length());
 
                 isUpdating = false;
@@ -147,88 +161,77 @@ public class CadastrarPaciente extends AppCompatActivity {
         });
     }
 
-    private String formatarCPF(String cpf) {
-        if (cpf == null) return "";
-        cpf = cpf.replaceAll("[^\\d]", "");
-        if (cpf.length() > 11) cpf = cpf.substring(0, 11);
-
-
-        StringBuilder mascara = new StringBuilder();
-        int i = 0;
-        for (char m : "###.###.###-##".toCharArray()) {
-            if (m != '#') mascara.append(m);
-            else if (i < cpf.length()) mascara.append(cpf.charAt(i++));
-        }
-        return mascara.toString();
-    }
-
     private void aplicarMascaraTelefone() {
         txtTelefonePaciente.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 11) str = str.substring(0, 11);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "(##) #####-####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
+
+                if (str.length() > 0) {
+                    mascara.append("(").append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append(") ").append(str.substring(2, Math.min(7, str.length())));
+                }
+                if (str.length() > 7) {
+                    mascara.append("-").append(str.substring(7, Math.min(11, str.length())));
                 }
 
+                isUpdating = true;
                 txtTelefonePaciente.setText(mascara.toString());
-                txtTelefonePaciente.setSelection(mascara.length());
+                txtTelefonePaciente.setSelection(txtTelefonePaciente.getText().length());
                 isUpdating = false;
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
-    private void aplicarMascaraData() {
+
+    private void aplicarMascaraDataNascimento() {
         txtNascPaciente.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 8) str = str.substring(0, 8);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "##/##/####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
+
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append("/").append(str.substring(2, Math.min(4, str.length())));
+                }
+                if (str.length() > 4) {
+                    mascara.append("/").append(str.substring(4, Math.min(8, str.length())));
                 }
 
+                isUpdating = true;
                 txtNascPaciente.setText(mascara.toString());
-                txtNascPaciente.setSelection(mascara.length());
+                txtNascPaciente.setSelection(txtNascPaciente.getText().length());
                 isUpdating = false;
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
+
 
     // =====================================================
     // 🔸 Validações

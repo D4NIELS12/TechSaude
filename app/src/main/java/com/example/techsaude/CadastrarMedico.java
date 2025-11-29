@@ -110,18 +110,22 @@ public class CadastrarMedico extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
-
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 11) str = str.substring(0, 11);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "###.###.###-##".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(3, str.length())));
+                }
+                if (str.length() > 3) {
+                    mascara.append(".").append(str.substring(3, Math.min(6, str.length())));
+                }
+                if (str.length() > 6) {
+                    mascara.append(".").append(str.substring(6, Math.min(9, str.length())));
+                }
+                if (str.length() > 9) {
+                    mascara.append("-").append(str.substring(9, Math.min(11, str.length())));
+                }
+                isUpdating = true;
                 txtCpfMedico.setText(mascara.toString());
                 txtCpfMedico.setSelection(txtCpfMedico.getText().length());
                 isUpdating = false;
@@ -175,18 +179,19 @@ public class CadastrarMedico extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
-
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 11) str = str.substring(0, 11);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "(##) #####-####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append("(").append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append(") ").append(str.substring(2, Math.min(7, str.length())));
+                }
+                if (str.length() > 7) {
+                    mascara.append("-").append(str.substring(7, Math.min(11, str.length())));
+                }
+                isUpdating = true;
                 txtTelefoneMedico.setText(mascara.toString());
                 txtTelefoneMedico.setSelection(txtTelefoneMedico.getText().length());
                 isUpdating = false;
@@ -203,20 +208,22 @@ public class CadastrarMedico extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 8) str = str.substring(0, 8);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "##/##/####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append("/").append(str.substring(2, Math.min(4, str.length())));
+                }
+                if (str.length() > 4) {
+                    mascara.append("/").append(str.substring(4, Math.min(8, str.length())));
+                }
+                isUpdating = true;
                 txtNascMedico.setText(mascara.toString());
-                txtNascMedico.setSelection(mascara.length());
+                txtNascMedico.setSelection(txtNascMedico.getText().length());
                 isUpdating = false;
             }
             @Override public void afterTextChanged(Editable s) {}

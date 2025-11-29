@@ -60,6 +60,7 @@
                 android:background="@drawable/recipiente_texto"
                 android:hint="Digite seu CPF:"
                 android:inputType="number"
+                android:maxLength="14"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColor="@color/preto"

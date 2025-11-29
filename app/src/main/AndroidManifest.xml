@@ -16,10 +16,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AlterarSenhaMedico"
+            android:exported="false" />
+        <activity
+            android:name=".EsqueciSenhaMedico"
+            android:exported="false" />
+        <activity
             android:name=".AgendamentosMedico"
             android:exported="false" />
-        <activity android:name=".AlterarSenha"
-            android:exported="false"/>
+        <activity
+            android:name=".AlterarSenha"
+            android:exported="false" />
         <activity
             android:name=".PerfilMedico"
             android:exported="false" />
