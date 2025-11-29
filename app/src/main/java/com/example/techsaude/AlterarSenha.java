@@ -48,7 +48,10 @@ public class AlterarSenha extends AppCompatActivity {
             return;
         }
 
-        btnRedefinir.setOnClickListener(view -> enviarRedefinicao(cpfRecebido, String.valueOf(txtNovaSenha)));
+        btnRedefinir.setOnClickListener(view -> {
+            String novaSenha = txtNovaSenha.getText().toString().trim();
+            enviarRedefinicao(cpfRecebido, novaSenha);
+        });
     }
 
     private void enviarRedefinicao(String cpf, String novaSenha) {
