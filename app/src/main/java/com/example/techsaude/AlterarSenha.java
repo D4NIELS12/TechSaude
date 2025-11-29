@@ -74,6 +74,7 @@ public class AlterarSenha extends AppCompatActivity {
                 dados,
                 response -> {
                     Log.d("API_ALTERAR", "Resposta: " + response.toString());
+                    Toast.makeText(this, "Senha alterada com sucesso", Toast.LENGTH_SHORT).show();
                     finish();
                 },
                 error -> {
