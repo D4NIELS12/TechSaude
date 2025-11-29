@@ -129,17 +129,21 @@ public class EsqueciSenhaMedico extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 8) str = str.substring(0, 8);
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "##/##/####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
+
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(2, str.length())));
                 }
+                if (str.length() > 2) {
+                    mascara.append("/").append(str.substring(2, Math.min(4, str.length())));
+                }
+                if (str.length() > 4) {
+                    mascara.append("/").append(str.substring(4, Math.min(8, str.length())));
+                }
+                isUpdating = true;
                 txtDataEsqueciMedico.setText(mascara.toString());
-                txtDataEsqueciMedico.setSelection(mascara.length());
+                txtDataEsqueciMedico.setSelection(txtDataEsqueciMedico.getText().length());
                 isUpdating = false;
             }
             @Override

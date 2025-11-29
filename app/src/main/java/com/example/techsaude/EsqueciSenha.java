@@ -108,12 +108,24 @@ public class EsqueciSenha extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
-
                 String str = s.toString().replaceAll("[^\\d]", "");
-                txtCpfEsqueci.setText(formatarCPF(str));
-                txtCpfEsqueci.setSelection(txtCpfEsqueci.getText().length());
+                StringBuilder mascara = new StringBuilder();
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(3, str.length())));
+                }
+                if (str.length() > 3) {
+                    mascara.append(".").append(str.substring(3, Math.min(6, str.length())));
+                }
+                if (str.length() > 6) {
+                    mascara.append(".").append(str.substring(6, Math.min(9, str.length())));
+                }
+                if (str.length() > 9) {
+                    mascara.append("-").append(str.substring(9, Math.min(11, str.length())));
+                }
+                isUpdating = true;
+                txtCpfEsqueci.setText(mascara.toString());
+                txtCpfEsqueci.setSelection(txtCpfEsqueci.getText().length());
                 isUpdating = false;
             }
 
@@ -121,21 +133,6 @@ public class EsqueciSenha extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-    }
-
-    private String formatarCPF(String cpf) {
-        if (cpf == null) return "";
-        cpf = cpf.replaceAll("[^\\d]", "");
-        if (cpf.length() > 11) cpf = cpf.substring(0, 11);
-
-
-        StringBuilder mascara = new StringBuilder();
-        int i = 0;
-        for (char m : "###.###.###-##".toCharArray()) {
-            if (m != '#') mascara.append(m);
-            else if (i < cpf.length()) mascara.append(cpf.charAt(i++));
-        }
-        return mascara.toString();
     }
 
     private void aplicarMascaraData() {
@@ -149,20 +146,21 @@ public class EsqueciSenha extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
-
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 8) str = str.substring(0, 8);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "##/##/####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append("/").append(str.substring(2, Math.min(4, str.length())));
+                }
+                if (str.length() > 4) {
+                    mascara.append("/").append(str.substring(4, Math.min(8, str.length())));
+                }
+                isUpdating = true;
                 txtDataEsqueci.setText(mascara.toString());
-                txtDataEsqueci.setSelection(mascara.length());
+                txtDataEsqueci.setSelection(txtDataEsqueci.getText().length());
                 isUpdating = false;
             }
 
