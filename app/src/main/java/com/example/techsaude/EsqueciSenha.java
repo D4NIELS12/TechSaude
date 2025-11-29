@@ -6,29 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class EsqueciSenha extends AppCompatActivity
-{
+public class EsqueciSenha extends AppCompatActivity {
     ImageView imgVoltarEsqueci;
-    EditText txtCpfEsqueci, txtNovaSenha;
+    EditText txtCpfEsqueci, txtDataEsqueci;
     Button btnRecuperar;
-    private static final String URL_API = "https://techsaude-api.vercel.app/api/alterar_senha";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,76 +35,77 @@ public class EsqueciSenha extends AppCompatActivity
 
         imgVoltarEsqueci = findViewById(R.id.imgVoltarEsqueci);
         txtCpfEsqueci = findViewById(R.id.txtCpfEsqueci);
-        txtNovaSenha = findViewById(R.id.txtNovaSenha);
+        txtDataEsqueci = findViewById(R.id.txtDataEsqueci);
         btnRecuperar = findViewById(R.id.btnRecuperar);
 
         imgVoltarEsqueci.setOnClickListener(v -> finish());
 
-        btnRecuperar.setOnClickListener(v -> alterarSenha());
         aplicarMascaraCPF();
-    }
+        aplicarMascaraData();
 
-    private void alterarSenha() {
-        String cpf = txtCpfEsqueci.getText().toString().trim();
-        String novaSenha = txtNovaSenha.getText().toString().trim();
+        btnRecuperar.setOnClickListener(v -> {
 
-        if (cpf.isEmpty() || novaSenha.isEmpty()) {
-            Toast.makeText(this, "Preencha CPF e nova senha!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new Thread(() -> {
-            HttpURLConnection conn = null;
-            try {
-                JSONObject json = new JSONObject();
-                json.put("cpfUsuario", cpf);
-                json.put("novaSenha", novaSenha);
-
-                URL url = new URL(URL_API);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-                conn.setDoOutput(true);
-
-                try (OutputStream os = conn.getOutputStream();
-                     OutputStreamWriter writer = new OutputStreamWriter(os, StandardCharsets.UTF_8)) {
-                    writer.write(json.toString());
-                    writer.flush();
-                }
-
-                int code = conn.getResponseCode();
-                BufferedReader br = new BufferedReader(new InputStreamReader(
-                        (code >= 200 && code < 300) ? conn.getInputStream() : conn.getErrorStream(),
-                        StandardCharsets.UTF_8
-                ));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) response.append(line);
-
-                JSONObject resp = new JSONObject(response.toString());
-                runOnUiThread(() -> {
-                    if (resp.optBoolean("sucesso")) {
-                        Toast.makeText(this, resp.optString("mensagem", "Senha alterada!"), Toast.LENGTH_LONG).show();
-                        finish();
-                    } else {
-                        Toast.makeText(this, resp.optString("erro", "Erro ao alterar senha!"), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-            } catch (Exception e) {
-                runOnUiThread(() ->
-                        Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                );
-            } finally {
-                if (conn != null) conn.disconnect();
+            String cpf = txtCpfEsqueci.getText().toString().trim();
+            String dataNascInput = txtDataEsqueci.getText().toString().trim(); // DD/MM/YYYY
+            String dataNasc = "";
+            if (cpf.isEmpty() || dataNascInput.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                return;
             }
-        }).start();
+
+            Date d;
+            try {
+                SimpleDateFormat inFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd");
+                d = inFormat.parse(dataNascInput);
+                dataNasc = outFormat.format(d);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/verificar_redefinicao.php";
+            JSONObject dados = new JSONObject();
+            try {
+                dados.put("cpf", cpf);
+                dados.put("data", dataNasc);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, dados,
+                    response -> {
+                        Log.d("API_REDEFINICAO", "Resposta: " + response.toString());
+                        try {
+                            if (response.getString("status").equals("ok")) {
+                                Toast.makeText(this, "Dados confirmados!", Toast.LENGTH_SHORT).show();
+                                txtCpfEsqueci = null;
+                                txtDataEsqueci = null;
+                                Intent i = new Intent(this, AlterarSenha.class);
+                                i.putExtra("cpf", cpf);
+                                startActivity(i);
+                            } else {
+                                Toast.makeText(this, "Dados inválidos!", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    },
+                    error -> Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show());
+
+
+            Volley.newRequestQueue(this).add(req);
+        });
     }
+
+
+
     private void aplicarMascaraCPF() {
         txtCpfEsqueci.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
 
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
@@ -118,7 +117,10 @@ public class EsqueciSenha extends AppCompatActivity
 
                 isUpdating = false;
             }
-            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -126,6 +128,7 @@ public class EsqueciSenha extends AppCompatActivity
         if (cpf == null) return "";
         cpf = cpf.replaceAll("[^\\d]", "");
         if (cpf.length() > 11) cpf = cpf.substring(0, 11);
+
 
         StringBuilder mascara = new StringBuilder();
         int i = 0;
@@ -135,4 +138,39 @@ public class EsqueciSenha extends AppCompatActivity
         }
         return mascara.toString();
     }
+
+    private void aplicarMascaraData() {
+        txtDataEsqueci.addTextChangedListener(new TextWatcher() {
+            private boolean isUpdating = false;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) return;
+                isUpdating = true;
+
+                String str = s.toString().replaceAll("[^\\d]", "");
+                if (str.length() > 8) str = str.substring(0, 8);
+
+                StringBuilder mascara = new StringBuilder();
+                int i = 0;
+                for (char m : "##/##/####".toCharArray()) {
+                    if (m != '#') mascara.append(m);
+                    else if (i < str.length()) mascara.append(str.charAt(i++));
+                }
+
+                txtDataEsqueci.setText(mascara.toString());
+                txtDataEsqueci.setSelection(mascara.length());
+                isUpdating = false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
 }

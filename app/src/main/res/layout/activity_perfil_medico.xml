@@ -48,22 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nome:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- Data de nascimento -->
@@ -72,22 +64,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nascimento:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvNascimentoMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- CPF -->
@@ -96,22 +80,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CPF:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvCpfMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <!-- E-mail -->
@@ -120,23 +96,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="E-mail:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    />
+
                 <TextView
                     android:id="@+id/tvEmailMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <!-- Endereço -->
@@ -145,22 +112,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CRM:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvCRMValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <!-- Telefone -->
@@ -169,22 +128,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Telefone:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvTelefoneMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <!-- Sexo -->
@@ -193,22 +144,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sexo:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvSexoMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -216,22 +159,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Especialida Medica:"
-                    android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvEspecialidadeMedicaValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
         </LinearLayout>
 

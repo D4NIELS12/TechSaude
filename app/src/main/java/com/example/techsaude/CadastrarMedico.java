@@ -223,6 +223,26 @@ public class CadastrarMedico extends AppCompatActivity {
         });
     }
 
+    public static boolean validarCPF(String cpf) {
+        cpf = cpf.replaceAll("[^\\d]", "");
+        if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) return false;
+
+        try {
+            for (int j = 9; j < 11; j++) {
+                int soma = 0;
+                for (int i = 0; i < j; i++)
+                    soma += (cpf.charAt(i) - 48) * ((j + 1) - i);
+
+                int resto = (soma * 10) % 11;
+                if (resto == 10) resto = 0;
+                if (resto != (cpf.charAt(j) - 48)) return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     // =====================================================
     // 🔸 Limite de caracteres
@@ -251,7 +271,7 @@ public class CadastrarMedico extends AppCompatActivity {
         String nome = txtNomeMedico.getText().toString().trim();
         String email = txtEmailMedico.getText().toString().trim();
         String senha = txtSenhaMedico2.getText().toString().trim();
-        String telefone = txtTelefoneMedico.getText().toString().trim();
+        String telefone = txtTelefoneMedico.getText().toString().trim().replaceAll("[^\\d]", "");
         String dataNascInput = txtNascMedico.getText().toString().trim();
         String especialidade = autoEspecialidadeMedico.getText().toString().trim();
         String dataNasc = "";
@@ -262,6 +282,10 @@ public class CadastrarMedico extends AppCompatActivity {
             sexo = "F";
         }
 
+        if (!validarCPF(cpf)) {
+            txtCpfMedico.setError("CPF inválido");
+            return;
+        }
         try {
             SimpleDateFormat inFormat = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd");

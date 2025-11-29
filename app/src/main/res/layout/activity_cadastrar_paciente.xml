@@ -140,17 +140,88 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/txtEndereçoPaciente"
+                android:id="@+id/txtCEPPaciente"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/recipiente_texto"
-                android:hint="Digite seu Endereço:"
-                android:inputType="text"
+                android:hint="Digite seu CEP:"
+                android:inputType="number"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColorHint="@color/preto"
                 android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnBuscarCep"
+                    android:text="Buscar CEP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/branco"
+                    android:textColor="@color/preto"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtRua"
+                    android:layout_width="194dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/branco"
+                    android:textColorHint="@color/branco"
+                    android:hint="Rua"
+                    android:textColor="@color/branco"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <EditText
+                        android:id="@+id/txtNumero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/recipiente_texto"
+                        android:hint="Número"
+                        android:textColorHint="@color/preto"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/txtBairro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bairro"
+                android:minHeight="48dp"
+                android:backgroundTint="@color/branco"
+                android:textColor="@color/branco"
+                android:textColorHint="@color/branco"/>
+
+            <EditText
+                android:id="@+id/txtCidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cidade"
+                android:minHeight="48dp"
+                android:textColor="@color/branco"
+                android:backgroundTint="@color/branco"
+                android:textColorHint="@color/branco"/>
+
+            <EditText
+                android:id="@+id/txtUf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="UF"
+                android:minHeight="48dp"
+                android:textColor="@color/branco"
+                android:backgroundTint="@color/branco"
+                android:textColorHint="@color/branco"/>
 
             <RadioGroup
                 android:id="@+id/rdgGenero"

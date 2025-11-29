@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -33,10 +34,10 @@ public class CadastrarPaciente extends AppCompatActivity {
 
     ImageView imgVoltar;
     EditText txtCpfCadastrarPaciente, txtNomePaciente, txtNascPaciente, txtSenhaCadastrarPaciente,
-            txtEmailPaciente, txtTelefonePaciente, txtEnderecoPaciente;
+            txtEmailPaciente, txtTelefonePaciente, txtCEPPaciente, txtRua, txtBairro, txtCidade, txtUF, txtNumero;
     RadioGroup rdgGenero;
     RadioButton rdbMasculino, rdbFeminino;
-    Button btnCadastrar;
+    Button btnCadastrar, btnBuscarCep;
 
 
     @Override
@@ -51,12 +52,29 @@ public class CadastrarPaciente extends AppCompatActivity {
         txtSenhaCadastrarPaciente = findViewById(R.id.txtSenhaPaciente);
         txtEmailPaciente = findViewById(R.id.txtEmailPaciente);
         txtTelefonePaciente = findViewById(R.id.txtTelefonePaciente);
-        txtEnderecoPaciente = findViewById(R.id.txtEndereçoPaciente);
+        txtCEPPaciente = findViewById(R.id.txtCEPPaciente);
+        txtRua = findViewById(R.id.txtRua);
+        txtBairro = findViewById(R.id.txtBairro);
+        txtCidade = findViewById(R.id.txtCidade);
+        txtUF = findViewById(R.id.txtUf);
+        txtNumero = findViewById(R.id.txtNumero);
         rdgGenero = findViewById(R.id.rdgGenero);
         rdbMasculino = findViewById(R.id.rdbMasculino);
         rdbFeminino = findViewById(R.id.rdbFeminino);
         btnCadastrar = findViewById(R.id.btnCadastrar);
+        btnBuscarCep = findViewById(R.id.btnBuscarCep);
 
+
+        btnBuscarCep.setOnClickListener(v -> {
+            String cep = txtCEPPaciente.getText().toString().trim();
+
+            if (cep.length() != 8) {
+                txtCEPPaciente.setError("Digite um CEP válido");
+                return;
+            }
+
+            buscarCep(cep);
+        });
         imgVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +88,34 @@ public class CadastrarPaciente extends AppCompatActivity {
         aplicarMascaraTelefone();
         aplicarMascaraData();
 
+
         // 🔹 Botão de cadastro
         btnCadastrar.setOnClickListener(view -> cadastrarPaciente());
+    }
+
+    private void buscarCep(String cep) {
+        String url = "https://viacep.com.br/ws/" + cep + "/json/";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        txtRua.setText(response.getString("logradouro"));
+                        txtBairro.setText(response.getString("bairro"));
+                        txtCidade.setText(response.getString("localidade"));
+                        txtUF.setText(response.getString("uf"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Toast.makeText(this, "CEP não encontrado!", Toast.LENGTH_SHORT).show()
+        );
+
+        queue.add(request);
     }
 
     // =====================================================
@@ -107,6 +151,7 @@ public class CadastrarPaciente extends AppCompatActivity {
         if (cpf == null) return "";
         cpf = cpf.replaceAll("[^\\d]", "");
         if (cpf.length() > 11) cpf = cpf.substring(0, 11);
+
 
         StringBuilder mascara = new StringBuilder();
         int i = 0;
@@ -245,9 +290,16 @@ public class CadastrarPaciente extends AppCompatActivity {
         String dataNascInput = txtNascPaciente.getText().toString().trim();
         String senha = txtSenhaCadastrarPaciente.getText().toString().trim();
         String email = txtEmailPaciente.getText().toString().trim();
-        String telefone = txtTelefonePaciente.getText().toString().trim();
-        String endereco = txtEnderecoPaciente.getText().toString().trim();
+        String telefone = txtTelefonePaciente.getText().toString().trim().replaceAll("[^\\d]", "");
+        String rua = txtRua.getText().toString().trim();
+        String bairro = txtBairro.getText().toString().trim();
+        String cidade = txtCidade.getText().toString().trim();
+        String uf = txtUF.getText().toString().trim();
+        String cep = txtCEPPaciente.getText().toString().trim();
+        String numero = txtNumero.getText().toString().trim();
         String dataNasc = "";
+
+        String enderecoCompleto = rua + ", " + numero + ", " + bairro + ", " + cidade + " - " + uf + " | CEP: " + cep;
 
         try {
             SimpleDateFormat inFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -264,8 +316,27 @@ public class CadastrarPaciente extends AppCompatActivity {
         } else if (rdbFeminino.isChecked()) {
             sexo = "F";
         }
-            // Verificação simples
-        if (nome.isEmpty() || cpf.isEmpty() || dataNasc.isEmpty() || senha.isEmpty() || email.isEmpty() || telefone.isEmpty() || endereco.isEmpty() || sexo.isEmpty()) {
+
+        // 🔹 Validação do CPF
+        if (!validarCPF(cpf)) {
+            txtCpfCadastrarPaciente.setError("CPF inválido");
+            return;
+        }
+
+        // 🔹 Validação do telefone
+        if (!validarTelefone(telefone)) {
+            txtTelefonePaciente.setError("Telefone inválido");
+            return;
+        }
+
+        // 🔹 Validação da data
+        if (!validarData(dataNascInput)) {
+            txtNascPaciente.setError("Data de nascimento inválida");
+            return;
+        }
+
+        // Verificação simples
+        if (nome.isEmpty() || cpf.isEmpty() || dataNasc.isEmpty() || senha.isEmpty() || email.isEmpty() || telefone.isEmpty() || cep.isEmpty() || rua.isEmpty() || numero.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || uf.isEmpty() || sexo.isEmpty()) {
             Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -277,7 +348,7 @@ public class CadastrarPaciente extends AppCompatActivity {
             dados.put("cpfUsuario", cpf);
             dados.put("emailUsuario", email);
             dados.put("data_nascUsuario", dataNasc);
-            dados.put("enderecoUsuario", endereco);
+            dados.put("enderecoUsuario", enderecoCompleto);
             dados.put("sexoUsuario", sexo);
             dados.put("senhaUsuario", senha);
             dados.put("telefoneUsuario", telefone);

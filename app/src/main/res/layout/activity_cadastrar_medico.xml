@@ -9,8 +9,8 @@
 
     <ScrollView
         android:layout_width="360dp"
-        android:layout_height="630dp"
-        android:layout_marginStart="42dp"
+        android:layout_height="730dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="91dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="92dp"
@@ -212,9 +212,9 @@
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/recipiente_texto"
                 android:hint="Digite sua Senha:"
-                android:password="true"
                 android:inputType="text|textVisiblePassword"
                 android:padding="10dp"
+                android:password="true"
                 android:textAlignment="center"
                 android:textColorHint="@color/preto"
                 android:textStyle="bold" />
