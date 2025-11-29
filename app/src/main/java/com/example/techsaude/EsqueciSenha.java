@@ -77,11 +77,10 @@ public class EsqueciSenha extends AppCompatActivity {
                         try {
                             if (response.getString("status").equals("ok")) {
                                 Toast.makeText(this, "Dados confirmados!", Toast.LENGTH_SHORT).show();
-                                txtCpfEsqueci = null;
-                                txtDataEsqueci = null;
                                 Intent i = new Intent(this, AlterarSenha.class);
                                 i.putExtra("cpf", cpf);
                                 startActivity(i);
+                                finish();
                             } else {
                                 Toast.makeText(this, "Dados inválidos!", Toast.LENGTH_SHORT).show();
                             }

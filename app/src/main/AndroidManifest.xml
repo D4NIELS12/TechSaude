@@ -18,6 +18,8 @@
         <activity
             android:name=".AgendamentosMedico"
             android:exported="false" />
+        <activity android:name=".AlterarSenha"
+            android:exported="false"/>
         <activity
             android:name=".PerfilMedico"
             android:exported="false" />
