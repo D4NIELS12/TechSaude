@@ -85,9 +85,7 @@ public class AgendarConsultas extends AppCompatActivity {
 
     }
 
-    // ============================================================
-    // 🔥 1. CARREGAR ESPECIALIDADES
-    // ============================================================
+    // CARREGAR ESPECIALIDADES
     private void carregarEspecialidades() {
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -125,10 +123,7 @@ public class AgendarConsultas extends AppCompatActivity {
     }
 
 
-
-    // ============================================================
-    // 🔥 2. CARREGAR MÉDICOS PELA ESPECIALIDADE
-    // ============================================================
+    // CARREGAR MÉDICOS PELA ESPECIALIDADE
     private void carregarMedicos(String especialidade) {
 
         // Encode da especialidade (IMPORTANTÍSSIMO)
@@ -164,9 +159,8 @@ public class AgendarConsultas extends AppCompatActivity {
         queue.add(request);
     }
 
-    // ============================================================
-    // 🔥 3. ENVIAR CONSULTA PARA O SERVIDOR
-    // ============================================================
+    // ENVIAR CONSULTA PARA O SERVIDOR
+
     private void salvarConsultaLocal() {
 
         String especialidade = autoEspecialidade.getText().toString();
@@ -197,16 +191,12 @@ public class AgendarConsultas extends AppCompatActivity {
 
         editor.apply();
 
-        // 👉 Depois de salvar, vai para a tela de pagamento
+        // Depois de salvar, vai para a tela de pagamento
         Intent it = new Intent(AgendarConsultas.this, FormaPagamento.class);
         startActivity(it);
     }
 
-
-
-    // ============================================================
-    // 🔥 4. DATE PICKER + HORÁRIOS
-    // ============================================================
+    // DATE PICKER + HORÁRIOS
     private void showDatePicker() {
 
         final Calendar c = Calendar.getInstance();

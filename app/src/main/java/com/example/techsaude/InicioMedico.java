@@ -44,6 +44,13 @@ public class InicioMedico extends Fragment {
                 startActivity(it);
             }
         });
+
+        cardReceituario.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                Intent it = new Intent(getActivity(), Receituario.class);
+                startActivity(it);
+            }
+        });
         return view;
     }
 }

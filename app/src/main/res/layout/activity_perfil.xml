@@ -47,14 +47,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nome:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
                 <TextView
                     android:id="@+id/lblNome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
 
             <!-- Data de nascimento -->
@@ -63,14 +71,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nascimento:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
                 <TextView
                     android:id="@+id/lblNascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
 
             <!-- CPF -->
@@ -79,14 +95,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CPF:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
                 <TextView
                     android:id="@+id/lblCPF"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
 
             <!-- E-mail -->
@@ -95,14 +119,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="E-mail:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    />
                 <TextView
                     android:id="@+id/lblEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
 
             <!-- Endereço -->
@@ -111,14 +144,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Endereço:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
                 <TextView
                     android:id="@+id/lblEndereco"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
 
             <!-- Telefone -->
@@ -127,14 +168,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Telefone:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
                 <TextView
                     android:id="@+id/lblTelefone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
 
             <!-- Sexo -->
@@ -143,14 +192,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sexo:"
+                    android:textColor="@color/preto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
                 <TextView
                     android:id="@+id/lblSexo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -180,6 +237,16 @@
             app:layout_constraintTop_toBottomOf="@id/textView11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnExcluirProntuario"
+            android:layout_width="225dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="76dp"
+            android:backgroundTint="@color/azulEscuro"
+            android:text="Excluir Prontuário"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewRelatorio" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

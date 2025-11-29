@@ -178,10 +178,12 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/azulEscuro"
         android:text="Confirmar Agendamento"
         android:textColor="@color/branco"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/time" />
 

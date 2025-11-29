@@ -4,50 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/branco"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/cinza"
+    android:padding="18dp">
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
-        android:layout_height="370dp"
-        android:layout_marginTop="72dp"
-        android:background="@drawable/edittext_fundo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:mcv_arrowColor="@color/azulEscuro"
-        app:mcv_dateTextAppearance="@style/CalendarioDataStyle"
-        app:mcv_headerTextAppearance="@style/CalendarioHeaderStyle"
-        app:mcv_selectionColor="@color/azulEscuro"
-        app:mcv_showOtherDates="all"
-        app:mcv_tileSize="match_parent"
-        app:mcv_weekDayTextAppearance="@style/CalendarioSemanaStyle" />
-
-    <TextView
-        android:id="@+id/txtDataPaciente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="3dp"
-        android:padding="8dp"
-        android:text="Selecione uma data"
-        android:textColor="@color/preto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
-
+    <!-- BOTÃO VOLTAR -->
     <ImageView
         android:id="@+id/imageView10"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:contentDescription="Voltar"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:padding="6dp"
         android:src="@drawable/voltar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Voltar" />
+
+    <!-- TÍTULO -->
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="69dp"
+        android:text="@string/Titulo_AgendamentosMedico"
+        android:textColor="@color/preto"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView10"
+        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+
+    <!-- CARD DO CALENDÁRIO -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCalendario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:elevation="6dp"
+        android:padding="12dp"
+        app:cardCornerRadius="13dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:background="@drawable/edittext_fundo"
+            app:mcv_arrowColor="@color/azulEscuro"
+            app:mcv_dateTextAppearance="@style/CalendarioDataStyle"
+            app:mcv_headerTextAppearance="@style/CalendarioHeaderStyle"
+            app:mcv_selectionColor="@color/azulEscuro"
+            app:mcv_showOtherDates="all"
+            app:mcv_weekDayTextAppearance="@style/CalendarioSemanaStyle" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- TEXTO DA DATA SELECIONADA -->
+    <TextView
+        android:id="@+id/txtDataPaciente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:padding="10dp"
+        android:text="Selecione uma data"
+        android:textColor="@color/preto"
+        android:textSize="16sp"
+        android:background="@drawable/edittext_fundo"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/cardCalendario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

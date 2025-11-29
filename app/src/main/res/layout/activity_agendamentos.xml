@@ -55,10 +55,11 @@
             android:id="@+id/txtDetalhes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_fundo"
+            android:lineSpacingExtra="4dp"
             android:text="Selecione um dia no calendário para visualizar seus compromissos."
             android:textColor="@color/preto"
-            android:textSize="16sp"
-            android:lineSpacingExtra="4dp" />
+            android:textSize="16sp" />
 
         <Button
 
