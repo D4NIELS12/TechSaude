@@ -110,18 +110,22 @@ public class CadastrarMedico extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
-
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 11) str = str.substring(0, 11);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "###.###.###-##".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(3, str.length())));
+                }
+                if (str.length() > 3) {
+                    mascara.append(".").append(str.substring(3, Math.min(6, str.length())));
+                }
+                if (str.length() > 6) {
+                    mascara.append(".").append(str.substring(6, Math.min(9, str.length())));
+                }
+                if (str.length() > 9) {
+                    mascara.append("-").append(str.substring(9, Math.min(11, str.length())));
+                }
+                isUpdating = true;
                 txtCpfMedico.setText(mascara.toString());
                 txtCpfMedico.setSelection(txtCpfMedico.getText().length());
                 isUpdating = false;
@@ -175,18 +179,19 @@ public class CadastrarMedico extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
-
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 11) str = str.substring(0, 11);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "(##) #####-####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append("(").append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append(") ").append(str.substring(2, Math.min(7, str.length())));
+                }
+                if (str.length() > 7) {
+                    mascara.append("-").append(str.substring(7, Math.min(11, str.length())));
+                }
+                isUpdating = true;
                 txtTelefoneMedico.setText(mascara.toString());
                 txtTelefoneMedico.setSelection(txtTelefoneMedico.getText().length());
                 isUpdating = false;
@@ -203,24 +208,46 @@ public class CadastrarMedico extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 8) str = str.substring(0, 8);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "##/##/####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
-                }
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append("/").append(str.substring(2, Math.min(4, str.length())));
+                }
+                if (str.length() > 4) {
+                    mascara.append("/").append(str.substring(4, Math.min(8, str.length())));
+                }
+                isUpdating = true;
                 txtNascMedico.setText(mascara.toString());
-                txtNascMedico.setSelection(mascara.length());
+                txtNascMedico.setSelection(txtNascMedico.getText().length());
                 isUpdating = false;
             }
             @Override public void afterTextChanged(Editable s) {}
         });
+    }
+
+    public static boolean validarCPF(String cpf) {
+        cpf = cpf.replaceAll("[^\\d]", "");
+        if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) return false;
+
+        try {
+            for (int j = 9; j < 11; j++) {
+                int soma = 0;
+                for (int i = 0; i < j; i++)
+                    soma += (cpf.charAt(i) - 48) * ((j + 1) - i);
+
+                int resto = (soma * 10) % 11;
+                if (resto == 10) resto = 0;
+                if (resto != (cpf.charAt(j) - 48)) return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 
@@ -251,7 +278,7 @@ public class CadastrarMedico extends AppCompatActivity {
         String nome = txtNomeMedico.getText().toString().trim();
         String email = txtEmailMedico.getText().toString().trim();
         String senha = txtSenhaMedico2.getText().toString().trim();
-        String telefone = txtTelefoneMedico.getText().toString().trim();
+        String telefone = txtTelefoneMedico.getText().toString().trim().replaceAll("[^\\d]", "");
         String dataNascInput = txtNascMedico.getText().toString().trim();
         String especialidade = autoEspecialidadeMedico.getText().toString().trim();
         String dataNasc = "";
@@ -262,6 +289,10 @@ public class CadastrarMedico extends AppCompatActivity {
             sexo = "F";
         }
 
+        if (!validarCPF(cpf)) {
+            txtCpfMedico.setError("CPF inválido");
+            return;
+        }
         try {
             SimpleDateFormat inFormat = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd");

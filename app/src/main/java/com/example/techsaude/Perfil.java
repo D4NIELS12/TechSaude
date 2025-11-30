@@ -19,6 +19,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Perfil extends Fragment {
 
     private TextView lblNome, lblCPF, lblEmail, lblNascimento,
@@ -43,8 +47,6 @@ public class Perfil extends Fragment {
         lblTelefone = view.findViewById(R.id.lblTelefone);
         lblSexo = view.findViewById(R.id.lblSexo);
 
-        lblNascimento.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10)});
-
         SharedPreferences prefs = requireActivity().getSharedPreferences("loginUsuario_prefs", Context.MODE_PRIVATE);
 
         String nome = prefs.getString("nome", "Nome não encontrado");
@@ -65,15 +67,30 @@ public class Perfil extends Fragment {
             sexoExtenso = "Sexo não informado";
         }
 
+        String telefoneFormatado = formatarTelefone(telefone);
+        try {
+            // Formatadores
+            SimpleDateFormat formatoEUA = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat formatoBR = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt", "BR"));
+
+            // Converter
+            Date data = formatoEUA.parse(nascimento);
+            String dataBrasileira = formatoBR.format(data);
+            lblNascimento.setText("Nascimento: " + dataBrasileira);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         // 🔹 Exibe nos TextViews
-        lblNome.setText(nome);
-        lblCPF.setText(cpf);
-        lblEmail.setText(email);
-        lblNascimento.setText(nascimento);
-        lblEndereco.setText(endereco);
-        lblTelefone.setText(telefone);
-        lblSexo.setText(sexoExtenso);
+        lblNome.setText("Nome: " +nome);
+        lblCPF.setText("CPF: " + cpf);
+        lblEmail.setText("Email: " + email);
+        lblEndereco.setText("Endereço: " + endereco);
+        lblTelefone.setText("Telefone: " + telefoneFormatado);
+        lblSexo.setText("Sexo: " + sexoExtenso);
 
         int idUsuario = prefs.getInt("idUsuario",0);
 
@@ -83,6 +100,20 @@ public class Perfil extends Fragment {
 
 
     }
+
+    public static String formatarTelefone(String telefone) {
+
+        if (telefone.length() == 11) {
+            // Celular
+            return String.format("(%s) %s-%s",
+                    telefone.substring(0, 2),        // DDD
+                    telefone.substring(2, 7),        // 5 primeiros
+                    telefone.substring(7, 11));      // últimos 4
+        } else {
+            return telefone; // Número fora do padrão
+        }
+    }
+
     private void adicionarItem(String titulo, String valor) {
         TextView txt = new TextView(requireContext());
         txt.setText(titulo + ": " + (valor == null || valor.isEmpty() ? "Não informado" : valor));

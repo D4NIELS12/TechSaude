@@ -64,12 +64,7 @@ public class LoginPaciente extends AppCompatActivity {
         // Aplica máscara
         aplicarMascaraCPF();
 
-        // Se houver CPF salvo, preenche com máscara
-        String cpfSalvo = getCpfUsuario();
-        if (!cpfSalvo.isEmpty()) {
-            txtCpfPaciente.setText(formatarCPF(cpfSalvo));
-            txtCpfPaciente.setSelection(txtCpfPaciente.getText().length());
-        }
+
 
         txtEsqueci.setOnClickListener(view -> {
             Intent it = new Intent(LoginPaciente.this, EsqueciSenha.class);
@@ -182,35 +177,42 @@ public class LoginPaciente extends AppCompatActivity {
         txtCpfPaciente.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
 
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                txtCpfPaciente.setText(formatarCPF(str));
-                txtCpfPaciente.setSelection(txtCpfPaciente.getText().length());
+                StringBuilder mascara = new StringBuilder();
 
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(3, str.length())));
+                }
+                if (str.length() > 3) {
+                    mascara.append(".").append(str.substring(3, Math.min(6, str.length())));
+                }
+                if (str.length() > 6) {
+                    mascara.append(".").append(str.substring(6, Math.min(9, str.length())));
+                }
+                if (str.length() > 9) {
+                    mascara.append("-").append(str.substring(9, Math.min(11, str.length())));
+                }
+
+                isUpdating = true;
+                txtCpfPaciente.setText(mascara.toString());
+                txtCpfPaciente.setSelection(txtCpfPaciente.getText().length());
                 isUpdating = false;
             }
-            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
 
-    private String formatarCPF(String cpf) {
-        if (cpf == null) return "";
-        cpf = cpf.replaceAll("[^\\d]", "");
-        if (cpf.length() > 11) cpf = cpf.substring(0, 11);
 
-        StringBuilder mascara = new StringBuilder();
-        int i = 0;
-        for (char m : "###.###.###-##".toCharArray()) {
-            if (m != '#') mascara.append(m);
-            else if (i < cpf.length()) mascara.append(cpf.charAt(i++));
-        }
-        return mascara.toString();
-    }
+
 
     // ============================
     // 🔹 SHARED PREFERENCES

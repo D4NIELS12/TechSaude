@@ -152,13 +152,14 @@
         android:layout_width="0dp"
         android:layout_height="130dp"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="35dp"
         app:cardBackgroundColor="@color/azulClaro"
         app:cardCornerRadius="22dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardPacientes"
         app:layout_constraintTop_toBottomOf="@+id/cardCalendario">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -292,10 +293,9 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="28dp"
         android:text="@string/Titulo_TelaMedico"
         android:textAlignment="center"
         android:textColor="@color/preto"

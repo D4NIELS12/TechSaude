@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class PerfilMedico extends Fragment {
 
     public PerfilMedico() {
@@ -53,16 +57,40 @@ public class PerfilMedico extends Fragment {
             sexoEntenso = " sexo não informado";
         }
 
-        tvNomeMedicoValor.setText(medico);
-        tvCpfMedicoValor.setText(cpf);
-        tvEmailMedicoValor.setText(email);
-        tvNascimentoMedicoValor.setText(nascimento);
-        tvCRMValor.setText(crm);
-        tvTelefoneMedicoValor.setText(telefone);
-        tvSexoMedicoValor.setText(sexoEntenso);
-        tvEspecalidadeMedicaValor.setText(especialidade);
+        String telefoneFormatado = formatarTelefone(telefone);
+        try {
+            // Formatadores
+            SimpleDateFormat formatoEUA = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat formatoBR = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt", "BR"));
+
+            // Converter
+            Date data = formatoEUA.parse(nascimento);
+            String dataBrasileira = formatoBR.format(data);
+            tvNascimentoMedicoValor.setText("Nascimento: " + dataBrasileira);
 
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        tvNomeMedicoValor.setText("Nome: " + medico);
+        tvCpfMedicoValor.setText("CPF: " + cpf);
+        tvEmailMedicoValor.setText("Email: " + email);
+        tvCRMValor.setText("CRM: " + crm);
+        tvTelefoneMedicoValor.setText("Telefone: " + telefoneFormatado);
+        tvSexoMedicoValor.setText("Sexo: " + sexoEntenso);
+        tvEspecalidadeMedicaValor.setText("Especialidade: " + especialidade);
+    }
+    public static String formatarTelefone(String telefone) {
+
+        if (telefone.length() == 11) {
+            // Celular
+            return String.format("(%s) %s-%s",
+                    telefone.substring(0, 2),        // DDD
+                    telefone.substring(2, 7),        // 5 primeiros
+                    telefone.substring(7, 11));      // últimos 4
+        } else {
+            return telefone; // Número fora do padrão
+        }
     }
 }

@@ -81,6 +81,8 @@ public class AgendarConsultas extends AppCompatActivity {
         editTextDate.setOnClickListener(v -> showDatePicker());
 
         btnConfirmarConsulta.setOnClickListener(v -> salvarConsultaLocal());
+
+
     }
 
     // CARREGAR ESPECIALIDADES
@@ -167,6 +169,15 @@ public class AgendarConsultas extends AppCompatActivity {
         String horario = autoHorario.getText().toString();
         String valor = "120.00"; // Ou puxar dinamicamente
 
+
+        if (especialidade.isEmpty() || medico.isEmpty() || data.isEmpty() || horario.isEmpty()) {
+            // Campos obrigatórios
+            autoEspecialidade.setError("Selecione a especialidade");
+            autoMedico.setError("Selecione o médico");
+            editTextDate.setError("Selecione o dia");
+            autoHorario.setError("Selecione o horário ");
+            return;
+        }
         SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         String medicoFormatado = medico.replace("Dr. ", "").trim();

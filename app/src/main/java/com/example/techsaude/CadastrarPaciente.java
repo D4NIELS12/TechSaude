@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -33,10 +34,10 @@ public class CadastrarPaciente extends AppCompatActivity {
 
     ImageView imgVoltar;
     EditText txtCpfCadastrarPaciente, txtNomePaciente, txtNascPaciente, txtSenhaCadastrarPaciente,
-            txtEmailPaciente, txtTelefonePaciente, txtEnderecoPaciente;
+            txtEmailPaciente, txtTelefonePaciente, txtCEPPaciente, txtRua, txtBairro, txtCidade, txtUF, txtNumero;
     RadioGroup rdgGenero;
     RadioButton rdbMasculino, rdbFeminino;
-    Button btnCadastrar;
+    Button btnCadastrar, btnBuscarCep;
 
 
     @Override
@@ -51,12 +52,29 @@ public class CadastrarPaciente extends AppCompatActivity {
         txtSenhaCadastrarPaciente = findViewById(R.id.txtSenhaPaciente);
         txtEmailPaciente = findViewById(R.id.txtEmailPaciente);
         txtTelefonePaciente = findViewById(R.id.txtTelefonePaciente);
-        txtEnderecoPaciente = findViewById(R.id.txtEndereçoPaciente);
+        txtCEPPaciente = findViewById(R.id.txtCEPPaciente);
+        txtRua = findViewById(R.id.txtRua);
+        txtBairro = findViewById(R.id.txtBairro);
+        txtCidade = findViewById(R.id.txtCidade);
+        txtUF = findViewById(R.id.txtUf);
+        txtNumero = findViewById(R.id.txtNumero);
         rdgGenero = findViewById(R.id.rdgGenero);
         rdbMasculino = findViewById(R.id.rdbMasculino);
         rdbFeminino = findViewById(R.id.rdbFeminino);
         btnCadastrar = findViewById(R.id.btnCadastrar);
+        btnBuscarCep = findViewById(R.id.btnBuscarCep);
 
+
+        btnBuscarCep.setOnClickListener(v -> {
+            String cep = txtCEPPaciente.getText().toString().trim();
+
+            if (cep.length() != 8) {
+                txtCEPPaciente.setError("Digite um CEP válido");
+                return;
+            }
+
+            buscarCep(cep);
+        });
         imgVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,10 +86,36 @@ public class CadastrarPaciente extends AppCompatActivity {
         // 🔹 Máscaras
         aplicarMascaraCPF();
         aplicarMascaraTelefone();
-        aplicarMascaraData();
+        aplicarMascaraDataNascimento();
+
 
         // 🔹 Botão de cadastro
         btnCadastrar.setOnClickListener(view -> cadastrarPaciente());
+    }
+
+    private void buscarCep(String cep) {
+        String url = "https://viacep.com.br/ws/" + cep + "/json/";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        txtRua.setText(response.getString("logradouro"));
+                        txtBairro.setText(response.getString("bairro"));
+                        txtCidade.setText(response.getString("localidade"));
+                        txtUF.setText(response.getString("uf"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Toast.makeText(this, "CEP não encontrado!", Toast.LENGTH_SHORT).show()
+        );
+
+        queue.add(request);
     }
 
     // =====================================================
@@ -88,10 +132,24 @@ public class CadastrarPaciente extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
+                String str = s.toString().replaceAll("[^\\d]", "");
+                StringBuilder mascara = new StringBuilder();
+
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(3, str.length())));
+                }
+                if (str.length() > 3) {
+                    mascara.append(".").append(str.substring(3, Math.min(6, str.length())));
+                }
+                if (str.length() > 6) {
+                    mascara.append(".").append(str.substring(6, Math.min(9, str.length())));
+                }
+                if (str.length() > 9) {
+                    mascara.append("-").append(str.substring(9, Math.min(11, str.length())));
+                }
                 isUpdating = true;
 
-                String str = s.toString().replaceAll("[^\\d]", "");
-                txtCpfCadastrarPaciente.setText(formatarCPF(str));
+                txtCpfCadastrarPaciente.setText(mascara.toString());
                 txtCpfCadastrarPaciente.setSelection(txtCpfCadastrarPaciente.getText().length());
 
                 isUpdating = false;
@@ -103,87 +161,77 @@ public class CadastrarPaciente extends AppCompatActivity {
         });
     }
 
-    private String formatarCPF(String cpf) {
-        if (cpf == null) return "";
-        cpf = cpf.replaceAll("[^\\d]", "");
-        if (cpf.length() > 11) cpf = cpf.substring(0, 11);
-
-        StringBuilder mascara = new StringBuilder();
-        int i = 0;
-        for (char m : "###.###.###-##".toCharArray()) {
-            if (m != '#') mascara.append(m);
-            else if (i < cpf.length()) mascara.append(cpf.charAt(i++));
-        }
-        return mascara.toString();
-    }
-
     private void aplicarMascaraTelefone() {
         txtTelefonePaciente.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 11) str = str.substring(0, 11);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "(##) #####-####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
+
+                if (str.length() > 0) {
+                    mascara.append("(").append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append(") ").append(str.substring(2, Math.min(7, str.length())));
+                }
+                if (str.length() > 7) {
+                    mascara.append("-").append(str.substring(7, Math.min(11, str.length())));
                 }
 
+                isUpdating = true;
                 txtTelefonePaciente.setText(mascara.toString());
-                txtTelefonePaciente.setSelection(mascara.length());
+                txtTelefonePaciente.setSelection(txtTelefonePaciente.getText().length());
                 isUpdating = false;
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
-    private void aplicarMascaraData() {
+
+    private void aplicarMascaraDataNascimento() {
         txtNascPaciente.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating = false;
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isUpdating) return;
-                isUpdating = true;
 
                 String str = s.toString().replaceAll("[^\\d]", "");
-                if (str.length() > 8) str = str.substring(0, 8);
-
                 StringBuilder mascara = new StringBuilder();
-                int i = 0;
-                for (char m : "##/##/####".toCharArray()) {
-                    if (m != '#') mascara.append(m);
-                    else if (i < str.length()) mascara.append(str.charAt(i++));
+
+                if (str.length() > 0) {
+                    mascara.append(str.substring(0, Math.min(2, str.length())));
+                }
+                if (str.length() > 2) {
+                    mascara.append("/").append(str.substring(2, Math.min(4, str.length())));
+                }
+                if (str.length() > 4) {
+                    mascara.append("/").append(str.substring(4, Math.min(8, str.length())));
                 }
 
+                isUpdating = true;
                 txtNascPaciente.setText(mascara.toString());
-                txtNascPaciente.setSelection(mascara.length());
+                txtNascPaciente.setSelection(txtNascPaciente.getText().length());
                 isUpdating = false;
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
+
 
     // =====================================================
     // 🔸 Validações
@@ -245,9 +293,16 @@ public class CadastrarPaciente extends AppCompatActivity {
         String dataNascInput = txtNascPaciente.getText().toString().trim();
         String senha = txtSenhaCadastrarPaciente.getText().toString().trim();
         String email = txtEmailPaciente.getText().toString().trim();
-        String telefone = txtTelefonePaciente.getText().toString().trim();
-        String endereco = txtEnderecoPaciente.getText().toString().trim();
+        String telefone = txtTelefonePaciente.getText().toString().trim().replaceAll("[^\\d]", "");
+        String rua = txtRua.getText().toString().trim();
+        String bairro = txtBairro.getText().toString().trim();
+        String cidade = txtCidade.getText().toString().trim();
+        String uf = txtUF.getText().toString().trim();
+        String cep = txtCEPPaciente.getText().toString().trim();
+        String numero = txtNumero.getText().toString().trim();
         String dataNasc = "";
+
+        String enderecoCompleto = rua + ", " + numero + ", " + bairro + ", " + cidade + " - " + uf + " | CEP: " + cep;
 
         try {
             SimpleDateFormat inFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -264,8 +319,27 @@ public class CadastrarPaciente extends AppCompatActivity {
         } else if (rdbFeminino.isChecked()) {
             sexo = "F";
         }
-            // Verificação simples
-        if (nome.isEmpty() || cpf.isEmpty() || dataNasc.isEmpty() || senha.isEmpty() || email.isEmpty() || telefone.isEmpty() || endereco.isEmpty() || sexo.isEmpty()) {
+
+        // 🔹 Validação do CPF
+        if (!validarCPF(cpf)) {
+            txtCpfCadastrarPaciente.setError("CPF inválido");
+            return;
+        }
+
+        // 🔹 Validação do telefone
+        if (!validarTelefone(telefone)) {
+            txtTelefonePaciente.setError("Telefone inválido");
+            return;
+        }
+
+        // 🔹 Validação da data
+        if (!validarData(dataNascInput)) {
+            txtNascPaciente.setError("Data de nascimento inválida");
+            return;
+        }
+
+        // Verificação simples
+        if (nome.isEmpty() || cpf.isEmpty() || dataNasc.isEmpty() || senha.isEmpty() || email.isEmpty() || telefone.isEmpty() || cep.isEmpty() || rua.isEmpty() || numero.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || uf.isEmpty() || sexo.isEmpty()) {
             Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -277,7 +351,7 @@ public class CadastrarPaciente extends AppCompatActivity {
             dados.put("cpfUsuario", cpf);
             dados.put("emailUsuario", email);
             dados.put("data_nascUsuario", dataNasc);
-            dados.put("enderecoUsuario", endereco);
+            dados.put("enderecoUsuario", enderecoCompleto);
             dados.put("sexoUsuario", sexo);
             dados.put("senhaUsuario", senha);
             dados.put("telefoneUsuario", telefone);

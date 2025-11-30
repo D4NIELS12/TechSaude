@@ -69,9 +69,8 @@ public class LoginMedico extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent it = new Intent(LoginMedico.this,
-                        EsqueciSenha.class);
+                        EsqueciSenhaMedico.class);
                 startActivity(it);
-                finish();
             }
         });
 
