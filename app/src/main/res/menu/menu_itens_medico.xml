@@ -16,11 +16,6 @@
 
 
         <item
-            android:id="@+id/nav_dicas"
-            android:title="Dicas de Saúde"/>
-
-
-        <item
             android:id="@+id/nav_Configurações_medico"
             android:icon="@drawable/engrenagem"
             android:title="Configurações" />

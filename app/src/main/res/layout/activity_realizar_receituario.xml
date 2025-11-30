@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D9D9D9">
+
+    <!-- Botão Voltar -->
+
+    <!-- Título -->
+
+    <!-- CARD PRINCIPAL -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardReceituario"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="@color/branco"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Paciente -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="20dp"
+                android:text="RECEITUÁRIO"
+                android:textColor="@color/preto"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnVoltar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="100dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="4dp"
+                android:text="Observação"
+                android:textColor="@color/preto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputDosagem" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="4dp"
+                android:text="Paciente"
+                android:textColor="@color/preto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnVoltar" />
+
+            <EditText
+                android:id="@+id/inputPaciente"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_fundo"
+                android:enabled="false"
+                android:padding="10dp"
+                android:text="Sammuel Guedes"
+                android:textColor="@color/preto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/bloco_de_anotacoes"
+                android:elevation="10dp"
+
+                app:layout_constraintEnd_toEndOf="@+id/inputPaciente"
+                app:layout_constraintTop_toTopOf="@+id/inputPaciente"
+                app:layout_constraintBottom_toBottomOf="@+id/inputPaciente"
+
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="4dp"
+                android:text="Medicamento"
+                android:textColor="@color/preto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputPaciente" />
+
+            <EditText
+                android:id="@+id/inputMedicamento"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_fundo"
+                android:hint="Ex: Amoxilina 500mg"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/preto"
+                android:textColorHint="#F06E6C6C"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="4dp"
+                android:text="Dosagem"
+                android:textColor="@color/preto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputMedicamento" />
+
+            <EditText
+                android:id="@+id/inputDosagem"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_fundo"
+                android:hint="Ex: 1 comprimido"
+                android:padding="10dp"
+                android:textColor="@color/preto"
+                android:textColorHint="#F06E6C6C"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+            <EditText
+                android:id="@+id/inputObservacao"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_fundo"
+                android:gravity="top"
+                android:hint="Ex: Tomar preferencialmente após as refeições"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/preto"
+                android:textColorHint="#F06E6C6C"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <Button
+                android:id="@+id/btnGerar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#1A2E66"
+                android:text="Gerar Receituário"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputObservacao" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Duração"
+                android:textColor="@color/preto"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputDosagem" />
+
+            <EditText
+                android:id="@+id/editTextText"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittext_fundo"
+                android:ems="18"
+                android:hint="Ex: 10 dias"
+                android:padding="10dp"
+                android:textColor="@color/preto"
+                android:textColorHint="#F06E6C6C"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+            <ImageView
+                android:id="@+id/btnVoltar"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:contentDescription="Voltar"
+                android:src="@drawable/voltar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

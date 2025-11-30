@@ -69,7 +69,7 @@
                 <EditText
                     android:id="@+id/edtFiltro"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="48dp"
                     android:background="@android:color/transparent"
                     android:hint="Filtrar"
                     android:paddingStart="8dp"
@@ -84,6 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
+                android:background="@color/branco"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -95,7 +96,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/branco"
+                    android:background="@drawable/edittext_fundo"
                     android:padding="10dp">
 
                     <LinearLayout
@@ -106,6 +107,7 @@
 
                         <!-- EXEMPLO DE ITEM DA LISTA -->
                         <LinearLayout
+                            android:id="@+id/PerfilReceituario"
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:layout_marginBottom="10dp"
