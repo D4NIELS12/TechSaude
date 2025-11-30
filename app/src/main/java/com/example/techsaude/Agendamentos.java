@@ -77,6 +77,7 @@ public class Agendamentos extends Fragment {
         btnAlterar.setOnClickListener(v -> mostrarDialogAlteracao());
     }
 
+
     private void carregarAgendamentosDoBanco() {
 
         agendamentos.clear();
@@ -85,12 +86,12 @@ public class Agendamentos extends Fragment {
                 .getSharedPreferences("loginUsuario_prefs", getContext().MODE_PRIVATE)
                 .getInt("idUsuario", 0);
 
-        String URL_LISTAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_consulta.php?idUsuario=" + idUsuario;
-
+        String URL_LISTAR_CONSULTAS = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_consulta.php?idUsuario=" + idUsuario;
+        String URL_LISTAR_EXAMES = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_exame.php?idUsuario=" + idUsuario;
         com.android.volley.toolbox.JsonObjectRequest request =
                 new com.android.volley.toolbox.JsonObjectRequest(
                         com.android.volley.Request.Method.GET,
-                        URL_LISTAR,
+                        URL_LISTAR_CONSULTAS,
                         null,
                         response -> {
                             try {
@@ -137,7 +138,58 @@ public class Agendamentos extends Fragment {
                         }
                 );
 
+        com.android.volley.toolbox.JsonObjectRequest req =
+                new com.android.volley.toolbox.JsonObjectRequest(
+                        com.android.volley.Request.Method.GET,
+                        URL_LISTAR_EXAMES,
+                        null,
+                        response -> {
+                            try {
+                                boolean success = response.getBoolean("success");
+                                if (!success) {
+                                    txtDetalhes.setText("Nenhum agendamento encontrado.");
+                                    return;
+                                }
+
+                                org.json.JSONArray array = response.getJSONArray("exames");
+
+                                for (int i = 0; i < array.length(); i++) {
+
+                                    org.json.JSONObject obj = array.getJSONObject(i);
+
+                                    String data = obj.getString("dataExame");      // yyyy-MM-dd
+                                    String horario = obj.getString("horarioExame"); // HH:mm:ss
+                                    String exame = obj.getString("tipoExame");
+                                    String medico = obj.getString("nome_completoMedico");
+
+                                    // Ajustar horário (remover segundos)
+                                    if (horario.length() == 8) {
+                                        horario = horario.substring(0,5);
+                                    }
+
+                                    String descricao =
+                                            "Médico: " + medico +
+                                                    " | Tipo de exame: " + exame +
+                                                    " | Horário: " + horario;
+
+                                    adicionarAgendamento(data, descricao);
+                                }
+
+                                marcarAgendamentosNoCalendario();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                txtDetalhes.setText("Erro ao carregar exames.");
+                            }
+                        },
+                        error -> {
+                            error.printStackTrace();
+                            txtDetalhes.setText("Falha ao conectar ao servidor.");
+                        }
+                );
+
         com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(request);
+        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(req);
     }
 
 
