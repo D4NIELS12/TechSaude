@@ -62,11 +62,14 @@ public class FormaPagamento extends AppCompatActivity {
 
             boolean eConsulta = prefsAgendamento.contains("especialidadeConsulta");
             boolean eExame = prefsAgendamento.contains("exame");
+            boolean eVacina = prefsAgendamento.contains("vacina");
 
             if (eConsulta) {
                 confirmarESalvarConsulta();
             } else if (eExame) {
                 confirmarESalvarExame();
+            }else if (eVacina) {
+                confirmarESalvarVacina();
             } else {
                 Toast.makeText(this, "Nenhuma informação encontrada", Toast.LENGTH_SHORT).show();
             }
@@ -107,6 +110,25 @@ public class FormaPagamento extends AppCompatActivity {
         void onSuccess(int idMedico);
     }
 
+    private void confirmarESalvarVacina() {
+        String vacina = prefsAgendamento.getString("vacina", "");
+        String data_vacina = prefsAgendamento.getString("data_vacina", "");
+        String hora_vacina = prefsAgendamento.getString("hora_vacina","");
+        String valor_vacina = prefsAgendamento.getString("valor_vacina","");
+        String status_vacina = prefsAgendamento.getString("status_vacina","");
+
+        String mensagem = "Vacina: " + vacina + "\nData:  " + data_vacina +
+                "\nHorário: " + hora_vacina + "\nValor: R$ " + valor_vacina;
+
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmar vacina")
+                .setMessage(mensagem)
+                .setPositiveButton("Confirmar", (dialog, which) -> {
+                salvarVacinaNoServidor(vacina, hora_vacina, valor_vacina, status_vacina);
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
 
     private void confirmarESalvarExame() {
 
@@ -180,6 +202,52 @@ public class FormaPagamento extends AppCompatActivity {
             e.printStackTrace();
             return dataBR; // evita crash
         }
+    }
+
+    private void salvarVacinaNoServidor(String vacina, String hora_vacina, String valor_vacina, String status_vacina) {
+
+        int idUsuario = prefsUsuario.getInt("idUsuario", 0);
+        String dataBR = prefsAgendamento.getString("data_vacina","");
+        String data = converterDataParaMysql(dataBR);
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("idUsuario", idUsuario);
+            jsonBody.put("vacina", vacina);
+            jsonBody.put("data_vacina", data);
+            jsonBody.put("hora_vacina", hora_vacina);
+            jsonBody.put("valor_vacina", valor_vacina);
+            jsonBody.put("status_vacina", status_vacina);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String URL = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/salvar_vacina.php";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                URL,
+                jsonBody,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        String message = response.getString("message");
+                        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+                        if (success) finish();
+                    } catch (Exception e) { e.printStackTrace(); }
+                },
+                error -> {                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                    String resposta = new String(error.networkResponse.data);
+                    Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                } else {
+                    Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                }
+
+                    Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();}
+
+        );
+        Volley.newRequestQueue(this).add(request);
+
     }
 
     private void salvarConsultaNoServidor(String especialidade, int idMedico, String horario, String status, String valor) {

@@ -376,9 +376,14 @@ public class AgendarExames extends AppCompatActivity {
         String medico = autoCompleteMedico.getText().toString();
         String dataBR = editDate.getText().toString();
         String hora = autoCompleteTime.getText().toString();
+        String valor = "120.00";
 
         if (tipo.isEmpty() || medico.isEmpty() || dataBR.isEmpty() || hora.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            // Campos obrigatórios
+            autoCompleteExame.setError("Selecione o exame");
+            autoCompleteMedico.setError("Selecione o médico");
+            editDate.setError("Selecione o dia");
+            autoCompleteTime.setError("Selecione o horário ");
             return;
         }
 
@@ -388,41 +393,23 @@ public class AgendarExames extends AppCompatActivity {
             return;
         }
 
-        String dataMysql = converterDataParaMysql(dataBR);
-        if (hora.length() == 5) hora += ":00";
-
         SharedPreferences prefs = getSharedPreferences("loginUsuario_prefs", MODE_PRIVATE);
         int idUsuario = prefs.getInt("idUsuario", 0);
-        String cpfUsuario = prefs.getString("cpfUsuario", ""); // usamos ambos, caso PHP aceite cpf
+        String cpfUsuario = prefs.getString("cpfUsuario", "");
 
         if (idUsuario == 0 && (cpfUsuario == null || cpfUsuario.isEmpty())) {
             Toast.makeText(this, "Usuário não identificado!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
-        String exame = autoCompleteExame.getText().toString();
-        String data = editDate.getText().toString();
-        String horario = autoCompleteTime.getText().toString();
-        String valor = "120.00"; // Ou puxar dinamicamente
-
-
-        if (exame.isEmpty() || medico.isEmpty() || data.isEmpty() || horario.isEmpty()) {
-            // Campos obrigatórios
-            autoCompleteExame.setError("Selecione o exame");
-            autoCompleteMedico.setError("Selecione o médico");
-            editDate.setError("Selecione o dia");
-            autoCompleteTime.setError("Selecione o horário ");
-            return;
-        }
         SharedPreferences agendamentos = getSharedPreferences("user_prefs_agendamentos", MODE_PRIVATE);
         SharedPreferences.Editor editor = agendamentos.edit();
         String medicoFormatado = medico.replace("Dr. ", "").trim();
 
-        editor.putString("exame", exame);
+        editor.putString("exame", tipo);
         editor.putString("medicoExame", medicoFormatado);
-        editor.putString("dataExame", data);
-        editor.putString("horarioExame", horario);
+        editor.putString("dataExame", dataBR);
+        editor.putString("horarioExame", hora);
         editor.putString("valorExame", valor);
         editor.putString("statusExame", "Agendado");
 

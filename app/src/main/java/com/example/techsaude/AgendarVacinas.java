@@ -102,6 +102,8 @@ public class AgendarVacinas extends AppCompatActivity {
                 return;
             }
 
+            String valor = "120.00";
+
             // --- Salvando no SharedPreferences ---
             SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -110,6 +112,8 @@ public class AgendarVacinas extends AppCompatActivity {
             editor.putString("vacina", vacinaSelecionada);
             editor.putString("data_vacina", dataSelecionada);
             editor.putString("hora_vacina", horaSelecionada);
+            editor.putString("valor_vacina", valor);
+            editor.putString("status_vacina", "Agendado");
             editor.apply();
 
             // Vai para a tela de pagamento
@@ -132,4 +136,6 @@ public class AgendarVacinas extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
+
+
 }

@@ -87,6 +87,7 @@ public class Agendamentos extends Fragment {
                 .getInt("idUsuario", 0);
 
         String URL_LISTAR_CONSULTAS = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_consulta.php?idUsuario=" + idUsuario;
+        String URL_LISTAR_VACINAS   = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_vacina.php?idUsuario=" + idUsuario;
         String URL_LISTAR_EXAMES = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_exame.php?idUsuario=" + idUsuario;
         com.android.volley.toolbox.JsonObjectRequest request =
                 new com.android.volley.toolbox.JsonObjectRequest(
@@ -130,6 +131,54 @@ public class Agendamentos extends Fragment {
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 txtDetalhes.setText("Erro ao carregar consultas.");
+                            }
+                        },
+                        error -> {
+                            error.printStackTrace();
+                            txtDetalhes.setText("Falha ao conectar ao servidor.");
+                        }
+                );
+
+        com.android.volley.toolbox.JsonObjectRequest request1 =
+                new com.android.volley.toolbox.JsonObjectRequest(
+                        com.android.volley.Request.Method.GET,
+                        URL_LISTAR_VACINAS,
+                        null,
+                        response -> {
+                            try {
+                                boolean success = response.getBoolean("success");
+                                if (!success) {
+                                    txtDetalhes.setText("Nenhum agendamento encontrado.");
+                                    return;
+                                }
+
+                                org.json.JSONArray array = response.getJSONArray("vacinas");
+
+                                for (int i = 0; i < array.length(); i++) {
+
+                                    org.json.JSONObject obj = array.getJSONObject(i);
+
+                                    String data = obj.getString("dataVacina");      // yyyy-MM-dd
+                                    String horario = obj.getString("horarioVacina"); // HH:mm:ss
+                                    String vacina = obj.getString("tipoVacina");
+
+                                    // Ajustar horário (remover segundos)
+                                    if (horario.length() == 8) {
+                                        horario = horario.substring(0,5);
+                                    }
+
+                                    String descricao =
+                                                    "Vacina: " + vacina +
+                                                    " | Horário: " + horario;
+
+                                    adicionarAgendamento(data, descricao);
+                                }
+
+                                marcarAgendamentosNoCalendario();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                txtDetalhes.setText("Erro ao carregar vacinas.");
                             }
                         },
                         error -> {
@@ -188,6 +237,7 @@ public class Agendamentos extends Fragment {
                         }
                 );
 
+        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(request1);
         com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(request);
         com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(req);
     }
