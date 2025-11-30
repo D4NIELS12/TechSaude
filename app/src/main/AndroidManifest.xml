@@ -20,8 +20,10 @@
             android:exported="false" />
         <activity
             android:name=".Receituario"
-            android:name=".AlterarSenhaMedico"
             android:exported="false" />
+        <activity
+            android:name=".AlterarSenhaMedico"
+            android:exported="false"/>
         <activity
             android:name=".EsqueciSenhaMedico"
             android:exported="false" />
