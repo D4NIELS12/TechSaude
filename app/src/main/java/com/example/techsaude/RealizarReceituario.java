@@ -2,25 +2,19 @@ package com.example.techsaude;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-public class Receituario extends AppCompatActivity {
+public class RealizarReceituario extends AppCompatActivity {
 
     ImageView btnVoltar;
-
-    LinearLayout PerfilReceituario;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receituario);
+        setContentView(R.layout.activity_realizar_receituario);
 
         btnVoltar = findViewById(R.id.btnVoltar);
-        PerfilReceituario = findViewById(R.id.PerfilReceituario);
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,12 +22,5 @@ public class Receituario extends AppCompatActivity {
                 finish();
             }
         });
-
-        PerfilReceituario.setOnClickListener(v -> {
-            Intent it = new Intent(Receituario.this, RealizarReceituario.class);
-            startActivity(it);
-        });
-
-
     }
 }
