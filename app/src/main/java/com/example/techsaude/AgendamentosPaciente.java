@@ -1,9 +1,6 @@
 package com.example.techsaude;
 
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Agendamentos extends Fragment {
+public class AgendamentosPaciente extends Fragment {
 
     private MaterialCalendarView calendarView;
     private TextView txtDetalhes;
@@ -32,7 +29,7 @@ public class Agendamentos extends Fragment {
     // Data selecionada no calendário
     private String dataSelecionada = "";
 
-    public Agendamentos() {
+    public AgendamentosPaciente() {
         super(R.layout.activity_agendamentos);
     }
 

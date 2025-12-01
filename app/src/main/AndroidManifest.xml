@@ -19,8 +19,10 @@
             android:name=".RealizarReceituario"
             android:exported="false" />
         <activity
-            android:name=".Receituario"
             android:name=".AlterarSenhaMedico"
+            android:exported="false"/>
+        <activity
+            android:name=".ReceituarioMedico"
             android:exported="false" />
         <activity
             android:name=".EsqueciSenhaMedico"
@@ -29,7 +31,7 @@
             android:name=".AgendamentosMedico"
             android:exported="false" />
         <activity
-            android:name=".AlterarSenha"
+            android:name=".AlterarSenhaPaciente"
             android:exported="false" />
         <activity
             android:name=".PerfilMedico"
@@ -62,7 +64,7 @@
             android:name=".LoginMedico"
             android:exported="false" />
         <activity
-            android:name=".EsqueciSenha"
+            android:name=".EsqueciSenhaPaciente"
             android:exported="false" />
         <activity
             android:name=".CadastrarPaciente"
