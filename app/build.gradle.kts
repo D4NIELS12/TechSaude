@@ -44,4 +44,5 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.prolificinteractive:material-calendarview:1.4.3")
     implementation ("com.android.volley:volley:1.2.1")
+    implementation("com.google.firebase:firebase-inappmessaging:22.0.2")
 }
