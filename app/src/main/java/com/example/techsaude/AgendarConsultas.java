@@ -44,7 +44,6 @@ public class AgendarConsultas extends AppCompatActivity {
 
     RequestQueue queue;
 
-    // 🔥 URLs CORRIGIDAS (USE SEU DOMÍNIO REAL)
     String BASE_URL = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/";
 
     String URL_LISTA_ESPECIALIDADES = BASE_URL + "lista_especialidade.php";
