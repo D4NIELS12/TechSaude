@@ -24,7 +24,7 @@ public class AgendamentosPaciente extends Fragment {
     private Button btnAlterar;
 
     // Mapa com data -> lista de descrições
-    private HashMap<String, List<String>> agendamentos = new HashMap<>();
+    private final HashMap<String, List<String>> agendamentos = new HashMap<>();
 
     // Data selecionada no calendário
     private String dataSelecionada = "";
