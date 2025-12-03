@@ -90,9 +90,7 @@ public class AgendarExames extends AppCompatActivity {
         ConfirmarExame = findViewById(R.id.ConfirmarExame);
 
         Voltar.setOnClickListener(v -> finish());
-        SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
+
         prepararHorarios();
         configurarListeners();
 

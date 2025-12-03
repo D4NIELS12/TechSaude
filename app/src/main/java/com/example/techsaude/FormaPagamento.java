@@ -395,11 +395,11 @@ public class FormaPagamento extends AppCompatActivity {
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         String resposta = new String(error.networkResponse.data);
                         Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                        Log.e("ERRO", "Resposta: " + error);
                     } else {
                         Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
                     }
 
-                    Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();
                 }
 
         );

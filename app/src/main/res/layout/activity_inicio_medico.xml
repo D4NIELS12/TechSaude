@@ -52,7 +52,7 @@
                 android:text="..."
                 android:textAlignment="center"
                 android:textColor="@color/preto"
-                android:textSize="24sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
