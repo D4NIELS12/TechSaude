@@ -30,6 +30,9 @@ public class FormaPagamento extends AppCompatActivity {
     private SharedPreferences prefsAgendamento;
     private SharedPreferences prefsUsuario;
 
+    private static final String URL_SALVAR_EXAME =
+            "http://tcc3edsmodetecgr3.hospedagemdesites.ws/salvar_exame.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +58,25 @@ public class FormaPagamento extends AppCompatActivity {
         txtValor.setText("R$: " + valor);
 
         // Confirmar pagamento
-        btnConfirmar.setOnClickListener(v -> confirmarESalvarConsulta());
+        btnConfirmar.setOnClickListener(v -> {
+
+            boolean eConsulta = prefsAgendamento.contains("especialidadeConsulta");
+            boolean eExame = prefsAgendamento.contains("exame");
+            boolean eVacina = prefsAgendamento.contains("vacina");
+
+            if (eConsulta) {
+                confirmarESalvarConsulta();
+            } else if (eExame) {
+                confirmarESalvarExame();
+            }else if (eVacina) {
+                confirmarESalvarVacina();
+            } else {
+                Toast.makeText(this, "Nenhuma informação encontrada", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
+
 
     private void buscarIdMedico(String nomeMedico, Callback callback) {
 
@@ -88,6 +108,56 @@ public class FormaPagamento extends AppCompatActivity {
 
     interface Callback {
         void onSuccess(int idMedico);
+    }
+
+    private void confirmarESalvarVacina() {
+        String vacina = prefsAgendamento.getString("vacina", "");
+        String data_vacina = prefsAgendamento.getString("data_vacina", "");
+        String hora_vacina = prefsAgendamento.getString("hora_vacina","");
+        String valor_vacina = prefsAgendamento.getString("valor_vacina","");
+        String status_vacina = prefsAgendamento.getString("status_vacina","");
+
+        String mensagem = "Vacina: " + vacina + "\nData:  " + data_vacina +
+                "\nHorário: " + hora_vacina + "\nValor: R$ " + valor_vacina;
+
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmar vacina")
+                .setMessage(mensagem)
+                .setPositiveButton("Confirmar", (dialog, which) -> {
+                salvarVacinaNoServidor(vacina, hora_vacina, valor_vacina, status_vacina);
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void confirmarESalvarExame() {
+
+        String exame = prefsAgendamento.getString("exame", "");
+        String medico = prefsAgendamento.getString("medicoExame", "");
+        String dia = prefsAgendamento.getString("dataExame", "");
+        String hora = prefsAgendamento.getString("horarioExame", "");
+        String valor = prefsAgendamento.getString("valorExame", "");
+        String status = prefsAgendamento.getString("statusExame", "");
+
+        String mensagem = "Exame: " + exame +
+                "\nMédico: " + medico +
+                "\nData: " + dia +
+                "\nHorário: " + hora +
+                "\nValor: R$ " + valor;
+
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmar Exame")
+                .setMessage(mensagem)
+                .setPositiveButton("Confirmar", (dialog, which) -> {
+
+                    // Buscar ID do médico antes de salvar
+                    buscarIdMedico(medico, idMedico -> {
+                        salvarExameNoServidor(exame, idMedico, dia, hora, status, valor);
+                    });
+
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void confirmarESalvarConsulta() {
@@ -134,6 +204,52 @@ public class FormaPagamento extends AppCompatActivity {
         }
     }
 
+    private void salvarVacinaNoServidor(String vacina, String hora_vacina, String valor_vacina, String status_vacina) {
+
+        int idUsuario = prefsUsuario.getInt("idUsuario", 0);
+        String dataBR = prefsAgendamento.getString("data_vacina","");
+        String data = converterDataParaMysql(dataBR);
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("idUsuario", idUsuario);
+            jsonBody.put("vacina", vacina);
+            jsonBody.put("data_vacina", data);
+            jsonBody.put("hora_vacina", hora_vacina);
+            jsonBody.put("valor_vacina", valor_vacina);
+            jsonBody.put("status_vacina", status_vacina);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String URL = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/salvar_vacina.php";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                URL,
+                jsonBody,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        String message = response.getString("message");
+                        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+                        if (success) finish();
+                    } catch (Exception e) { e.printStackTrace(); }
+                },
+                error -> {                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                    String resposta = new String(error.networkResponse.data);
+                    Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                } else {
+                    Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                }
+
+                    Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();}
+
+        );
+        Volley.newRequestQueue(this).add(request);
+
+    }
+
     private void salvarConsultaNoServidor(String especialidade, int idMedico, String horario, String status, String valor) {
 
         int idUsuario = prefsUsuario.getInt("idUsuario", 0);
@@ -164,12 +280,71 @@ public class FormaPagamento extends AppCompatActivity {
                         boolean success = response.getBoolean("success");
                         String message = response.getString("message");
                         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                        finish();
+
+                        if (success) finish();
                     } catch (Exception e) { e.printStackTrace(); }
                 },
-                error -> Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show()
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        String resposta = new String(error.networkResponse.data);
+                        Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                    } else {
+                        Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                    }
+
+                    Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();
+                }        );
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    private void salvarExameNoServidor(String exame, int idMedico, String dia, String hora, String status, String valor) {
+
+        int idUsuario = prefsUsuario.getInt("idUsuario", 0);
+        String data = converterDataParaMysql(dia);
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("idUsuario", idUsuario);
+            jsonBody.put("idMedico", idMedico);
+            jsonBody.put("tipoExame", exame);
+            jsonBody.put("dataExame", data);
+            jsonBody.put("horarioExame", hora);
+            jsonBody.put("statusExame", status);
+            jsonBody.put("valorExame", valor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_SALVAR_EXAME,
+                jsonBody,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        String message = response.getString("message");
+                        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+                        if (success) finish();
+
+                    } catch (Exception e) { e.printStackTrace();
+                    }
+                },
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        String resposta = new String(error.networkResponse.data);
+                        Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                    } else {
+                        Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                    }
+
+                    Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();
+                }
+
         );
 
         Volley.newRequestQueue(this).add(request);
     }
+
 }
