@@ -73,16 +73,28 @@
                                 android:foreground="@drawable/borda_preto">
 
                                 <TextView
-                                    android:id="@+id/textView16"
+                                    android:id="@+id/txtMedico"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="16dp"
-                                    android:layout_marginTop="52dp"
+                                    android:layout_marginTop="15dp"
                                     android:text="Médico:"
                                     android:textColor="@color/preto"
                                     android:textSize="16sp"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/txtData"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:text="Data:"
+                                    android:textColor="@color/preto"
+                                    android:textSize="16sp"
+                                    app:layout_constraintTop_toBottomOf="@id/txtMedico"
+                                    app:layout_constraintStart_toStartOf="parent"/>
 
                                 <TextView
                                     android:id="@+id/textView18"
@@ -96,7 +108,7 @@
                                     android:textSize="16sp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="1.0"
-                                    app:layout_constraintStart_toEndOf="@+id/textView16"
+                                    app:layout_constraintStart_toEndOf="@+id/txtMedico"
                                     app:layout_constraintTop_toTopOf="parent" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
