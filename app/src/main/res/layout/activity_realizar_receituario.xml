@@ -31,11 +31,22 @@
             android:layout_height="match_parent"
             android:padding="20dp">
 
+            <ImageView
+                android:id="@+id/imgTechSaude2"
+                android:layout_width="77dp"
+                android:layout_height="72dp"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toTopOf="@+id/inputPaciente"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/techsaude_preto" />
+
             <TextView
                 android:id="@+id/txtTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:text="RECEITUÁRIO"
                 android:textColor="@color/preto"
@@ -65,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="29dp"
                 android:paddingBottom="4dp"
                 android:text="Paciente"
                 android:textColor="@color/preto"
@@ -218,6 +229,7 @@
                 android:id="@+id/btnVoltar"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
+                android:layout_marginTop="10dp"
                 android:contentDescription="Voltar"
                 android:src="@drawable/voltar"
                 app:layout_constraintStart_toStartOf="parent"

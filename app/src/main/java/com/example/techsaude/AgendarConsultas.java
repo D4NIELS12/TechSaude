@@ -248,4 +248,12 @@ public class AgendarConsultas extends AppCompatActivity {
         autoHorario.setAdapter(adapter);
         autoHorario.setOnClickListener(v -> autoHorario.showDropDown());
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, InicioMedico.class);
+        startActivity(intent);
+        finish();
+    }
 }

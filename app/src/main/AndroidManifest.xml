@@ -16,14 +16,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ReceituarioRealizados"
+            android:exported="false" />
+        <activity
             android:name=".RealizarReceituario"
             android:exported="false" />
         <activity
-            android:name=".Receituario"
+            android:name=".AlterarSenhaMedico"
             android:exported="false" />
         <activity
-            android:name=".AlterarSenhaMedico"
-            android:exported="false"/>
+            android:name=".ReceituarioMedico"
+            android:exported="false" />
         <activity
             android:name=".EsqueciSenhaMedico"
             android:exported="false" />
@@ -31,7 +34,7 @@
             android:name=".AgendamentosMedico"
             android:exported="false" />
         <activity
-            android:name=".AlterarSenha"
+            android:name=".AlterarSenhaPaciente"
             android:exported="false" />
         <activity
             android:name=".PerfilMedico"
@@ -64,7 +67,7 @@
             android:name=".LoginMedico"
             android:exported="false" />
         <activity
-            android:name=".EsqueciSenha"
+            android:name=".EsqueciSenhaPaciente"
             android:exported="false" />
         <activity
             android:name=".CadastrarPaciente"

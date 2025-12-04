@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +22,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EsqueciSenha extends AppCompatActivity {
+public class EsqueciSenhaPaciente extends AppCompatActivity {
     ImageView imgVoltarEsqueci;
     EditText txtCpfEsqueci, txtDataEsqueci;
     Button btnRecuperar;
@@ -31,7 +30,7 @@ public class EsqueciSenha extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_esqueci_senha);
+        setContentView(R.layout.activity_esqueci_senha_paciente);
 
         imgVoltarEsqueci = findViewById(R.id.imgVoltarEsqueci);
         txtCpfEsqueci = findViewById(R.id.txtCpfEsqueci);
@@ -77,7 +76,7 @@ public class EsqueciSenha extends AppCompatActivity {
                         try {
                             if (response.getString("status").equals("ok")) {
                                 Toast.makeText(this, "Dados confirmados!", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(this, AlterarSenha.class);
+                                Intent i = new Intent(this, AlterarSenhaPaciente.class);
                                 i.putExtra("cpf", cpf);
                                 startActivity(i);
                                 finish();

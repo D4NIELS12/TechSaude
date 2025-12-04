@@ -3,8 +3,6 @@ package com.example.techsaude;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,9 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
@@ -23,15 +18,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Perfil extends Fragment {
+public class PerfilPaciente extends Fragment {
 
     private TextView lblNome, lblCPF, lblEmail, lblNascimento,
             lblEndereco, lblTelefone, lblSexo;
     String URL_BUSCAR = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/buscar_prontuario.php?idUsuario=";
     LinearLayout viewRelatorio;
 
-    public Perfil() {
-        super(R.layout.activity_perfil);
+    public PerfilPaciente() {
+        super(R.layout.activity_perfil_paciente);
     }
 
     @Override
@@ -118,7 +113,7 @@ public class Perfil extends Fragment {
         TextView txt = new TextView(requireContext());
         txt.setText(titulo + ": " + (valor == null || valor.isEmpty() ? "Não informado" : valor));
         txt.setPadding(25, 25, 25, 25);
-        txt.setTextSize(20);
+        txt.setTextSize(18);
         txt.setTextColor(getResources().getColor(android.R.color.black));
         viewRelatorio.addView(txt);
     }

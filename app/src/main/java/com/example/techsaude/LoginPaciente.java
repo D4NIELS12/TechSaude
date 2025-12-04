@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,14 +17,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 public class LoginPaciente extends AppCompatActivity {
 
@@ -67,7 +57,7 @@ public class LoginPaciente extends AppCompatActivity {
 
 
         txtEsqueci.setOnClickListener(view -> {
-            Intent it = new Intent(LoginPaciente.this, EsqueciSenha.class);
+            Intent it = new Intent(LoginPaciente.this, EsqueciSenhaPaciente.class);
             startActivity(it);
 
         });
