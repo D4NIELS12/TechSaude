@@ -99,7 +99,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <ImageView
-                android:id="@+id/imageView11"
+                android:id="@+id/imgProntuario"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/bloco_de_anotacoes"
@@ -212,7 +212,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputDosagem" />
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/inputDuracao"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="5dp"

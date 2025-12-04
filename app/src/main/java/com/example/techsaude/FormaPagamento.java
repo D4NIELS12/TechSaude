@@ -20,6 +20,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.time.LocalTime;
+
 public class FormaPagamento extends AppCompatActivity {
 
     private RadioGroup rgOpcoes;
@@ -250,6 +253,62 @@ public class FormaPagamento extends AppCompatActivity {
 
     }
 
+    private void salvarConsultaAgendaAPI(int idMedico, String inicio) {
+
+        String dataBR = prefsAgendamento.getString("dataConsulta", "");
+        String dataMysql = converterDataParaMysql(dataBR);
+
+        String fimAgenda = somar30Minutos(inicio);  // <-- usa função correta
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("idMedico", idMedico);
+            jsonBody.put("dataAgenda", dataMysql);
+            jsonBody.put("inicioAgenda", inicio + ":00");  // garante formato MySQL
+            jsonBody.put("fimAgenda", fimAgenda + ":00");
+            jsonBody.put("statusAgenda", "Agendado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String URL = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/salvar_agenda.php";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                URL,
+                jsonBody,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        String message = response.getString("message");
+                        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        String resposta = new String(error.networkResponse.data);
+                        Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                    } else {
+                        Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                    }
+                    Toast.makeText(this, "Erro ao salvar agenda", Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    private String somar30Minutos(String horario) {
+        // horario no formato "HH:mm"
+        LocalTime time = LocalTime.parse(horario);
+        LocalTime fim = time.plusMinutes(30);
+        return fim.toString(); // retorna "HH:mm"
+    }
+
+
+
     private void salvarConsultaNoServidor(String especialidade, int idMedico, String horario, String status, String valor) {
 
         int idUsuario = prefsUsuario.getInt("idUsuario", 0);
@@ -281,7 +340,7 @@ public class FormaPagamento extends AppCompatActivity {
                         String message = response.getString("message");
                         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-                        if (success) finish();
+                        if (success) {finish(); salvarConsultaAgendaAPI(idMedico, horario);}
                     } catch (Exception e) { e.printStackTrace(); }
                 },
                 error -> {
@@ -294,6 +353,53 @@ public class FormaPagamento extends AppCompatActivity {
 
                     Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();
                 }        );
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    private void salvarExameAgendaAPI(int idMedico, String inicio) {
+
+        String dataBR = prefsAgendamento.getString("dataExame", "");
+        String dataMysql = converterDataParaMysql(dataBR);
+
+        String fimAgenda = somar30Minutos(inicio);  // <-- usa função correta
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("idMedico", idMedico);
+            jsonBody.put("dataAgenda", dataMysql);
+            jsonBody.put("inicioAgenda", inicio + ":00");  // garante formato MySQL
+            jsonBody.put("fimAgenda", fimAgenda + ":00");
+            jsonBody.put("statusAgenda", "Agendado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String URL = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/salvar_agenda.php";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                URL,
+                jsonBody,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        String message = response.getString("message");
+                        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        String resposta = new String(error.networkResponse.data);
+                        Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                    } else {
+                        Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                    }
+                    Toast.makeText(this, "Erro ao salvar agenda", Toast.LENGTH_SHORT).show();
+                }
+        );
 
         Volley.newRequestQueue(this).add(request);
     }
@@ -312,6 +418,9 @@ public class FormaPagamento extends AppCompatActivity {
             jsonBody.put("horarioExame", hora);
             jsonBody.put("statusExame", status);
             jsonBody.put("valorExame", valor);
+
+            Log.d("DEBUG_JSON", jsonBody.toString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -326,7 +435,7 @@ public class FormaPagamento extends AppCompatActivity {
                         String message = response.getString("message");
                         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-                        if (success) finish();
+                        if (success) {salvarExameAgendaAPI(idMedico, hora);  finish(); }
 
                     } catch (Exception e) { e.printStackTrace();
                     }
@@ -335,11 +444,12 @@ public class FormaPagamento extends AppCompatActivity {
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         String resposta = new String(error.networkResponse.data);
                         Log.e("ERRO_SERVIDOR", "Resposta: " + resposta);
+                        Log.e("ERRO", "Resposta: " + error);
                     } else {
                         Log.e("ERRO_SERVIDOR", "Erro sem resposta do servidor: " + error.toString());
+                        Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();
                     }
 
-                    Toast.makeText(this, "Erro no servidor", Toast.LENGTH_SHORT).show();
                 }
 
         );

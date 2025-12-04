@@ -44,7 +44,6 @@ public class AgendarConsultas extends AppCompatActivity {
 
     RequestQueue queue;
 
-    // 🔥 URLs CORRIGIDAS (USE SEU DOMÍNIO REAL)
     String BASE_URL = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/";
 
     String URL_LISTA_ESPECIALIDADES = BASE_URL + "lista_especialidade.php";
@@ -64,9 +63,7 @@ public class AgendarConsultas extends AppCompatActivity {
         editTextDate = findViewById(R.id.editTextDate);
         btnConfirmarConsulta = findViewById(R.id.btnConfirmarConsulta);
 
-        SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
+
         // Carrega lista de especialidades ao abrir o app
         carregarEspecialidades();
 
@@ -221,7 +218,7 @@ public class AgendarConsultas extends AppCompatActivity {
         // Lista de horários
         String[] horas = {
                 "08:00","09:00","10:00","11:00",
-                "13:00","14:00","15:00","16:00"
+                "13:00","14:00","15:00","16:00","17:00"
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(

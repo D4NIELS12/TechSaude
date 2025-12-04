@@ -85,6 +85,9 @@
             android:minHeight="48dp"
             android:backgroundTint="@color/branco"
             android:textColor="@color/preto"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:textSize="18sp"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -131,6 +134,9 @@
             android:minHeight="48dp"
             android:backgroundTint="@color/branco"
             android:textColor="@color/preto"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:textSize="18sp"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>

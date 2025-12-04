@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -90,28 +91,18 @@ public class AgendarExames extends AppCompatActivity {
         ConfirmarExame = findViewById(R.id.ConfirmarExame);
 
         Voltar.setOnClickListener(v -> finish());
-        SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        prepararHorarios();
-        configurarListeners();
 
+        configurarListeners();
+        prepararHorarios();
         // início do fluxo: buscar especialidades do servidor e em seguida exames
         buscarEspecialidadesDoServidor();
     }
-
     private void prepararHorarios() {
-        String[] times = {"08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00"};
-
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, times) {
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView tv = (TextView) super.getView(position, convertView, parent);
-                        tv.setTextSize(18);
-                        return tv;
-                    }
-                };
+        String[] times = {
+                "08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, times) {
+            @Override public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent); tv.setTextSize(18); return tv; } };
 
         autoCompleteTime.setAdapter(adapter);
         autoCompleteTime.setOnClickListener(v -> autoCompleteTime.showDropDown());
@@ -376,7 +367,6 @@ public class AgendarExames extends AppCompatActivity {
         String medico = autoCompleteMedico.getText().toString();
         String dataBR = editDate.getText().toString();
         String hora = autoCompleteTime.getText().toString();
-        String valor = "120.00";
 
         if (tipo.isEmpty() || medico.isEmpty() || dataBR.isEmpty() || hora.isEmpty()) {
             // Campos obrigatórios
@@ -406,11 +396,12 @@ public class AgendarExames extends AppCompatActivity {
         SharedPreferences.Editor editor = agendamentos.edit();
         String medicoFormatado = medico.replace("Dr. ", "").trim();
 
+        editor.putInt("idMedico", idMedico);
         editor.putString("exame", tipo);
         editor.putString("medicoExame", medicoFormatado);
         editor.putString("dataExame", dataBR);
         editor.putString("horarioExame", hora);
-        editor.putString("valorExame", valor);
+        editor.putString("valorExame", "120.00");
         editor.putString("statusExame", "Agendado");
 
         editor.apply();

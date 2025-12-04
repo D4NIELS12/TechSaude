@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@drawable/dialog_background">
+
+    <TextView
+        android:id="@+id/txtDialogTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prontuário do paciente"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:gravity="center"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogDataRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data de registro: "
+        android:textSize="16sp"
+        android:textColor="@color/branco"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogPeso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/branco"
+        android:text="Peso: "
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogAltura"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Altura: "
+        android:textColor="@color/branco"
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogSintomas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sintomas: "
+        android:textColor="@color/branco"
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogAlergias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/branco"
+        android:text="Alergias: "
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogCondicoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/branco"
+        android:text="Condições: "
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogObservacoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/branco"
+        android:text="Observações: "
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/txtDialogAlertas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/branco"
+        android:text="Alertas: "
+        android:textSize="16sp"
+        android:paddingBottom="25dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnDialogOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:textColor="#000"
+            android:backgroundTint="@color/branco"/>
+
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>
