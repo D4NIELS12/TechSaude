@@ -6,162 +6,106 @@
     android:layout_height="match_parent"
     android:background="@color/cinza">
 
-    <TextView
-        android:id="@+id/txtAreaPaciente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="16dp"
-        android:text="Área do Paciente"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="24dp"
-        android:text="Dados Pessoais"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtAreaPaciente" />
-
-    <View
-        android:id="@+id/caixa"
-        android:layout_width="324dp"
-        android:layout_height="144dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="347dp"
-        android:background="@drawable/stroke_branco"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="@color/branco"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" >
 
-    <TextView
-        android:id="@+id/txtAltura"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="22dp"
-        android:text="Altura:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/caixa"
-        app:layout_constraintTop_toTopOf="@+id/caixa" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
-    <TextView
-        android:id="@+id/lblAltura..."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="22dp"
-        android:text="..."
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/txtAltura"
-        app:layout_constraintTop_toTopOf="@+id/caixa" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="RECEITUÁRIO"
+                android:textColor="@color/preto"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtPeso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="22dp"
-        android:text="Peso:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/caixa"
-        app:layout_constraintTop_toTopOf="@+id/txtAltura" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="#00FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13">
 
-    <TextView
-        android:id="@+id/lblPeso..."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="22dp"
-        android:text="..."
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/txtPeso"
-        app:layout_constraintTop_toTopOf="@+id/lblAltura..." />
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/branco">
 
-    <TextView
-        android:id="@+id/txtIMC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="22dp"
-        android:text="IMC:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/caixa"
-        app:layout_constraintTop_toTopOf="@+id/txtPeso" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lblIMC..."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="22dp"
-        android:text="..."
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/txtIMC"
-        app:layout_constraintTop_toTopOf="@+id/lblPeso..." />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardVerReceituario"
+                            android:layout_width="209dp"
+                            android:layout_height="80dp"
+                            android:layout_marginHorizontal="48dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardCornerRadius="22dp"
+                            app:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/lblTipoSanguineo..."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
-        android:text="..."
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/txtTipoSanguineo"
-        app:layout_constraintTop_toTopOf="@+id/lblIMC..." />
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:foreground="@drawable/borda_preto">
 
-    <TextView
-        android:id="@+id/txtTipoSanguineo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:text="Tipo sanguíneo:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/caixa"
-        app:layout_constraintTop_toBottomOf="@id/txtIMC"
-        tools:layout_editor_absoluteY="190dp" />
+                                <TextView
+                                    android:id="@+id/textView16"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="52dp"
+                                    android:text="Médico:"
+                                    android:textColor="@color/preto"
+                                    android:textSize="16sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnAlterar"
-        android:layout_width="324dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="@color/azulEscuro"
-        android:text="Alterar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/caixa" />
+                                <TextView
+                                    android:id="@+id/textView18"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_marginTop="52dp"
+                                    android:layout_marginEnd="209dp"
+                                    android:text="..."
+                                    android:textColor="@color/preto"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="1.0"
+                                    app:layout_constraintStart_toEndOf="@+id/textView16"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtHistorico"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="60dp"
-        android:text="Histórico"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnAlterar" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </ScrollView>
 
-    <View
-        android:id="@+id/caixa2"
-        android:layout_width="324dp"
-        android:layout_height="144dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/stroke_branco"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtHistorico" />
+            </androidx.cardview.widget.CardView>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

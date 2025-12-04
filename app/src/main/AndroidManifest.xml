@@ -16,11 +16,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ReceituarioRealizados"
+            android:exported="false" />
+        <activity
             android:name=".RealizarReceituario"
             android:exported="false" />
         <activity
             android:name=".AlterarSenhaMedico"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ReceituarioMedico"
             android:exported="false" />

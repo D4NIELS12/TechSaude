@@ -68,8 +68,8 @@ public class PacienteLogado extends AppCompatActivity {
                 txtNomeDaTela.setText("Perfil");
                 replaceFragment(new PerfilPaciente(), "Perfil");
             } else if (id == R.id.nav_Area_Paciente) {
-                txtNomeDaTela.setText("Área do paciente");
-                replaceFragment(new ReceituarioPaciente(), "Área do paciente");
+                txtNomeDaTela.setText("Receituário");
+                replaceFragment(new ReceituarioPaciente(), "Receituário");
             } else if (id == R.id.nav_Prontuario) {
                 txtNomeDaTela.setText("Prontuário");
                 replaceFragment(new Prontuario(), "Prontuário");
