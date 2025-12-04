@@ -1,0 +1,26 @@
+package com.example.techsaude;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
+public class ReceituarioRealizados extends AppCompatActivity {
+
+    ImageView btnVoltar;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_receituario_realizados);
+
+        btnVoltar = findViewById(R.id.btnVoltar3);
+
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+}

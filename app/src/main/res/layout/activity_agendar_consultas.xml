@@ -192,7 +192,8 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/azulEscuro"
-        android:gravity="center"
+        android:gravity="center|left"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView

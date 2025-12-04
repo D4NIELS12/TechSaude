@@ -15,6 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="130dp"
         android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/branco"
         app:cardCornerRadius="22dp"
@@ -22,7 +23,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardPacientes">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -79,7 +81,7 @@
         android:layout_width="0dp"
         android:layout_height="130dp"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="22dp"
         android:foreground="@drawable/borda_preto"
         app:cardBackgroundColor="@color/azulClaro"
         app:cardCornerRadius="22dp"
@@ -87,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -135,8 +137,8 @@
                 android:id="@+id/textView9"
                 android:layout_width="183dp"
                 android:layout_height="47dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/Descricao_cardCalendario"
                 android:textAlignment="center"
                 android:textColor="@color/branco"
@@ -159,7 +161,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cardPacientes"
         app:layout_constraintTop_toBottomOf="@+id/cardCalendario">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -171,7 +172,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="66dp"
                 android:layout_height="69dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="14dp"
                 android:layout_marginTop="18dp"
                 android:src="@drawable/lampadabranca"
                 app:layout_constraintStart_toStartOf="parent"
@@ -207,8 +208,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="191dp"
                 android:layout_height="47dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="9dp"
                 android:text="@string/descrisao_cardReceituario"
                 android:textAlignment="center"
                 android:textColor="@color/branco"
@@ -224,11 +224,9 @@
         android:layout_height="130dp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="35dp"
-        android:layout_marginBottom="208dp"
         app:cardBackgroundColor="@color/azulClaro"
         app:cardCornerRadius="22dp"
         app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardReceituario">
@@ -269,7 +267,7 @@
                 android:layout_width="191dp"
                 android:layout_height="46dp"
                 android:layout_marginStart="3dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 android:text="@string/Descricao_cardPaciente"
 
                 android:textAlignment="center"
@@ -295,7 +293,7 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="22dp"
         android:text="@string/Titulo_TelaMedico"
         android:textAlignment="center"
         android:textColor="@color/preto"

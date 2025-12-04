@@ -63,7 +63,7 @@ public class InicioMedico extends Fragment {
 
         cardReceituario.setOnClickListener(v -> {
             if (getActivity() != null) {
-                Intent it = new Intent(getActivity(), Receituario.class);
+                Intent it = new Intent(getActivity(), ReceituarioMedico.class);
                 startActivity(it);
             }
         });

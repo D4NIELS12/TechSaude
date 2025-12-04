@@ -4,14 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -69,16 +66,16 @@ public class PacienteLogado extends AppCompatActivity {
                   replaceFragment(new InicioPaciente(), "Ínicio");
             } else if (id == R.id.nav_Perfil){
                 txtNomeDaTela.setText("Perfil");
-                replaceFragment(new Perfil(), "Perfil");
+                replaceFragment(new PerfilPaciente(), "Perfil");
             } else if (id == R.id.nav_Area_Paciente) {
-                txtNomeDaTela.setText("Área do paciente");
-                replaceFragment(new AreaPaciente(), "Área do paciente");
+                txtNomeDaTela.setText("Receituário");
+                replaceFragment(new ReceituarioPaciente(), "Receituário");
             } else if (id == R.id.nav_Prontuario) {
                 txtNomeDaTela.setText("Prontuário");
                 replaceFragment(new Prontuario(), "Prontuário");
             }else if (id == R.id.nav_Agendamentos) {
                 txtNomeDaTela.setText("Agendamentos");
-                replaceFragment(new Agendamentos(), "Agendamentos");
+                replaceFragment(new AgendamentosPaciente(), "Agendamentos");
             }else if (id == R.id.nav_Configurações) {
                 txtNomeDaTela.setText("Configurações");
                 replaceFragment(new Configuracoes(), "Configurações");

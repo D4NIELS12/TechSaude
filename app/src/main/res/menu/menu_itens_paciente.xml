@@ -16,11 +16,10 @@
             android:title="Perfil" />
 
 
-
         <item
             android:id="@+id/nav_Area_Paciente"
-            android:icon="@drawable/saude"
-            android:title="Área do paciente" />
+            android:icon="@drawable/lampadabranca"
+            android:title="Receituário" />
 
 
 

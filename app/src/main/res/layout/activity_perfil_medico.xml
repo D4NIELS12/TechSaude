@@ -8,47 +8,62 @@
     android:padding="16dp"
     tools:context=".PerfilMedico">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- CARD PRINCIPAL -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPrincipalPerfil"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/branco"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="5dp">
 
-        <!-- Título principal -->
-
-        <!-- Título seção Dados Pessoais -->
-        <TextView
-            android:id="@+id/tvDadosPessoais"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Dados Pessoais"
-            android:textColor="@color/preto"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteY="61dp" />
+            android:padding="20dp">
 
-        <!-- Container dos dados pessoais -->
-        <LinearLayout
-            android:id="@+id/view9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/stroke_branco"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:dividerPadding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvDadosPessoais"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            <!-- Cabeçalho: botão voltar + título -->
 
-            <!-- Nome -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtTituloPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="PERFIL DO MÉDICO"
+                android:textColor="@color/preto"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Título Dados pessoais -->
+            <TextView
+                android:id="@+id/tvDadosPessoais"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Dados Pessoais"
+                android:textColor="@color/preto"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTituloPerfil" />
+
+            <!-- CARD secundário contendo os dados -->
+            <LinearLayout
+                android:id="@+id/view9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_fundo"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDadosPessoais">
+
+                <!-- Nome -->
                 <TextView
                     android:id="@+id/tvMedicoValor"
                     android:layout_width="wrap_content"
@@ -56,133 +71,92 @@
                     android:text="..."
                     android:textColor="@color/preto"
                     android:textSize="18sp" />
-            </LinearLayout>
 
-            <!-- Data de nascimento -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- Data de nascimento -->
                 <TextView
                     android:id="@+id/tvNascimentoMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
                     android:textSize="18sp" />
-            </LinearLayout>
 
-            <!-- CPF -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- CPF -->
                 <TextView
                     android:id="@+id/tvCpfMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
-            </LinearLayout>
+                    android:textSize="18sp" />
 
-            <!-- E-mail -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- Email -->
                 <TextView
                     android:id="@+id/tvEmailMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
-            </LinearLayout>
+                    android:textSize="18sp" />
 
-            <!-- Endereço -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- CRM -->
                 <TextView
                     android:id="@+id/tvCRMValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
-            </LinearLayout>
+                    android:textSize="18sp" />
 
-            <!-- Telefone -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- Telefone -->
                 <TextView
                     android:id="@+id/tvTelefoneMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
-            </LinearLayout>
+                    android:textSize="18sp" />
 
-            <!-- Sexo -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- Sexo -->
                 <TextView
                     android:id="@+id/tvSexoMedicoValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
-            </LinearLayout>
+                    android:textSize="18sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
+                <!-- Especialidade -->
                 <TextView
                     android:id="@+id/tvEspecialidadeMedicaValor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="..."
                     android:textColor="@color/preto"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
+
             </LinearLayout>
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnAlterarDados"
-            android:layout_width="225dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="76dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="76dp"
-            android:backgroundTint="@color/azulEscuro"
-            android:text="Alterar Dados"
-            android:textColor="@color/branco"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view9" />
+            <!-- Botão ALTERAR DADOS -->
+            <Button
+                android:id="@+id/btnAlterarDados"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="28dp"
+                android:backgroundTint="@color/azulEscuro"
+                android:text="Alterar Dados"
+                android:textColor="@color/branco"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view9" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

@@ -16,9 +16,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".AlterarSenhaConfiguracoes"
-            android:exported="false" />
-        <activity
             android:name=".RealizarReceituario"
             android:exported="false" />
         <activity
@@ -26,7 +23,7 @@
             android:exported="false" />
         <activity
             android:name=".AlterarSenhaMedico"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".EsqueciSenhaMedico"
             android:exported="false" />
