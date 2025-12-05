@@ -119,7 +119,6 @@ public class PerfilPaciente extends Fragment {
     }
 
     private void preencherRelatorio(JSONObject response) {
-        viewRelatorio.removeAllViews(); // limpa antes de preencher novamente
 
         try {
             adicionarItem("Data de registro", response.getString("data_registroProntuario"));

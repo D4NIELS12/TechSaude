@@ -59,20 +59,27 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- TEXTO DA DATA SELECIONADA -->
-    <TextView
-        android:id="@+id/txtDataPaciente"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="18dp"
-        android:padding="10dp"
-        android:text="Selecione uma data"
-        android:textColor="@color/preto"
-        android:textSize="16sp"
-        android:background="@drawable/edittext_fundo"
-        android:gravity="center"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/cardCalendario"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/txtDataPaciente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:padding="10dp"
+            android:text="Selecione uma data"
+            android:textColor="@color/preto"
+            android:textSize="16sp"
+            android:background="@drawable/edittext_fundo"/>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

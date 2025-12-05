@@ -15,10 +15,10 @@
         android:id="@+id/txtDialogTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Prontuário do paciente"
+        android:text="PRONTUÁRIO DO PACIENTE"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#000"
+        android:textColor="@color/branco"
         android:gravity="center"
         android:paddingBottom="25dp"/>
 
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:text="OK"
             android:textColor="#000"
-            android:backgroundTint="@color/branco"/>
+            android:backgroundTint="@color/branco" />
 
     </LinearLayout>
     </LinearLayout>

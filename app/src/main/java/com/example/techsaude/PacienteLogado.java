@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -99,30 +100,30 @@ public class PacienteLogado extends AppCompatActivity {
     private void sair(View view) {
         logout(PacienteLogado.this);
     }
+
     private void logout(PacienteLogado pacienteLogado) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(pacienteLogado);
-        builder.setTitle("Sair");
-        builder.setMessage("Certeza que deseja sair ?");
-        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Apaga todos os dados salvos no SharedPreferences
-                SharedPreferences prefs = getSharedPreferences("loginUsuario_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.clear(); // limpa tudo
-                editor.apply();
-                Intent it = new Intent(PacienteLogado.this, LoginPaciente.class);
-                startActivity(it);
-                finish();
-            }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
+
+        View layout = getLayoutInflater().inflate(R.layout.dialog_logout, null);
+        builder.setView(layout);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        layout.findViewById(R.id.btnCancelar).setOnClickListener(v -> dialog.dismiss());
+
+        layout.findViewById(R.id.btnSair).setOnClickListener(v -> {
+            SharedPreferences prefs = getSharedPreferences("loginUsuario_prefs", MODE_PRIVATE);
+            prefs.edit().clear().apply();
+
+            startActivity(new Intent(PacienteLogado.this, LoginPaciente.class));
+            finish();
         });
-        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        builder.show();
+
+        dialog.show();
     }
+
 
     private void replaceFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction()
