@@ -112,19 +112,7 @@
 
         <!-- CARD PRONTUÁRIO -->
 
-        <TextView
-            android:id="@+id/tvProntuario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="36dp"
-            android:text="Prontuário"
-            android:textColor="@color/preto"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/cardProntuario"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardDadosPessoais" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardProntuario"
@@ -144,7 +132,20 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_fundo"
                 android:orientation="vertical"
-                android:padding="9dp">
+                android:padding="18dp">
+
+                <TextView
+                    android:id="@+id/tvProntuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Prontuário"
+                    android:textColor="@color/preto"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/cardProntuario"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardDadosPessoais" />
 
                 <!-- Aqui vai o conteúdo do prontuário -->
 

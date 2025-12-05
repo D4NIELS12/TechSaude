@@ -135,17 +135,25 @@ public class AgendarExames extends AppCompatActivity {
 
     private void showDatePicker() {
         final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog dialog = new DatePickerDialog(
                 this,
-                (view, year, month, day) -> {
-                    String dt = String.format(Locale.getDefault(),
-                            "%02d/%02d/%04d", day, month + 1, year);
+                (DatePicker view, int year1, int month1, int dayOfMonth) -> {
+                    String dt = String.format("%04d-%02d-%02d", year1, (month1 + 1), dayOfMonth);
                     editDate.setText(dt);
+
+                    String medicoSelecionado = autoCompleteMedico.getText().toString()
+                            .replace("Dr. ", "")
+                            .trim();
+
+                    if (!medicoSelecionado.isEmpty()) {
+                        carregarHorariosDisponiveis(medicoSelecionado, dt);
+                    }
                 },
-                c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH)
+                year, month, day
         );
 
         dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -412,6 +420,62 @@ public class AgendarExames extends AppCompatActivity {
 
     }
 
+    private void carregarHorariosDisponiveis(String nome, String dataEscolhida) {
+
+        String url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/get_horarios_disponiveis.php?nome_completoMedico="
+                + nome + "&data=" + dataEscolhida;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        boolean ok = response.getBoolean("success");
+                        if (!ok) return;
+
+                        JSONArray arr = response.getJSONArray("horarios");
+                        Log.d("RETORNO", "Resposta: " + response);
+
+                        ArrayList<String> lista = new ArrayList<>();
+                        for (int i = 0; i < arr.length(); i++) {
+                            lista.add(arr.getString(i));
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                this,
+                                android.R.layout.simple_list_item_1,
+                                lista
+                        ) {
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                TextView tv = (TextView) super.getView(position, convertView, parent);
+                                tv.setTextSize(20);
+                                return tv;
+                            }
+
+                            @Override
+                            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                                tv.setTextSize(20);
+                                return tv;
+                            }
+                        };
+
+                        autoCompleteTime.setAdapter(adapter);
+                        autoCompleteTime.setOnClickListener(v -> autoCompleteTime.showDropDown());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                }
+        );
+
+        Volley.newRequestQueue(this).add(request);
+    }
 
     private String converterDataParaMysql(String dataBR) {
         try {

@@ -85,31 +85,31 @@ public class MedicoLogado extends AppCompatActivity
     }
 
     private void sair(View view) {
-        logout(MedicoLogado.this);
+        logout();
     }
-    private void logout(MedicoLogado medicoLogado) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(medicoLogado);
-        builder.setTitle("Sair");
-        builder.setMessage("Certeza que deseja sair ?");
-        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPreferences prefs = getSharedPreferences("user_prefs_medico", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.clear(); // limpa tudo
-                editor.apply();
-                Intent it = new Intent(MedicoLogado.this, LoginPaciente.class);
-                startActivity(it);
-                finish();
-            }
+
+    private void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogStyle);
+
+        View layout = getLayoutInflater().inflate(R.layout.dialog_logout, null);
+        builder.setView(layout);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        layout.findViewById(R.id.btnCancelar).setOnClickListener(v -> dialog.dismiss());
+
+        layout.findViewById(R.id.btnSair).setOnClickListener(v -> {
+            SharedPreferences prefs = getSharedPreferences("user_prefs_medico", MODE_PRIVATE);
+            prefs.edit().clear().apply();
+
+            startActivity(new Intent(MedicoLogado.this, LoginPaciente.class));
+            finish();
         });
-        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        builder.show();
+
+        dialog.show();
     }
+
 
     private void replaceFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction()

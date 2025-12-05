@@ -204,47 +204,83 @@ public class AgendarConsultas extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (DatePicker view, int year1, int month1, int dayOfMonth) -> {
 
-                    String selectedDate = String.format("%02d/%02d/%04d",
-                            dayOfMonth, (month1 + 1), year1);
-
+                    String selectedDate = String.format("%04d-%02d-%02d", year1, (month1 + 1), dayOfMonth);
                     editTextDate.setText(selectedDate);
+
+                    String medicoSelecionado = autoMedico.getText().toString()
+                            .replace("Dr. ", "")
+                            .trim();
+
+                    if (!medicoSelecionado.isEmpty()) {
+                        carregarHorariosDisponiveis(medicoSelecionado, selectedDate);
+                    }
+
                 },
                 year, month, day
         );
 
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
-
-        // Lista de horários
-        String[] horas = {
-                "08:00","09:00","10:00","11:00",
-                "13:00","14:00","15:00","16:00","17:00"
-        };
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                horas
-        ) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                TextView tv = (TextView) super.getView(position, convertView, parent);
-                tv.setTextSize(20);
-                return tv;
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-                tv.setTextSize(20);
-                return tv;
-            }
-        };
-
-        autoHorario.setAdapter(adapter);
-        autoHorario.setOnClickListener(v -> autoHorario.showDropDown());
     }
+
+
+    private void carregarHorariosDisponiveis(String nome, String dataEscolhida) {
+
+        String url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/get_horarios_disponiveis.php?nome_completoMedico="
+                + nome + "&data=" + dataEscolhida;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        boolean ok = response.getBoolean("success");
+                        if (!ok) return;
+
+                        JSONArray arr = response.getJSONArray("horarios");
+                        Log.d("RETORNO", "Resposta: " + response);
+
+                        ArrayList<String> lista = new ArrayList<>();
+                        for (int i = 0; i < arr.length(); i++) {
+                            lista.add(arr.getString(i));
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                this,
+                                android.R.layout.simple_list_item_1,
+                                lista
+                        ) {
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                TextView tv = (TextView) super.getView(position, convertView, parent);
+                                tv.setTextSize(20);
+                                return tv;
+                            }
+
+                            @Override
+                            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                                tv.setTextSize(20);
+                                return tv;
+                            }
+                        };
+
+                        autoHorario.setAdapter(adapter);
+                        autoHorario.setOnClickListener(v -> autoHorario.showDropDown());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                }
+        );
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
 
     @Override
     public void onBackPressed() {
