@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cinza"
-    tools:context=".ReceituarioRealizados">
+    tools:context=".VerPerfilPaciente">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardReceituario"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="20dp"
@@ -17,158 +18,160 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="@drawable/borda_preto">
+            android:padding="20dp">
+
 
             <ImageView
-                android:id="@+id/btnVoltar3"
+                android:id="@+id/btnVoltar2"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="Voltar"
                 android:src="@drawable/voltar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="118dp"
-                android:layout_marginTop="28dp"
-                android:text="RECEITUÁRIO"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="PERFIL"
                 android:textColor="@color/preto"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageView12"
-                android:layout_width="77dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="27dp"
-                android:layout_marginTop="9dp"
-                android:layout_marginEnd="28dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView19"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/techsaude_preto" />
-
             <LinearLayout
-                android:layout_width="314dp"
-                android:layout_height="550dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="120dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="160dp"
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="300dp"
+                android:background="@drawable/edittext_fundo"
                 android:orientation="vertical"
+                android:padding="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView12">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/tvDadosPessoais2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Médico:"
+                    android:layout_marginBottom="15dp"
+                    android:text="Dados Pessoais"
                     android:textColor="@color/preto"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtMedico"
+                    android:id="@+id/tvNomeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nome: ..."
+                    android:textColor="@color/preto"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvNascimentoView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="..."
+                    android:text="Nascimento: ..."
                     android:textColor="@color/preto"
-                    android:textSize="30sp" />
+                    android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/tvCPFView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Medicamento:"
+                    android:layout_marginTop="10dp"
+                    android:text="CPF: ..."
+                    android:textColor="@color/preto"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvEmailView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Email: ..."
+                    android:textColor="@color/preto"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvEnderecoView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Endereço: ..."
+                    android:textColor="@color/preto"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvTelefoneView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Telefone: ..."
+                    android:textColor="@color/preto"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvSexoView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Sexo: ..."
+                    android:textColor="@color/preto"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="310dp"
+                android:layout_height="290dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/edittext_fundo"
+                android:orientation="vertical"
+                android:padding="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                <TextView
+                    android:id="@+id/tvProntuario2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Prontuário"
                     android:textColor="@color/preto"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtMedicamento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="..."
-                    android:textColor="#F0393838"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/textView25"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Dosagem:"
-                    android:textColor="@color/preto"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtDosagem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="..."
-                    android:textColor="#F0393838"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Duração:"
-                    android:textColor="@color/preto"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtDuracao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="..."
-                    android:textColor="#F0393838"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/textView30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Observação:"
-                    android:textColor="@color/preto"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtObservacao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="..."
-                    android:textColor="#F0393838"
-                    android:textSize="30sp" />
-
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/cardProntuario"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardDadosPessoais" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

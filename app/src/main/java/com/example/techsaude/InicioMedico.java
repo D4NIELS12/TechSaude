@@ -67,6 +67,13 @@ public class InicioMedico extends Fragment {
                 startActivity(it);
             }
         });
+
+        cardPacientes.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                Intent it = new Intent(getActivity(), PacientesMedico.class);
+                startActivity(it);
+            }
+        });
         return view;
     }
 

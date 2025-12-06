@@ -15,8 +15,15 @@
         android:theme="@style/Theme.TechSaude"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity android:name=".ReceituarioRealizados"
-            android:exported="false"/>
+        <activity
+            android:name=".VerPerfilPaciente"
+            android:exported="false" />
+        <activity
+            android:name=".PacientesMedico"
+            android:exported="false" />
+        <activity
+            android:name=".ReceituarioRealizados"
+            android:exported="false" />
         <activity
             android:name=".RealizarReceituario"
             android:exported="false" />
@@ -25,7 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".AlterarSenhaMedico"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".EsqueciSenhaMedico"
             android:exported="false" />

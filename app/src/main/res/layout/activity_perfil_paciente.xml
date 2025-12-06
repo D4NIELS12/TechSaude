@@ -33,7 +33,6 @@
                 android:padding="18dp">
 
                 <TextView
-                    android:id="@+id/tvDadosPessoais"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
@@ -107,12 +106,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <!-- TÍTULO: Prontuário -->
-
-        <!-- CARD PRONTUÁRIO -->
-
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardProntuario"

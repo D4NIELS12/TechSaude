@@ -113,16 +113,19 @@ public class AgendaMedica extends AppCompatActivity {
         txtPaciente.setText(paciente);
         txtPaciente.setGravity(Gravity.CENTER);
         txtPaciente.setTextSize(15);
+        txtPaciente.setTextColor(getResources().getColor(R.color.preto));
 
         TextView txtData = new TextView(this);
         txtData.setText(formatarData(data));
         txtData.setGravity(Gravity.CENTER);
         txtData.setTextSize(15);
+        txtData.setTextColor(getResources().getColor(R.color.preto));
 
         TextView txtHora = new TextView(this);
         txtHora.setText(hora.substring(0, 5)); // 14:00
         txtHora.setGravity(Gravity.CENTER);
         txtHora.setTextSize(15);
+        txtHora.setTextColor(getResources().getColor(R.color.preto));
 
         row.addView(txtPaciente);
         row.addView(txtData);
