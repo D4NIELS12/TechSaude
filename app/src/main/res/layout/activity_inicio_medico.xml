@@ -9,7 +9,6 @@
     tools:context=".InicioMedico">
 
     <!-- Título principal -->
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardProximasConsultas"
         android:layout_width="0dp"

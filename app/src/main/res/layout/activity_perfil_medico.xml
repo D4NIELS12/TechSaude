@@ -24,7 +24,6 @@
             android:padding="20dp">
 
             <!-- Cabeçalho: botão voltar + título -->
-
             <TextView
                 android:id="@+id/txtTituloPerfil"
                 android:layout_width="wrap_content"
@@ -37,7 +36,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Título Dados pessoais -->
+            <!-- Título dados pessoais -->
             <TextView
                 android:id="@+id/tvDadosPessoais"
                 android:layout_width="wrap_content"
@@ -50,7 +49,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTituloPerfil" />
 
-            <!-- CARD secundário contendo os dados -->
+            <!-- Card secundário contendo os dados -->
             <LinearLayout
                 android:id="@+id/view9"
                 android:layout_width="0dp"
@@ -144,7 +143,7 @@
 
             </LinearLayout>
 
-            <!-- Botão ALTERAR DADOS -->
+            <!-- Botão alterar dados -->
             <Button
                 android:id="@+id/btnAlterarDados"
                 android:layout_width="0dp"

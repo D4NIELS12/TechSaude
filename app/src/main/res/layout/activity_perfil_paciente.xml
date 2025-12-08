@@ -7,13 +7,12 @@
     android:background="@color/cinza"
     android:padding="16dp">
 
+    <!-- Card dados pessoais -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- TÍTULO: Dados Pessoais -->
-
-        <!-- CARD DADOS PESSOAIS -->
+        <!-- Titulo: Dados Pessoais -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardDadosPessoais"
             android:layout_width="0dp"

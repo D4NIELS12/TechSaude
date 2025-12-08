@@ -29,9 +29,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-
-            <!-- Nome -->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -80,8 +77,6 @@
                 android:textColorHint="@color/preto"
                 android:textStyle="bold" />
 
-            <!-- CPF -->
-
             <EditText
                 android:id="@+id/txtEmailPaciente"
                 android:layout_width="match_parent"
@@ -97,7 +92,6 @@
                 android:textColorHint="@color/preto"
                 android:textStyle="bold" />
 
-            <!-- E-mail -->
             <EditText
                 android:id="@+id/txtSenhaPaciente"
                 android:layout_width="match_parent"
@@ -112,7 +106,6 @@
                 android:textColorHint="@color/preto"
                 android:textStyle="bold" />
 
-            <!-- Data Nascimento -->
             <EditText
                 android:id="@+id/txtTelefonePaciente"
                 android:layout_width="match_parent"
@@ -127,7 +120,6 @@
                 android:textColorHint="@color/preto"
                 android:textStyle="bold" />
 
-            <!-- Senha -->
             <EditText
                 android:id="@+id/txtNascPaciente"
                 android:layout_width="match_parent"

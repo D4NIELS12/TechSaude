@@ -8,6 +8,7 @@
     android:background="@color/cinza"
     android:padding="20dp">
 
+    <!-- Caixa do Calendário -->
     <!-- 📅 Calendário -->
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
@@ -25,6 +26,9 @@
         app:mcv_tileSize="match_parent"
         app:mcv_weekDayTextAppearance="@style/CalendarioSemanaStyle" />
 
+    <!-- Card dos Detalhes -->
+    <LinearLayout
+        android:id="@+id/cardDetalhes"
     <!-- 🔽 Lista de agendamentos -->
     <ScrollView
         android:id="@+id/scrollAgendamentos"

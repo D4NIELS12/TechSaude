@@ -108,6 +108,8 @@ public class AgendamentosMedico extends AppCompatActivity {
         }
     }
 
+    // CARREGAR EXAMES
+    private void carregarExames() {
     private void adicionarCard(Agendamento agendamento) {
         View card = getLayoutInflater().inflate(R.layout.item_agendamento, containerAgendamentos, false);
 
@@ -170,6 +172,10 @@ public class AgendamentosMedico extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
+    // CARREGAR CONSULTAS
+    private void carregarConsultas() {
+
+        consultas.clear();
     // --------------------------------------------------------------------
     // CARREGAR EXAMES
     // --------------------------------------------------------------------
@@ -223,6 +229,17 @@ public class AgendamentosMedico extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
+    // ADICIONAR CONSULTA
+    private void adicionarConsulta(String data, String descricao) {
+        consultas.computeIfAbsent(data, k -> new ArrayList<>()).add(descricao);
+    }
+
+    // ADICIONAR EXAME
+    private void adicionarExame(String data, String descricao) {
+        exames.computeIfAbsent(data, k -> new ArrayList<>()).add(descricao);
+    }
+
+    // MARCAR DATAS NO CALENDÁRIO
     // --------------------------------------------------------------------
     // MARCAR DIAS COM EVENTOS
     // --------------------------------------------------------------------
