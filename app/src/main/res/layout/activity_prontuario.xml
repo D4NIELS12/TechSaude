@@ -17,9 +17,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <!-- 🔹 Título -->
-
-        <!-- 🔹 Card de informações básicas -->
+        <!-- Card de informações básicas -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,6 +32,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Título -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -43,6 +42,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp"/>
 
+                <!-- Peso -->
                 <EditText
                     android:id="@+id/editPeso"
                     android:layout_width="match_parent"
@@ -57,6 +57,7 @@
                     android:textColorHint="#F06E6C6C"
                     android:textSize="16sp" />
 
+                <!-- Altura -->
                 <EditText
                     android:id="@+id/editAltura"
                     android:layout_width="match_parent"
@@ -72,7 +73,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 🔹 Card de sintomas -->
+        <!-- Card de sintomas -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,6 +88,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Título -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,6 +98,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
+                <!-- Sintomas -->
                 <EditText
                     android:id="@+id/editSintomas"
                     android:layout_width="match_parent"
@@ -112,7 +115,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 🔹 Card de alergias -->
+        <!-- Card de alergias -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,6 +130,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Título -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,6 +140,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
+                <!-- Alergias -->
                 <EditText
                     android:id="@+id/editAlergias"
                     android:layout_width="match_parent"
@@ -152,7 +157,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 🔹 Card das condições crônicas -->
+        <!-- Card das condições crônicas -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,6 +172,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Título -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -176,6 +182,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
+                <!-- Diabetes -->
                 <CheckBox
                     android:id="@+id/checkDiabetes"
                     android:layout_width="wrap_content"
@@ -185,6 +192,7 @@
                     android:textColor="#F06E6C6C"
                     android:textSize="16sp" />
 
+                <!-- Hipertensão -->
                 <CheckBox
                     android:id="@+id/checkHipertensao"
                     android:layout_width="wrap_content"
@@ -194,6 +202,7 @@
                     android:textColor="#F06E6C6C"
                     android:textSize="16sp" />
 
+                <!-- Asma -->
                 <CheckBox
                     android:id="@+id/checkAsma"
                     android:layout_width="wrap_content"
@@ -203,6 +212,7 @@
                     android:textColor="#F06E6C6C"
                     android:textSize="16sp" />
 
+                <!-- Colesterol Alto -->
                 <CheckBox
                     android:id="@+id/checkColesterol"
                     android:layout_width="wrap_content"
@@ -212,6 +222,7 @@
                     android:textColor="#F06E6C6C"
                     android:textSize="16sp" />
 
+                <!-- Obesidade -->
                 <CheckBox
                     android:id="@+id/checkObesidade"
                     android:layout_width="wrap_content"
@@ -221,6 +232,7 @@
                     android:textColor="#F06E6C6C"
                     android:textSize="16sp" />
 
+                <!-- Nenhuma -->
                 <CheckBox
                     android:id="@+id/checkNenhuma"
                     android:layout_width="wrap_content"
@@ -234,7 +246,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 🔹 Observações -->
+        <!-- Card das Observações -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -249,6 +261,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Título -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -258,6 +271,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
+                <!-- Observações -->
                 <EditText
                     android:id="@+id/editObservacoes"
                     android:layout_width="match_parent"
@@ -274,7 +288,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 🔹 Alertas -->
+        <!-- Card dos Alertas -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -289,6 +303,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Título -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -298,6 +313,7 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
+                <!-- Alertas -->
                 <EditText
                     android:id="@+id/editAlertas"
                     android:layout_width="match_parent"
@@ -314,7 +330,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 🔹 Botão de salvar -->
+        <!-- Botão de salvar -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSalvarProntuario"
             android:layout_width="match_parent"

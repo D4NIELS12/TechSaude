@@ -4,7 +4,6 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/cinza">
 
     <!-- Conteúdo principal -->
@@ -13,14 +12,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-
             android:layout_width="match_parent"
             android:layout_height="84dp"
             android:theme="@style/ThemeOverlay.Material3.ActionBar">
-
 
             <ImageView
                 android:id="@+id/imgTechsaude"
@@ -49,8 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-
-
     </LinearLayout>
 
     <!-- Menu lateral -->
@@ -87,7 +81,6 @@
             app:srcCompat="@drawable/sair"
             app:tint="@color/branco"
             />
-
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

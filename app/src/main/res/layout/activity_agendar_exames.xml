@@ -18,9 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/voltar" />
 
-    <!-- 🔹 Cabeçalho -->
 
-    <!-- 🔹 Subtítulo -->
 
     <View
         android:id="@+id/viewRecipienteImagem"
@@ -43,6 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/exame_medico" />
 
+    <!-- título -->
     <TextView
         android:id="@+id/textTitulo"
         android:layout_width="wrap_content"
@@ -56,6 +55,8 @@
         app:layout_constraintStart_toEndOf="@id/viewRecipienteImagem"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <!-- Subtítulo -->
     <TextView
         android:id="@+id/textDescricao"
         android:layout_width="match_parent"
@@ -67,7 +68,7 @@
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/viewRecipienteImagem" />
 
-    <!-- 🔹 Especialidade -->
+    <!-- Especialidade -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Exame"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -95,7 +96,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- 🔹 Médico -->
+    <!-- Médico -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Medico"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -123,9 +124,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- 🔹 Data -->
-
-    <!-- 🔹 Horário -->
+    <!-- Data -->
     <EditText
         android:id="@+id/editTextDate"
         android:layout_width="346dp"
@@ -143,6 +142,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Medico" />
 
+    <!-- Horário -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/time"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -170,7 +170,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- 🔹 Botão -->
+    <!-- Botão -->
     <Button
         android:id="@+id/ConfirmarExame"
         android:layout_width="match_parent"
@@ -187,7 +187,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/time" />
 
-    <!-- 🔹 Rodapé -->
+    <!-- Rodapé -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

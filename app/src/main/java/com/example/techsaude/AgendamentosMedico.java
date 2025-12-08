@@ -85,10 +85,7 @@ public class AgendamentosMedico extends AppCompatActivity {
         VoltarConsulta.setOnClickListener(v -> finish());
     }
 
-
-    // ==============================
     // CARREGAR EXAMES
-    // ==============================
     private void carregarExames() {
 
         exames.clear();
@@ -145,10 +142,7 @@ public class AgendamentosMedico extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
-
-    // ==============================
     // CARREGAR CONSULTAS
-    // ==============================
     private void carregarConsultas() {
 
         consultas.clear();
@@ -205,24 +199,17 @@ public class AgendamentosMedico extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
-
-    // ==============================
     // ADICIONAR CONSULTA
-    // ==============================
     private void adicionarConsulta(String data, String descricao) {
         consultas.computeIfAbsent(data, k -> new ArrayList<>()).add(descricao);
     }
 
-    // ==============================
     // ADICIONAR EXAME
-    // ==============================
     private void adicionarExame(String data, String descricao) {
         exames.computeIfAbsent(data, k -> new ArrayList<>()).add(descricao);
     }
 
-    // ==============================
     // MARCAR DATAS NO CALENDÁRIO
-    // ==============================
     private void marcarDiasComEventos() {
 
         List<CalendarDay> dias = new ArrayList<>();

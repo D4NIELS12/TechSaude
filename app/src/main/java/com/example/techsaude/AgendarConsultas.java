@@ -157,7 +157,6 @@ public class AgendarConsultas extends AppCompatActivity {
     }
 
     // ENVIAR CONSULTA PARA O SERVIDOR
-
     private void salvarConsultaLocal() {
 
         String especialidade = autoEspecialidade.getText().toString();

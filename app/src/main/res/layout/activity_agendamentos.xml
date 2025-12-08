@@ -8,9 +8,7 @@
     android:background="@color/cinza"
     android:padding="20dp">
 
-    <!-- 🗓️ Título elegante -->
-
-    <!-- 📅 Caixa do Calendário -->
+    <!-- Caixa do Calendário -->
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="0dp"
@@ -29,7 +27,7 @@
         tools:layout_editor_absoluteY="71dp"
         tools:ignore="MissingConstraints" />
 
-    <!-- 📋 Card dos Detalhes -->
+    <!-- Card dos Detalhes -->
     <LinearLayout
         android:id="@+id/cardDetalhes"
         android:layout_width="0dp"
