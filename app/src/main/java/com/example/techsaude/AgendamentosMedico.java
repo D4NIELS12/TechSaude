@@ -1,12 +1,13 @@
 package com.example.techsaude;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +20,6 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +29,8 @@ public class AgendamentosMedico extends AppCompatActivity {
 
     private MaterialCalendarView calendarView;
     private LinearLayout containerAgendamentos;
-    ImageView imgVoltar;
+    private ImageView imgVoltar;
+
     private HashMap<String, List<Agendamento>> consultas = new HashMap<>();
     private HashMap<String, List<Agendamento>> exames = new HashMap<>();
 
@@ -43,12 +44,11 @@ public class AgendamentosMedico extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView);
         containerAgendamentos = findViewById(R.id.containerAgendamentos);
         imgVoltar = findViewById(R.id.imageView10);
-        calendarView.setCurrentDate(CalendarDay.today());
 
-        imgVoltar.setOnClickListener(v -> finish());
-        // Evita crash ao selecionar dias anteriores
+        calendarView.setCurrentDate(CalendarDay.today());
         calendarView.addDecorator(new PastDaysDecorator());
 
+        imgVoltar.setOnClickListener(v -> finish());
 
         carregarConsultas();
         carregarExames();
@@ -63,18 +63,41 @@ public class AgendamentosMedico extends AppCompatActivity {
         });
     }
 
+    // Confirmar cancelamento
+    private void mostrarConfirmacaoCancelar(Agendamento a) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Confirmar cancelamento")
+                .setMessage("Deseja realmente cancelar este agendamento?")
+                .setPositiveButton("Sim", (dialog, which) -> cancelarAgendamento(a))
+                .setNegativeButton("Não", null)
+                .show();
+    }
+
+    // Confirmar realização
+    private void mostrarConfirmacaoRealizado(Agendamento a) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Confirmar conclusão")
+                .setMessage("Deseja marcar este agendamento como realizado?")
+                .setPositiveButton("Sim", (dialog, which) -> concluirAgendamento(a))
+                .setNegativeButton("Não", null)
+                .show();
+    }
+
+
     // --------------------------------------------------------------------
-    // MODELO
+    // MODELO DE AGENDAMENTO
     // --------------------------------------------------------------------
     private static class Agendamento {
         int id;
-        String tipo; // "consulta" ou "exame"
+        String tipo;
         String texto;
+        String data;
 
-        Agendamento(int id, String tipo, String texto) {
+        Agendamento(int id, String tipo, String texto, String data) {
             this.id = id;
             this.tipo = tipo;
             this.texto = texto;
+            this.data = data;
         }
     }
 
@@ -83,7 +106,6 @@ public class AgendamentosMedico extends AppCompatActivity {
     // --------------------------------------------------------------------
     private void mostrarAgendamentos(String data) {
         containerAgendamentos.removeAllViews();
-
         boolean temAlgo = false;
 
         if (consultas.containsKey(data)) {
@@ -108,19 +130,117 @@ public class AgendamentosMedico extends AppCompatActivity {
         }
     }
 
+    // --------------------------------------------------------------------
+    // ADICIONAR CARD
+    // --------------------------------------------------------------------
     private void adicionarCard(Agendamento agendamento) {
-        View card = getLayoutInflater().inflate(R.layout.item_agendamento, containerAgendamentos, false);
+
+        int layout = agendamento.tipo.equals("consulta")
+                ? R.layout.item_agendamento_consulta
+                : R.layout.item_agendamento_exame;
+
+        View card = getLayoutInflater().inflate(layout, containerAgendamentos, false);
 
         TextView txtInfo = card.findViewById(R.id.txtInfo);
         txtInfo.setText(agendamento.texto);
 
+        Button btnCancelar = card.findViewById(R.id.btnCancelar);
+        Button btnRealizado = card.findViewById(R.id.btnRealizado);
+
+        btnCancelar.setOnClickListener(v -> mostrarConfirmacaoCancelar(agendamento));
+        btnRealizado.setOnClickListener(v -> mostrarConfirmacaoRealizado(agendamento));
+
+
         containerAgendamentos.addView(card);
+    }
+
+    // --------------------------------------------------------------------
+    // MARCAR COMO REALIZADO
+    // --------------------------------------------------------------------
+    private void concluirAgendamento(Agendamento a) {
+
+        String url;
+        JSONObject json = new JSONObject();
+
+        try {
+            if (a.tipo.equals("consulta")) {
+                url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/realizado_consulta.php";
+                json.put("idConsulta", a.id);
+            } else {
+                url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/realizado_exame.php";
+                json.put("idExame", a.id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json,
+                response -> {
+                    Toast.makeText(this, "Marcado como realizado!", Toast.LENGTH_SHORT).show();
+
+                    if (a.tipo.equals("consulta")) {
+                        consultas.get(a.data).remove(a);
+                    } else {
+                        exames.get(a.data).remove(a);
+                    }
+
+                    mostrarAgendamentos(a.data);
+                    carregarConsultas();
+                    carregarExames();
+                },
+                error -> Toast.makeText(this, "Erro ao concluir!", Toast.LENGTH_SHORT).show()
+        );
+
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    // --------------------------------------------------------------------
+    // CANCELAR AGENDAMENTO
+    // --------------------------------------------------------------------
+    private void cancelarAgendamento(Agendamento a) {
+
+        String url;
+        JSONObject json = new JSONObject();
+
+        try {
+            if (a.tipo.equals("consulta")) {
+                url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/cancelar_consulta.php";
+                json.put("idConsulta", a.id);
+            } else {
+                url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/cancelar_exame.php";
+                json.put("idExame", a.id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json,
+                response -> {
+                    Toast.makeText(this, "Cancelado!", Toast.LENGTH_SHORT).show();
+
+                    if (a.tipo.equals("consulta")) {
+                        consultas.get(a.data).remove(a);
+                    } else {
+                        exames.get(a.data).remove(a);
+                    }
+
+                    mostrarAgendamentos(a.data);
+                    carregarConsultas();
+                    carregarExames();
+                },
+                error -> Toast.makeText(this, "Erro ao cancelar!", Toast.LENGTH_SHORT).show()
+        );
+
+        Volley.newRequestQueue(this).add(request);
     }
 
     // --------------------------------------------------------------------
     // CARREGAR CONSULTAS
     // --------------------------------------------------------------------
     private void carregarConsultas() {
+
         consultas.clear();
 
         SharedPreferences prefs = getSharedPreferences("user_prefs_medico", MODE_PRIVATE);
@@ -138,6 +258,7 @@ public class AgendamentosMedico extends AppCompatActivity {
                         JSONArray array = response.getJSONArray("consultas");
 
                         for (int i = 0; i < array.length(); i++) {
+
                             JSONObject obj = array.getJSONObject(i);
 
                             int id = obj.getInt("idConsulta");
@@ -156,13 +277,12 @@ public class AgendamentosMedico extends AppCompatActivity {
                                             "\nStatus: " + obj.getString("statusConsulta");
 
                             consultas.computeIfAbsent(data, k -> new ArrayList<>())
-                                    .add(new Agendamento(id, "consulta", texto));
+                                    .add(new Agendamento(id, "consulta", texto, data));
                         }
 
                         marcarDiasComEventos();
 
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) {}
                 },
                 error -> {}
         );
@@ -174,6 +294,7 @@ public class AgendamentosMedico extends AppCompatActivity {
     // CARREGAR EXAMES
     // --------------------------------------------------------------------
     private void carregarExames() {
+
         exames.clear();
 
         SharedPreferences prefs = getSharedPreferences("user_prefs_medico", MODE_PRIVATE);
@@ -191,6 +312,7 @@ public class AgendamentosMedico extends AppCompatActivity {
                         JSONArray array = response.getJSONArray("exames");
 
                         for (int i = 0; i < array.length(); i++) {
+
                             JSONObject obj = array.getJSONObject(i);
 
                             int id = obj.getInt("idExame");
@@ -209,13 +331,12 @@ public class AgendamentosMedico extends AppCompatActivity {
                                             "\nStatus: " + obj.getString("statusExame");
 
                             exames.computeIfAbsent(data, k -> new ArrayList<>())
-                                    .add(new Agendamento(id, "exame", texto));
+                                    .add(new Agendamento(id, "exame", texto, data));
                         }
 
                         marcarDiasComEventos();
 
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) {}
                 },
                 error -> {}
         );
@@ -224,11 +345,10 @@ public class AgendamentosMedico extends AppCompatActivity {
     }
 
     // --------------------------------------------------------------------
-    // MARCAR DIAS COM EVENTOS
+    // MARCAR DIAS NO CALENDÁRIO
     // --------------------------------------------------------------------
     private void marcarDiasComEventos() {
 
-        // evita duplicar decoradores no calendário
         calendarView.removeDecorators();
 
         HashSet<CalendarDay> dias = new HashSet<>();
@@ -252,7 +372,7 @@ public class AgendamentosMedico extends AppCompatActivity {
             String[] p = data.split("-");
             return CalendarDay.from(
                     Integer.parseInt(p[0]),
-                    Integer.parseInt(p[1]) - 1, // CalendarDay usa month 0–11
+                    Integer.parseInt(p[1]) - 1,
                     Integer.parseInt(p[2])
             );
         } catch (Exception e) {
