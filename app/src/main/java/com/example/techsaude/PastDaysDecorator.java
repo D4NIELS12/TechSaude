@@ -27,7 +27,7 @@ public class PastDaysDecorator implements DayViewDecorator {
     public void decorate(DayViewFacade view) {
         // Cinza para dias passados
         view.addSpan(new ForegroundColorSpan(Color.parseColor("#B0B0B0")));
-        view.setDaysDisabled(true);
+
     }
 }
 

@@ -141,6 +141,23 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <EditText
+        android:id="@+id/editPreco"
+        android:layout_width="346dp"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/recipiente_texto"
+        android:focusable="false"
+        android:hint="Valor"
+        android:clickable="false"
+        android:textColor="@color/preto"
+        android:textColorHint="@color/preto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time" />
     <!-- 🔹 Botão -->
     <Button
         android:id="@+id/btnConfirmarConsulta"
@@ -156,7 +173,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/time" />
+        app:layout_constraintTop_toBottomOf="@id/editPreco" />
 
     <!-- 🔹 Rodapé -->
     <LinearLayout

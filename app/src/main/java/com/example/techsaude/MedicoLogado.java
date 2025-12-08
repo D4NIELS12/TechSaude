@@ -21,14 +21,13 @@ public class MedicoLogado extends AppCompatActivity
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private MaterialToolbar toolbar;
-    TextView nav_sair, txtNomeMedicoNav, txtNomeDaTela;
+    TextView nav_sair, txtNomeMedicoNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medico_logado);
 
-        txtNomeDaTela = (TextView) findViewById(R.id.txtNomeDaTela);
         drawerLayout = findViewById(R.id.drawerLayout);
         navView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toolbar);
@@ -57,18 +56,12 @@ public class MedicoLogado extends AppCompatActivity
             int id = item.getItemId();
 
             if (id == R.id.nav_inicio_medico) {
-                txtNomeDaTela.setText("Ínicio");
                 replaceFragment(new InicioMedico(), "Ínicio");
             } else if (id == R.id.nav_Perfil_medico){
-                txtNomeDaTela.setText("Perfil");
                 replaceFragment(new PerfilMedico(), "Perfil");
-            }/* else if (id == R.id.nav_dicas) {
-                replaceFragment(new Dicas(), "Dicas");
-            }/* else if (id == R.id.nav_relatorios) {
-                replaceFragment(new Relatorios(), "Relatórios");
             }else if (id == R.id.nav_Configurações_medico) {
                 replaceFragment(new ConfiguracoesMedico(), "Configurações");
-            }*/
+            }
 
 
             drawerLayout.closeDrawers();
@@ -78,7 +71,6 @@ public class MedicoLogado extends AppCompatActivity
 
         // Primeira tela
         if (savedInstanceState == null) {
-            txtNomeDaTela.setText("Ínicio");
             navView.setCheckedItem(R.id.nav_inicio_medico);
             replaceFragment(new InicioMedico(), "Ínicio");
         }

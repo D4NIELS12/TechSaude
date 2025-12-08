@@ -2,16 +2,25 @@ package com.example.techsaude;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +30,13 @@ public class AgendamentosPaciente extends Fragment {
 
     private MaterialCalendarView calendarView;
     private TextView txtDetalhes;
-    private Button btnAlterar;
+    private LinearLayout containerAgendamentos;
 
-    // Mapa com data -> lista de descrições
-    private final HashMap<String, List<String>> agendamentos = new HashMap<>();
+    private int idUsuario;
 
-    // Data selecionada no calendário
+    // Mapa com data → lista de objetos (agendamento completo)
+    private final HashMap<String, List<AgendamentoItem>> agendamentos = new HashMap<>();
+
     private String dataSelecionada = "";
 
     public AgendamentosPaciente() {
@@ -39,253 +49,278 @@ public class AgendamentosPaciente extends Fragment {
 
         calendarView = view.findViewById(R.id.calendarView);
         txtDetalhes = view.findViewById(R.id.txtDetalhes);
-        btnAlterar = view.findViewById(R.id.btnAlterarAgendamento); // Adicione no XML
+        containerAgendamentos = view.findViewById(R.id.containerAgendamentos);
+
+        idUsuario = requireActivity()
+                .getSharedPreferences("loginUsuario_prefs", getContext().MODE_PRIVATE)
+                .getInt("idUsuario", 0);
 
         calendarView.setCurrentDate(CalendarDay.today());
         calendarView.addDecorator(new PastDaysDecorator());
 
         carregarAgendamentosDoBanco();
-        marcarAgendamentosNoCalendario();
 
-        // Botão começa invisível
-        btnAlterar.setVisibility(View.GONE);
 
-        // Quando o usuário clicar em um dia
         calendarView.setOnDateChangedListener((widget, date, selected) -> {
             dataSelecionada = String.format("%04d-%02d-%02d",
                     date.getYear(),
                     date.getMonth() + 1,
-                    date.getDay());
+                    date.getDay()
+            );
 
-            if (agendamentos.containsKey(dataSelecionada)) {
-                StringBuilder detalhes = new StringBuilder("📅 Agendamentos em " + dataSelecionada + ":\n");
-                for (String desc : agendamentos.get(dataSelecionada)) {
-                    detalhes.append("\n• ").append(desc);
-                }
-                txtDetalhes.setText(detalhes.toString());
-                btnAlterar.setVisibility(View.VISIBLE);
-            } else {
-                txtDetalhes.setText("Nenhum agendamento neste dia.");
-                btnAlterar.setVisibility(View.GONE);
-            }
+            mostrarAgendamentos(dataSelecionada);
         });
 
-        // Quando clicar em "Alterar"
-        btnAlterar.setOnClickListener(v -> mostrarDialogAlteracao());
     }
 
 
+    // -------------------------------------------------------------
+    // CARREGAR DADOS DO BANCO
+    // -------------------------------------------------------------
     private void carregarAgendamentosDoBanco() {
 
         agendamentos.clear();
 
-        int idUsuario = requireActivity()
-                .getSharedPreferences("loginUsuario_prefs", getContext().MODE_PRIVATE)
-                .getInt("idUsuario", 0);
-
         String URL_LISTAR_CONSULTAS = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_consulta.php?idUsuario=" + idUsuario;
         String URL_LISTAR_VACINAS   = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_vacina.php?idUsuario=" + idUsuario;
-        String URL_LISTAR_EXAMES = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_exame.php?idUsuario=" + idUsuario;
-        com.android.volley.toolbox.JsonObjectRequest request =
-                new com.android.volley.toolbox.JsonObjectRequest(
-                        com.android.volley.Request.Method.GET,
-                        URL_LISTAR_CONSULTAS,
-                        null,
-                        response -> {
-                            try {
-                                boolean success = response.getBoolean("success");
-                                if (!success) {
-                                    txtDetalhes.setText("Nenhum agendamento encontrado.");
-                                    return;
-                                }
+        String URL_LISTAR_EXAMES    = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_exame.php?idUsuario=" + idUsuario;
 
-                                org.json.JSONArray array = response.getJSONArray("consultas");
+        // ------ CONSULTAS ------
+        JsonObjectRequest reqConsultas = new JsonObjectRequest(
+                Request.Method.GET,
+                URL_LISTAR_CONSULTAS,
+                null,
+                response -> {
+                    try {
+                        if (!response.getBoolean("success")) return;
 
-                                for (int i = 0; i < array.length(); i++) {
+                        JSONArray array = response.getJSONArray("consultas");
 
-                                    org.json.JSONObject obj = array.getJSONObject(i);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
 
-                                    String data = obj.getString("dataConsulta");      // yyyy-MM-dd
-                                    String horario = obj.getString("horarioConsulta"); // HH:mm:ss
-                                    String especialidade = obj.getString("especialidadeConsulta");
-                                    String medico = obj.getString("nome_completoMedico");
+                            String id = obj.getString("idConsulta");
+                            String data = obj.getString("dataConsulta");
+                            String hora = obj.getString("horarioConsulta").substring(0, 5);
+                            String esp = obj.getString("especialidadeConsulta");
+                            String medico = obj.getString("nome_completoMedico");
+                            String status = obj.getString("statusConsulta");
 
-                                    // Ajustar horário (remover segundos)
-                                    if (horario.length() == 8) {
-                                        horario = horario.substring(0,5);
-                                    }
+                            String desc = "Consulta com " + medico +
+                                    "\nEspecialidade: " + esp +
+                                    "\nHorário: " + hora+
+                                    "\nStatus: " + status;
 
-                                    String descricao =
-                                            "Médico: " + medico +
-                                                    " | Especialidade: " + especialidade +
-                                                    " | Horário: " + horario;
-
-                                    adicionarAgendamento(data, descricao);
-                                }
-
-                                marcarAgendamentosNoCalendario();
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                txtDetalhes.setText("Erro ao carregar consultas.");
-                            }
-                        },
-                        error -> {
-                            error.printStackTrace();
-                            txtDetalhes.setText("Falha ao conectar ao servidor.");
+                            adicionarAgendamento(data, desc, id, "consulta");
                         }
-                );
 
-        com.android.volley.toolbox.JsonObjectRequest request1 =
-                new com.android.volley.toolbox.JsonObjectRequest(
-                        com.android.volley.Request.Method.GET,
-                        URL_LISTAR_VACINAS,
-                        null,
-                        response -> {
-                            try {
-                                boolean success = response.getBoolean("success");
-                                if (!success) {
-                                    txtDetalhes.setText("Nenhum agendamento encontrado.");
-                                    return;
-                                }
+                        marcarAgendamentosNoCalendario();
 
-                                org.json.JSONArray array = response.getJSONArray("vacinas");
+                    } catch (Exception ignored) {}
+                },
+                error -> txtDetalhes.setText("Erro ao carregar consultas.")
+        );
 
-                                for (int i = 0; i < array.length(); i++) {
+        // ------ VACINAS ------
+        JsonObjectRequest reqVacinas = new JsonObjectRequest(
+                Request.Method.GET,
+                URL_LISTAR_VACINAS,
+                null,
+                response -> {
+                    try {
+                        if (!response.getBoolean("success")) return;
 
-                                    org.json.JSONObject obj = array.getJSONObject(i);
+                        JSONArray array = response.getJSONArray("vacinas");
 
-                                    String data = obj.getString("dataVacina");      // yyyy-MM-dd
-                                    String horario = obj.getString("horarioVacina"); // HH:mm:ss
-                                    String vacina = obj.getString("tipoVacina");
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
 
-                                    // Ajustar horário (remover segundos)
-                                    if (horario.length() == 8) {
-                                        horario = horario.substring(0,5);
-                                    }
+                            String id = obj.getString("idVacina");
+                            String data = obj.getString("dataVacina");
+                            String hora = obj.getString("horarioVacina").substring(0, 5);
+                            String tipo = obj.getString("tipoVacina");
+                            String status = obj.getString("statusVacina");
 
-                                    String descricao =
-                                                    "Vacina: " + vacina +
-                                                    " | Horário: " + horario;
+                            String desc = "Vacina: " + tipo +
+                                    "\nHorário: " + hora+
+                                    "\nStatus: " + status;
 
-                                    adicionarAgendamento(data, descricao);
-                                }
-
-                                marcarAgendamentosNoCalendario();
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                txtDetalhes.setText("Erro ao carregar vacinas.");
-                            }
-                        },
-                        error -> {
-                            error.printStackTrace();
-                            txtDetalhes.setText("Falha ao conectar ao servidor.");
+                            adicionarAgendamento(data, desc, id, "vacina");
                         }
-                );
 
-        com.android.volley.toolbox.JsonObjectRequest req =
-                new com.android.volley.toolbox.JsonObjectRequest(
-                        com.android.volley.Request.Method.GET,
-                        URL_LISTAR_EXAMES,
-                        null,
-                        response -> {
-                            try {
-                                boolean success = response.getBoolean("success");
-                                if (!success) {
-                                    txtDetalhes.setText("Nenhum agendamento encontrado.");
-                                    return;
-                                }
+                        marcarAgendamentosNoCalendario();
 
-                                org.json.JSONArray array = response.getJSONArray("exames");
+                    } catch (Exception ignored) {}
+                },
+                error -> txtDetalhes.setText("Erro ao carregar vacinas.")
+        );
 
-                                for (int i = 0; i < array.length(); i++) {
+        // ------ EXAMES ------
+        JsonObjectRequest reqExames = new JsonObjectRequest(
+                Request.Method.GET,
+                URL_LISTAR_EXAMES,
+                null,
+                response -> {
+                    try {
+                        if (!response.getBoolean("success")) return;
 
-                                    org.json.JSONObject obj = array.getJSONObject(i);
+                        JSONArray array = response.getJSONArray("exames");
 
-                                    String data = obj.getString("dataExame");      // yyyy-MM-dd
-                                    String horario = obj.getString("horarioExame"); // HH:mm:ss
-                                    String exame = obj.getString("tipoExame");
-                                    String medico = obj.getString("nome_completoMedico");
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
 
-                                    // Ajustar horário (remover segundos)
-                                    if (horario.length() == 8) {
-                                        horario = horario.substring(0,5);
-                                    }
+                            String id = obj.getString("idExame");
+                            String data = obj.getString("dataExame");
+                            String hora = obj.getString("horarioExame").substring(0, 5);
+                            String tipo = obj.getString("tipoExame");
+                            String medico = obj.getString("nome_completoMedico");
+                            String status = obj.getString("statusExame");
 
-                                    String descricao =
-                                            "Médico: " + medico +
-                                                    " | Tipo de exame: " + exame +
-                                                    " | Horário: " + horario;
+                            String desc = "Exame: " + tipo +
+                                    "\nMédico: " + medico +
+                                    "\nHorário: " + hora+
+                                    "\nExame: " + status;
 
-                                    adicionarAgendamento(data, descricao);
-                                }
-
-                                marcarAgendamentosNoCalendario();
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                txtDetalhes.setText("Erro ao carregar exames.");
-                            }
-                        },
-                        error -> {
-                            error.printStackTrace();
-                            txtDetalhes.setText("Falha ao conectar ao servidor.");
+                            adicionarAgendamento(data, desc, id, "exame");
                         }
-                );
 
-        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(request1);
-        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(request);
-        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(req);
+                        marcarAgendamentosNoCalendario();
+
+                    } catch (Exception ignored) {}
+                },
+                error -> txtDetalhes.setText("Erro ao carregar exames.")
+        );
+
+        Volley.newRequestQueue(requireContext()).add(reqConsultas);
+        Volley.newRequestQueue(requireContext()).add(reqVacinas);
+        Volley.newRequestQueue(requireContext()).add(reqExames);
     }
 
 
-    private void marcarAgendamentosNoCalendario() {
-        List<CalendarDay> diasComAgendamento = new ArrayList<>();
-        for (String data : agendamentos.keySet()) {
-            try {
-                String[] partes = data.split("-");
-                int ano = Integer.parseInt(partes[0]);
-                int mes = Integer.parseInt(partes[1]) - 1;
-                int dia = Integer.parseInt(partes[2]);
-                diasComAgendamento.add(CalendarDay.from(ano, mes, dia));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        calendarView.addDecorator(new ConsultaDecorator(diasComAgendamento));
-    }
-
-    private void adicionarAgendamento(String data, String descricao) {
-        if (!agendamentos.containsKey(data)) {
+    // -------------------------------------------------------------
+    // ARMAZENAR AGENDAMENTO
+    // -------------------------------------------------------------
+    private void adicionarAgendamento(String data, String desc, String id, String tipo) {
+        if (!agendamentos.containsKey(data))
             agendamentos.put(data, new ArrayList<>());
-        }
-        agendamentos.get(data).add(descricao);
+
+        agendamentos.get(data).add(new AgendamentoItem(id, desc, tipo));
     }
 
-    private String normalizarData(String data) {
-        if (data.contains("/")) {
-            try {
-                String[] partes = data.split("/");
-                return String.format("%04d-%02d-%02d",
-                        Integer.parseInt(partes[2]),
-                        Integer.parseInt(partes[1]),
-                        Integer.parseInt(partes[0]));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+    // -------------------------------------------------------------
+    // MARCAR DIAS NO CALENDÁRIO
+    // -------------------------------------------------------------
+    private void marcarAgendamentosNoCalendario() {
+        List<CalendarDay> dias = new ArrayList<>();
+
+        for (String data : agendamentos.keySet()) {
+            String[] p = data.split("-");
+
+            dias.add(CalendarDay.from(
+                    Integer.parseInt(p[0]),
+                    Integer.parseInt(p[1]) - 1,
+                    Integer.parseInt(p[2])
+            ));
         }
-        return data;
+
+        calendarView.addDecorator(new ConsultaDecorator(dias));
     }
 
-    private void mostrarDialogAlteracao() {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Alterar Agendamento")
-                .setMessage("Deseja alterar o agendamento do dia " + dataSelecionada + "?")
-                .setPositiveButton("Sim", (dialog, which) -> {
 
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
-                .show();
+    // -------------------------------------------------------------
+    // MOSTRAR AGENDAMENTOS DO DIA
+    // -------------------------------------------------------------
+    private void mostrarAgendamentos(String data) {
+
+        containerAgendamentos.removeAllViews();
+
+        if (!agendamentos.containsKey(data)) {
+            txtDetalhes.setText("Nenhum agendamento neste dia.");
+            return;
+        }
+
+        txtDetalhes.setText("📅 Agendamentos em " + data + ":");
+
+        for (AgendamentoItem item : agendamentos.get(data)) {
+            adicionarCard(item);
+        }
+    }
+
+
+    // -------------------------------------------------------------
+    // CRIAR CARD NA TELA
+    // -------------------------------------------------------------
+    private void adicionarCard(AgendamentoItem item) {
+
+        View card = LayoutInflater.from(requireContext())
+                .inflate(R.layout.item_agendamento_paciente, containerAgendamentos, false);
+
+        TextView txtInfo = card.findViewById(R.id.txtInfo);
+        Button btnCancelar = card.findViewById(R.id.btnCancelar);
+
+        txtInfo.setText(item.descricao);
+
+        btnCancelar.setOnClickListener(v -> cancelarAgendamento(item, card));
+
+        containerAgendamentos.addView(card);
+    }
+
+
+    // -------------------------------------------------------------
+    // CANCELAR AGENDAMENTO
+    // -------------------------------------------------------------
+    private void cancelarAgendamento(AgendamentoItem item, View card) {
+
+        String url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/cancelar_agendamento_paciente.php";
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("idUsuario", idUsuario);
+            json.put("idAgendamento", item.id);
+            json.put("tipo", item.tipo);
+        } catch (Exception e) { e.printStackTrace(); }
+
+        JsonObjectRequest req = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                json,
+                response -> {
+                    try {
+                        if (response.getBoolean("success")) {
+                            Toast.makeText(requireContext(), "Agendamento cancelado!", Toast.LENGTH_SHORT).show();
+                            containerAgendamentos.removeView(card);
+                        } else {
+                            Toast.makeText(requireContext(),
+                                    response.getString("message"),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception ignored) {}
+                },
+                error -> Toast.makeText(requireContext(),
+                        "Falha ao conectar ao servidor.",
+                        Toast.LENGTH_SHORT).show()
+        );
+
+        Volley.newRequestQueue(requireContext()).add(req);
+    }
+
+
+
+
+
+    // -------------------------------------------------------------
+    // CLASSE DE OBJETO DO AGENDAMENTO
+    // -------------------------------------------------------------
+    private static class AgendamentoItem {
+        String id;
+        String descricao;
+        String tipo;
+
+        AgendamentoItem(String id, String descricao, String tipo) {
+            this.id = id;
+            this.descricao = descricao;
+            this.tipo = tipo;
+        }
     }
 }

@@ -38,7 +38,7 @@ import java.util.Map;
 public class AgendarConsultas extends AppCompatActivity {
 
     AutoCompleteTextView autoEspecialidade, autoMedico, autoHorario;
-    EditText editTextDate;
+    EditText editTextDate, editPreco;
     Button btnConfirmarConsulta;
     ImageView btnVoltar;
 
@@ -56,6 +56,7 @@ public class AgendarConsultas extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
+        editPreco = findViewById(R.id.editPreco);
         btnVoltar = findViewById(R.id.btnVoltarConsulta);
         autoEspecialidade = findViewById(R.id.auto_complete_especialidade);
         autoMedico = findViewById(R.id.auto_complete_medico);
@@ -73,6 +74,7 @@ public class AgendarConsultas extends AppCompatActivity {
         autoEspecialidade.setOnItemClickListener((parent, view, position, id) -> {
             String esp = parent.getItemAtPosition(position).toString();
             carregarMedicos(esp);
+            editPreco.setText("89.90");
         });
 
         editTextDate.setOnClickListener(v -> showDatePicker());
@@ -164,7 +166,7 @@ public class AgendarConsultas extends AppCompatActivity {
         String medico = autoMedico.getText().toString();
         String data = editTextDate.getText().toString();
         String horario = autoHorario.getText().toString();
-        String valor = "120.00"; // Ou puxar dinamicamente
+        String valor = editPreco.getText().toString(); // Ou puxar dinamicamente
 
 
         if (especialidade.isEmpty() || medico.isEmpty() || data.isEmpty() || horario.isEmpty()) {
@@ -183,7 +185,7 @@ public class AgendarConsultas extends AppCompatActivity {
         editor.putString("medicoConsulta", medicoFormatado);
         editor.putString("dataConsulta", data);
         editor.putString("horarioConsulta", horario);
-        editor.putString("valorConsulta", valor);
+        editor.putString("valor", valor);
         editor.putString("statusConsulta", "Agendada");
 
         editor.apply();
