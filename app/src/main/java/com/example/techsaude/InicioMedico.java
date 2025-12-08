@@ -106,7 +106,7 @@ public class InicioMedico extends Fragment {
                         Log.e("JSON_ENVIADO", jsonBody.toString());
 
                         boolean success = response.getBoolean("success");
-                        String agendaHoje = response.getString("quantidadeHoje");
+                        String agendaHoje = response.getString("totalHoje");
                         txtProximasConsultas.setText(agendaHoje);
                     } catch (Exception e) {
                         e.printStackTrace();

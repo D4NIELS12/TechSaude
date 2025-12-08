@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -55,10 +57,9 @@ public class FormaPagamento extends AppCompatActivity {
 
         // Voltar
         imgVoltar.setOnClickListener(v -> finish());
+        String valor = prefsAgendamento.getString("valor", "0.00");
+        txtValor.setText(valor);
 
-        // Mostrar valor da consulta
-        String valor = prefsAgendamento.getString("valorConsulta", "0.00");
-        txtValor.setText("R$: " + valor);
 
         // Confirmar pagamento
         btnConfirmar.setOnClickListener(v -> {
@@ -113,85 +114,170 @@ public class FormaPagamento extends AppCompatActivity {
         void onSuccess(int idMedico);
     }
 
+    private void mostrarVacinaDialog(String tipo, String data, String horario, String valor) {
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_vacina, null);
+
+        TextView txtDialogTipo = dialogView.findViewById(R.id.txtTipo);
+        TextView txtDialogData = dialogView.findViewById(R.id.txtData);
+        TextView txtDialogHorario = dialogView.findViewById(R.id.txtHorario);
+        TextView txtDialogValor = dialogView.findViewById(R.id.txtValor);
+        Button btnConfirmar = dialogView.findViewById(R.id.btnConfirmar);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
+
+        txtDialogTipo.setText("Tipo: " + tipo);
+        txtDialogData.setText("Data: " + data);
+        txtDialogHorario.setText("Horário: " + horario);
+        txtDialogValor.setText("Valor: R$" + valor);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirmar.setOnClickListener(v -> {
+            dialog.dismiss();
+
+
+            salvarVacinaNoServidor(tipo, horario, valor,"Agendado");
+            Intent it = new Intent(FormaPagamento.this, PacienteLogado.class);
+            startActivity(it);
+            finish();
+        });
+
+        dialog.show();
+    }
     private void confirmarESalvarVacina() {
         String vacina = prefsAgendamento.getString("vacina", "");
         String data_vacina = prefsAgendamento.getString("data_vacina", "");
         String hora_vacina = prefsAgendamento.getString("hora_vacina","");
-        String valor_vacina = prefsAgendamento.getString("valor_vacina","");
-        String status_vacina = prefsAgendamento.getString("status_vacina","");
+        String valor_vacina = prefsAgendamento.getString("valor","");
+        String dataBR = converterDataBR(data_vacina);
+        mostrarVacinaDialog(vacina, dataBR, hora_vacina, valor_vacina);
+    }
 
-        String mensagem = "Vacina: " + vacina + "\nData:  " + data_vacina +
-                "\nHorário: " + hora_vacina + "\nValor: R$ " + valor_vacina;
+    private void mostrarExameDialog(String tipo, String medico, String data, String horario, String valor) {
 
-        new AlertDialog.Builder(this)
-                .setTitle("Confirmar vacina")
-                .setMessage(mensagem)
-                .setPositiveButton("Confirmar", (dialog, which) -> {
-                salvarVacinaNoServidor(vacina, hora_vacina, valor_vacina, status_vacina);
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
-                .show();
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_agendamento, null);
+
+        TextView txtDialogTipo = dialogView.findViewById(R.id.txtTipo);
+        TextView txtDialogMedico = dialogView.findViewById(R.id.txtMedico);
+        TextView txtDialogData = dialogView.findViewById(R.id.txtData);
+        TextView txtDialogHorario = dialogView.findViewById(R.id.txtHorario);
+        TextView txtDialogValor = dialogView.findViewById(R.id.txtValor);
+        Button btnConfirmar = dialogView.findViewById(R.id.btnConfirmar);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
+
+        txtDialogTipo.setText("Exame: " + tipo);
+        txtDialogMedico.setText("Médico: " + medico);
+        txtDialogData.setText("Data: " + data);
+        txtDialogHorario.setText("Horário: " + horario);
+        txtDialogValor.setText("Valor: R$" + valor);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirmar.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            buscarIdMedico(medico, idMedico -> {
+                salvarExameNoServidor(tipo, idMedico, data, horario, "Agendado", valor);
+            });
+
+            Intent it = new Intent(FormaPagamento.this, PacienteLogado.class);
+            startActivity(it);
+            finish();
+        });
+
+        dialog.show();
     }
 
     private void confirmarESalvarExame() {
-
         String exame = prefsAgendamento.getString("exame", "");
         String medico = prefsAgendamento.getString("medicoExame", "");
         String dia = prefsAgendamento.getString("dataExame", "");
         String hora = prefsAgendamento.getString("horarioExame", "");
-        String valor = prefsAgendamento.getString("valorExame", "");
-        String status = prefsAgendamento.getString("statusExame", "");
+        String valor = prefsAgendamento.getString("valor", "");
+        String dataBR = converterDataBR(dia);
+        mostrarExameDialog(exame, medico, dataBR, hora, valor);
+    }
+    private void mostrarConsultaDialog(String tipo, String medico, String data, String horario, String valor) {
 
-        String mensagem = "Exame: " + exame +
-                "\nMédico: " + medico +
-                "\nData: " + dia +
-                "\nHorário: " + hora +
-                "\nValor: R$ " + valor;
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_agendamento, null);
 
-        new AlertDialog.Builder(this)
-                .setTitle("Confirmar Exame")
-                .setMessage(mensagem)
-                .setPositiveButton("Confirmar", (dialog, which) -> {
+        TextView txtDialogTipo = dialogView.findViewById(R.id.txtTipo);
+        TextView txtDialogMedico = dialogView.findViewById(R.id.txtMedico);
+        TextView txtDialogData = dialogView.findViewById(R.id.txtData);
+        TextView txtDialogHorario = dialogView.findViewById(R.id.txtHorario);
+        TextView txtDialogValor = dialogView.findViewById(R.id.txtValor);
+        Button btnConfirmar = dialogView.findViewById(R.id.btnConfirmar);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
 
-                    // Buscar ID do médico antes de salvar
-                    buscarIdMedico(medico, idMedico -> {
-                        salvarExameNoServidor(exame, idMedico, dia, hora, status, valor);
-                    });
+        txtDialogTipo.setText("Especialidade: " + tipo);
+        txtDialogMedico.setText("Médico: " + medico);
+        txtDialogData.setText("Data: " + data);
+        txtDialogHorario.setText("Horário: " + horario);
+        txtDialogValor.setText("Valor: R$" + valor);
 
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
-                .show();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirmar.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            buscarIdMedico(medico, idMedico -> {
+                salvarConsultaNoServidor(tipo, idMedico, horario, "Agendada", valor);
+            });
+
+            Intent it = new Intent(FormaPagamento.this, PacienteLogado.class);
+            startActivity(it);
+            finish();
+        });
+
+        dialog.show();
     }
 
+
     private void confirmarESalvarConsulta() {
-        // Pegando dados do SharedPreferences
         String especialidade = prefsAgendamento.getString("especialidadeConsulta", "");
         String medico = prefsAgendamento.getString("medicoConsulta", "");
         String dia = prefsAgendamento.getString("dataConsulta", "");
         String hora = prefsAgendamento.getString("horarioConsulta", "");
-        String status = prefsAgendamento.getString("statusConsulta", "");
-        String valor = prefsAgendamento.getString("valorConsulta", "120.00");
+        String valor = prefsAgendamento.getString("valor", "120.00");
+        String dataBR = converterDataBR(dia);
+        mostrarConsultaDialog(especialidade, medico, dataBR, hora, valor);
+    }
 
-        // Montar mensagem de confirmação
-        String mensagem = "Especialidade: " + especialidade +
-                "\nMédico: " + medico +
-                "\nData: " + dia +
-                "\nHorário: " + hora +
-                "\nValor: R$ " + valor;
-
-        Log.d("DEBUG_MEDICO", "Nome enviado para buscar id: " + medico);
-
-        // AlertDialog
-        new AlertDialog.Builder(this)
-                .setTitle("Confirmar Consulta")
-                .setMessage(mensagem)
-                .setPositiveButton("Confirmar", (dialog, which) -> {
-                    buscarIdMedico(medico, idMedico -> {
-                        salvarConsultaNoServidor(especialidade, idMedico, hora, status, valor);
-                    });
-                })
-                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
-                .show();
+    private String converterDataBR(String dataMYSQL) {
+        try {
+            String[] partes = dataMYSQL.split("-");
+            String dia = partes[2];
+            String mes = partes[1];
+            String ano = partes[0];
+            return dia + "/" + mes + "/" + ano;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dataMYSQL;
+        }
     }
 
     private String converterDataParaMysql(String dataBR) {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/cinza">
+
+    <ImageView
+        android:id="@+id/imgVoltarSenha"
+        android:layout_width="56dp"
+        android:layout_height="61dp"
+        android:src="@drawable/voltar" />
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alterar Senha"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+
+    <EditText
+        android:id="@+id/edtSenhaAtual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Senha atual"
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_fundo"
+        android:padding="12dp" />
+
+    <EditText
+        android:id="@+id/edtNovaSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nova senha"
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_fundo"
+        android:padding="12dp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/edtConfirmarSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirmar nova senha"
+        android:background="@drawable/edittext_fundo"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnAlterarSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alterar senha"
+        android:backgroundTint="@color/azulEscuro"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="24dp"
+        android:padding="12dp" />
+
+</LinearLayout>

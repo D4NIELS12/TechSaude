@@ -17,11 +17,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 
 public class AgendarVacinas extends AppCompatActivity {
 
-    private EditText editDate;
+    private EditText editDate, editPreco;
     private ImageView Voltar;
     private AutoCompleteTextView autoCompleteTime;
     private Button ConfirmarVacina;
@@ -32,6 +40,7 @@ public class AgendarVacinas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agendar_vacinas);
 
+        editPreco = findViewById(R.id.editPreco);
         editDate = findViewById(R.id.editTextDate);
         Voltar = findViewById(R.id.btnVoltarConsulta);
         autocompleteVacinas = findViewById(R.id.auto_complete_vacina);
@@ -61,29 +70,9 @@ public class AgendarVacinas extends AppCompatActivity {
         );
         autocompleteVacinas.setAdapter(adapterVacina);
 
-        // --- Lista de horários ---
-        String[] availableTimes = {
-                "08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"
-        };
-
-        ArrayAdapter<String> adapterTime = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, availableTimes) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                TextView textView = (TextView) super.getView(position, convertView, parent);
-                textView.setTextSize(20);
-                return textView;
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                TextView textView = (TextView) super.getDropDownView(position, convertView, parent);
-                textView.setTextSize(20);
-                return textView;
-            }
-        };
-        autoCompleteTime.setAdapter(adapterTime);
-        autoCompleteTime.setOnClickListener(v -> autoCompleteTime.showDropDown());
+        autocompleteVacinas.setOnItemClickListener((parent, view, position, id) -> {
+            editPreco.setText("89.90");
+        });
 
         // --- Calendário ---
         editDate.setOnClickListener(v -> showDatePicker());
@@ -102,7 +91,6 @@ public class AgendarVacinas extends AppCompatActivity {
                 return;
             }
 
-            String valor = "120.00";
 
             // --- Salvando no SharedPreferences ---
             SharedPreferences prefs = getSharedPreferences("user_prefs_agendamentos", Context.MODE_PRIVATE);
@@ -112,7 +100,7 @@ public class AgendarVacinas extends AppCompatActivity {
             editor.putString("vacina", vacinaSelecionada);
             editor.putString("data_vacina", dataSelecionada);
             editor.putString("hora_vacina", horaSelecionada);
-            editor.putString("valor_vacina", valor);
+            editor.putString("valor", editPreco.getText().toString());
             editor.putString("status_vacina", "Agendado");
             editor.apply();
 
@@ -122,20 +110,66 @@ public class AgendarVacinas extends AppCompatActivity {
         });
     }
 
+    private void carregarHorarios(String data) {
+
+        String url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/get_horarios_disponiveis_vacina.php?data=" + data;
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    try {
+                        JSONObject json = new JSONObject(response);
+
+                        if (json.getBoolean("success")) {
+                            JSONArray horariosArray = json.getJSONArray("horarios");
+
+                            String[] horarios = new String[horariosArray.length()];
+
+                            for (int i = 0; i < horariosArray.length(); i++) {
+                                horarios[i] = horariosArray.getString(i);
+                            }
+
+                            // Atualiza o AutoCompleteTextView
+                            ArrayAdapter<String> adapterTime = new ArrayAdapter<>(
+                                    AgendarVacinas.this,
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    horarios
+                            );
+
+                            autoCompleteTime.setAdapter(adapterTime);
+                            autoCompleteTime.showDropDown(); // mostra automaticamente
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                });
+
+        queue.add(request);
+    }
+
     private void showDatePicker() {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (DatePicker view, int year1, int month1, int dayOfMonth) -> {
-            String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, (month1 + 1), year1);
-            editDate.setText(selectedDate);
-        }, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year1, month1, dayOfMonth) -> {
+
+                    String selectedDate = String.format("%04d-%02d-%02d", year1, (month1 + 1), dayOfMonth);
+                    editDate.setText(selectedDate);
+
+                    carregarHorarios(selectedDate);
+
+                }, year, month, day);
 
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
-
-
 }

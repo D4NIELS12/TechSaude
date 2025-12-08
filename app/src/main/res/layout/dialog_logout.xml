@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/techsaudeazulescuro" />
+            android:src="@drawable/techsaudebranco" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,41 +44,28 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <Button
+                android:id="@+id/btnCancelar"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/cinza"
+                android:text="Cancelar"
+                android:textColor="@color/preto"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck" />
 
-                <Button
-                    android:id="@+id/btnCancelar"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="47dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/cinza"
-                    android:text="Cancelar"
-                    android:textColor="@color/preto"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <Button
-                    android:id="@+id/btnSair"
-                    android:layout_width="110dp"
-                    android:layout_height="46dp"
-                    android:layout_marginEnd="47dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/preto"
-                    android:text="Sair"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="TouchTargetSizeCheck" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btnSair"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/preto"
+                android:text="Sair"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
 

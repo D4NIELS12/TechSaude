@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".AlterarDadosPessoaisPaciente">
+
+        <ImageView
+            android:id="@+id/imgVoltarDadosPaciente"
+            android:layout_width="56dp"
+            android:layout_height="61dp"
+            android:src="@drawable/voltar"
+            android:layout_marginBottom="25dp"/>
+
+        <EditText
+            android:id="@+id/edtNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Nome"
+            android:inputType="textPersonName"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtNascimento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Nascimento"
+            android:inputType="date"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtCPF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="CPF"
+            android:inputType="number"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="16dp">
+
+            <EditText
+                android:id="@+id/edtCEP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_fundo"
+                android:hint="CEP"
+                android:inputType="number"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnBuscarCep"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/branco"
+                android:paddingVertical="10dp"
+                android:paddingLeft="36dp"
+                android:text="."
+                android:textColor="@color/preto"
+                android:textStyle="bold"
+                app:icon="@drawable/lupa"
+                app:iconGravity="textStart"
+                app:iconSize="25dp"
+                app:iconTint="@color/preto"
+                app:strokeColor="@color/preto"
+                app:strokeWidth="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtRua"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_fundo"
+                android:hint="Rua"
+                android:inputType="text"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/edtNumero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edittext_fundo"
+                android:hint="Número"
+                android:padding="12dp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edtBairro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Bairro"
+            android:inputType="text"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtCidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Cidade"
+            android:inputType="text"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtUF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Estado"
+            android:inputType="text"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtTelefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fundo"
+            android:hint="Telefone"
+            android:inputType="phone"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="71dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:text="Sexo"
+                android:textSize="21sp" />
+
+            <RadioGroup
+                android:id="@+id/groupSexo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/sexoM"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Masculino"
+                    android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <RadioButton
+                    android:id="@+id/sexoF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Feminino"
+                    android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAlterarDados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/azulEscuro"
+            android:padding="12dp"
+            android:text="Alterar dados"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+</ScrollView>

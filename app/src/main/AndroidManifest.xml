@@ -16,13 +16,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AlterarDadosPessoaisMedico"
+            android:exported="false" />
+        <activity
+            android:name=".AlterarSenhaConfiguracoesMedico"
+            android:exported="false" />
+        <activity
+            android:name=".ConfiguracoesMedico"
+            android:exported="false" />
+        <activity
+            android:name=".AlterarDadosPessoaisPaciente"
+            android:exported="false" />
+        <activity
+            android:name=".AlterarSenhaConfiguracoes"
+            android:exported="false" />
+        <activity
+            android:name=".ReceituarioRealizados"
+            android:exported="false" />
+        <activity
             android:name=".VerPerfilPaciente"
             android:exported="false" />
         <activity
             android:name=".PacientesMedico"
-            android:exported="false" />
-        <activity
-            android:name=".ReceituarioRealizados"
             android:exported="false" />
         <activity
             android:name=".RealizarReceituario"

@@ -106,6 +106,7 @@
 
                 <!-- Exemplo de linha -->
                 <TableRow
+                    android:id="@+id/linhaAgenda"
                     android:padding="10dp"
                     android:background="#F8F8F8">
 
