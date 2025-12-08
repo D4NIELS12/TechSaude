@@ -65,21 +65,20 @@
         android:layout_height="0dp"
         android:layout_marginTop="18dp"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@id/cardCalendario"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardCalendario"
+        tools:ignore="SpeakableTextPresentCheck">
 
-        <TextView
-            android:id="@+id/txtDataPaciente"
+        <LinearLayout
+            android:id="@+id/containerAgendamentos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:padding="10dp"
-            android:text="Selecione uma data"
-            android:textColor="@color/preto"
-            android:textSize="16sp"
-            android:background="@drawable/edittext_fundo"/>
+            android:orientation="vertical"
+            android:padding="12dp" />
+
     </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

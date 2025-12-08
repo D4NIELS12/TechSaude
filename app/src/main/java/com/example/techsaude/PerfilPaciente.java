@@ -117,11 +117,27 @@ public class PerfilPaciente extends Fragment {
         txt.setTextColor(getResources().getColor(android.R.color.black));
         viewRelatorio.addView(txt);
     }
+    private String formatarDataHoraParaBR(String dataHoraUSA) {
+        try {
+            // Formato que vem do servidor (ex: 2025-01-12 14:30:00)
+            SimpleDateFormat formatoEUA = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+
+            // Formato brasileiro desejado (ex: 12/01/2025 14:30)
+            SimpleDateFormat formatoBR = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("pt", "BR"));
+
+            Date date = formatoEUA.parse(dataHoraUSA);
+            return formatoBR.format(date);
+
+        } catch (Exception e) {
+            return dataHoraUSA; // Caso aconteça erro, retorna como veio
+        }
+    }
+
 
     private void preencherRelatorio(JSONObject response) {
 
         try {
-            adicionarItem("Data de registro", response.getString("data_registroProntuario"));
+            adicionarItem("Data de registro", formatarDataHoraParaBR(response.getString("data_registroProntuario")));
             adicionarItem("Peso (kg)", response.getString("peso_kgProntuario"));
             adicionarItem("Altura (cm)", response.getString("altura_cmProntuario"));
             adicionarItem("Sintomas", response.getString("sintomasProntuario"));

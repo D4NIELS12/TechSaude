@@ -30,17 +30,6 @@
                 android:onClick="ClickMenu"
                 app:srcCompat="@drawable/techsaudebranco" />
 
-            <TextView
-                android:id="@+id/txtNomeDaTela"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="30dp"
-                android:text="Nome da Tela"
-                android:textColor="@color/preto"
-                android:textSize="45sp"
-                android:textStyle="bold" />
-
         </com.google.android.material.appbar.MaterialToolbar>
 
         <FrameLayout

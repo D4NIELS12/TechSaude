@@ -24,7 +24,7 @@ public class PacienteLogado extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private MaterialToolbar toolbar;
-    TextView nav_sair, txtNomePacienteNav, txtNomeDaTela;
+    TextView nav_sair, txtNomePacienteNav;
 
 
     @Override
@@ -36,7 +36,6 @@ public class PacienteLogado extends AppCompatActivity {
         navView = findViewById(R.id.navView);
         toolbar = findViewById(R.id.toolbar);
         nav_sair = (TextView) findViewById(R.id.nav_sair);
-        txtNomeDaTela = (TextView) findViewById(R.id.txtNomeDaTela);
 
         //acessar o header APÓS inicializar o navView
         View headerView = navView.getHeaderView(0);
@@ -63,22 +62,16 @@ public class PacienteLogado extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_inicio) {
-                txtNomeDaTela.setText("Ínicio");
                   replaceFragment(new InicioPaciente(), "Ínicio");
             } else if (id == R.id.nav_Perfil){
-                txtNomeDaTela.setText("Perfil");
                 replaceFragment(new PerfilPaciente(), "Perfil");
             } else if (id == R.id.nav_Area_Paciente) {
-                txtNomeDaTela.setText("Receituário");
                 replaceFragment(new ReceituarioPaciente(), "Receituário");
             } else if (id == R.id.nav_Prontuario) {
-                txtNomeDaTela.setText("Prontuário");
                 replaceFragment(new Prontuario(), "Prontuário");
             }else if (id == R.id.nav_Agendamentos) {
-                txtNomeDaTela.setText("Agendamentos");
                 replaceFragment(new AgendamentosPaciente(), "Agendamentos");
             }else if (id == R.id.nav_Configurações) {
-                txtNomeDaTela.setText("Configurações");
                 replaceFragment(new Configuracoes(), "Configurações");
             }
 
@@ -92,7 +85,6 @@ public class PacienteLogado extends AppCompatActivity {
         // Primeira tela
         if (savedInstanceState == null) {
             navView.setCheckedItem(R.id.nav_inicio);
-            txtNomeDaTela.setText("Ínicio");
             replaceFragment(new InicioPaciente(), "Ínicio");
         }
     }
