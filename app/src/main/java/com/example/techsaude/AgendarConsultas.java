@@ -74,7 +74,7 @@ public class AgendarConsultas extends AppCompatActivity {
         autoEspecialidade.setOnItemClickListener((parent, view, position, id) -> {
             String esp = parent.getItemAtPosition(position).toString();
             carregarMedicos(esp);
-            editPreco.setText("89.90");
+            editPreco.setText("R$89.90");
         });
 
         editTextDate.setOnClickListener(v -> showDatePicker());

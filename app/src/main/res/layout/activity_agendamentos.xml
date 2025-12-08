@@ -9,64 +9,68 @@
     android:padding="20dp">
 
     <!-- Caixa do Calendário -->
-    <!-- 📅 Calendário -->
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="0dp"
         android:layout_height="370dp"
         android:background="@drawable/edittext_fundo"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:mcv_arrowColor="@color/azulEscuro"
         app:mcv_dateTextAppearance="@style/CalendarioDataStyle"
         app:mcv_headerTextAppearance="@style/CalendarioHeaderStyle"
         app:mcv_selectionColor="@color/azulEscuro"
         app:mcv_showOtherDates="all"
         app:mcv_tileSize="match_parent"
-        app:mcv_weekDayTextAppearance="@style/CalendarioSemanaStyle" />
+        app:mcv_weekDayTextAppearance="@style/CalendarioSemanaStyle"
+        tools:layout_editor_absoluteY="71dp"
+        tools:ignore="MissingConstraints" />
 
     <!-- Card dos Detalhes -->
     <LinearLayout
         android:id="@+id/cardDetalhes"
-    <!-- 🔽 Lista de agendamentos -->
-    <ScrollView
-        android:id="@+id/scrollAgendamentos"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="6dp"
+        android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/calendarView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:id="@+id/containerAgendamentos"
+        <TextView
+            android:id="@+id/tituloDetalhes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalhes do Dia"
+            android:textColor="@color/azulEscuro"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/txtDetalhes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:background="@drawable/edittext_fundo"
+            android:lineSpacingExtra="4dp"
+            android:text="Selecione um dia no calendário para visualizar seus compromissos."
+            android:textColor="@color/preto"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tituloDetalhes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Detalhes do Dia"
-                android:textColor="@color/azulEscuro"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+        <Button
 
-            <TextView
-                android:id="@+id/txtDetalhes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_fundo"
-                android:lineSpacingExtra="4dp"
-                android:text="Selecione um dia no calendário para visualizar seus compromissos."
-                android:textColor="@color/preto"
-                android:textSize="16sp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAlterarAgendamento"
+            android:text="Alterar Agendamento"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/azulEscuro"
+            android:textColor="@android:color/white"
+            android:layout_marginHorizontal="16dp"/>
 
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

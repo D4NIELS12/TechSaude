@@ -40,7 +40,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/vacina" />
 
-    <!-- Titulo -->
     <TextView
         android:id="@+id/textTitulo"
         android:layout_width="wrap_content"
@@ -54,7 +53,6 @@
         app:layout_constraintStart_toEndOf="@id/viewRecipienteImagem"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Subtitulo -->
     <TextView
         android:id="@+id/textDescricao"
         android:layout_width="match_parent"
@@ -66,7 +64,7 @@
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/viewRecipienteImagem" />
 
-    <!-- Vacina -->
+    <!-- 🔹 Especialidade -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Vacina"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -94,7 +92,11 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Data -->
+    <!-- 🔹 Médico -->
+
+    <!-- 🔹 Data -->
+
+    <!-- 🔹 Horário -->
     <EditText
         android:id="@+id/editTextDate"
         android:layout_width="346dp"
@@ -112,7 +114,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Vacina" />
 
-    <!-- Horário -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/time"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -140,7 +141,6 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Botão -->
     <EditText
         android:id="@+id/editPreco"
         android:layout_width="346dp"
@@ -175,7 +175,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editPreco" />
 
-    <!-- Rodapé -->
+    <!-- 🔹 Rodapé -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
