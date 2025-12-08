@@ -11,17 +11,15 @@
         android:layout_width="56dp"
         android:layout_height="61dp"
         android:src="@drawable/voltar" />
-
     <TextView
         android:id="@+id/txtTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp"
         android:text="Alterar Senha"
-        android:textColor="@color/preto"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
 
     <EditText
         android:id="@+id/edtSenhaAtual"
@@ -29,9 +27,6 @@
         android:layout_height="wrap_content"
         android:hint="Senha atual"
         android:inputType="textPassword"
-        android:padding="12dp"
-        android:textColor="@color/preto"
-        android:textColorHint="#F06E6C6C" />
         android:background="@drawable/edittext_fundo"
         android:padding="12dp" />
 
@@ -39,25 +34,21 @@
         android:id="@+id/edtNovaSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:hint="Nova senha"
         android:inputType="textPassword"
         android:background="@drawable/edittext_fundo"
         android:padding="12dp"
-        android:textColor="@color/preto"
-        android:textColorHint="#F06E6C6C" />
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/edtConfirmarSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:hint="Confirmar nova senha"
         android:background="@drawable/edittext_fundo"
         android:inputType="textPassword"
         android:padding="12dp"
-        android:textColor="@color/preto"
-        android:textColorHint="#F06E6C6C" />
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/btnAlterarSenha"

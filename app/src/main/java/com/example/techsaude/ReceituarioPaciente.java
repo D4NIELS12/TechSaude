@@ -84,10 +84,12 @@ public class ReceituarioPaciente extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.getJSONObject(i);
 
+
                             String medico = item.getString("nome_completoMedico");
                             String data = item.getString("dataEmissao");
+                            String dataBR = converterDataBR(data);
                             txtMedico.setText("Médico: " + medico);
-                            txtData.setText("Data: " + data);
+                            txtData.setText("Data: " + dataBR);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -105,5 +107,16 @@ public class ReceituarioPaciente extends Fragment {
 
         Volley.newRequestQueue(requireActivity()).add(request);
     }
-
+    private String converterDataBR(String dataMYSQL) {
+        try {
+            String[] partes = dataMYSQL.split("-");
+            String dia = partes[2];
+            String mes = partes[1];
+            String ano = partes[0];
+            return dia + "/" + mes + "/" + ano;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dataMYSQL;
+        }
+    }
 }

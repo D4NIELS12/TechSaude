@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment;
 
 public class Configuracoes extends Fragment {
 
-    TextView txtAlterarSenha;
+    TextView txtAlterarSenha, txtAlteraDadosPessoais;
 
     public Configuracoes() {
         super(R.layout.activity_configuracoes);
@@ -32,6 +32,7 @@ public class Configuracoes extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         txtAlterarSenha = view.findViewById(R.id.txtAlterarSenha);
+        txtAlteraDadosPessoais = view.findViewById(R.id.txtAlterarDadosPessoais);
 
         txtAlterarSenha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +40,10 @@ public class Configuracoes extends Fragment {
                 Intent it = new Intent(getActivity(), AlterarSenhaConfiguracoes.class);
                 startActivity(it);
             }
+        });
+        txtAlteraDadosPessoais.setOnClickListener(v -> {
+            Intent it = new Intent(getActivity(), AlterarDadosPessoaisPaciente.class);
+            startActivity(it);
         });
 
     }

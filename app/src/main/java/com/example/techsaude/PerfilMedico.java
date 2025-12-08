@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,7 @@ public class PerfilMedico extends Fragment {
         TextView tvTelefoneMedicoValor = view.findViewById(R.id.tvTelefoneMedicoValor);
         TextView tvSexoMedicoValor = view.findViewById(R.id.tvSexoMedicoValor);
         TextView tvEspecalidadeMedicaValor = view.findViewById(R.id.tvEspecialidadeMedicaValor);
-
+        Button btnAlterarDados = view.findViewById(R.id.btnAlterarDados);
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs_medico", requireContext().MODE_PRIVATE);
 
         String medico = prefs.getString("nome", "Não informado");
@@ -80,6 +81,12 @@ public class PerfilMedico extends Fragment {
         tvTelefoneMedicoValor.setText("Telefone: " + telefoneFormatado);
         tvSexoMedicoValor.setText("Sexo: " + sexoEntenso);
         tvEspecalidadeMedicaValor.setText("Especialidade: " + especialidade);
+
+        btnAlterarDados.setOnClickListener(v -> {
+                    Intent it = new Intent(getActivity(), AlterarDadosPessoaisMedico.class);
+                    startActivity(it);
+                }
+        );
     }
     public static String formatarTelefone(String telefone) {
 

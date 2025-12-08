@@ -23,6 +23,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class RealizarReceituario extends AppCompatActivity {
 
     ImageView btnVoltar;
@@ -126,7 +130,7 @@ public class RealizarReceituario extends AppCompatActivity {
         Button btnOK = dialogView.findViewById(R.id.btnDialogOK);
 
         // Preencher campos, usando "Não informado" se estiver vazio
-        txtDialogDataRegistro.setText("Data de registro: " + (dataRegistro.isEmpty() ? "Não informado" : dataRegistro));
+        txtDialogDataRegistro.setText("Data de registro: " + formatarDataHoraParaBR((dataRegistro.isEmpty() ? "Não informado" : dataRegistro)));
         txtDialogPeso.setText("Peso: " + (peso.isEmpty() ? "Não informado" : peso));
         txtDialogAltura.setText("Altura: " + (altura.isEmpty() ? "Não informado" : altura));
         txtDialogSintomas.setText("Sintomas: " + (sintomas.isEmpty() ? "Não informado" : sintomas));
@@ -147,6 +151,22 @@ public class RealizarReceituario extends AppCompatActivity {
         btnOK.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
+    private String formatarDataHoraParaBR(String dataHoraUSA) {
+        try {
+            // Formato que vem do servidor (ex: 2025-01-12 14:30:00)
+            SimpleDateFormat formatoEUA = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+
+            // Formato brasileiro desejado (ex: 12/01/2025 14:30)
+            SimpleDateFormat formatoBR = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("pt", "BR"));
+
+            Date date = formatoEUA.parse(dataHoraUSA);
+            return formatoBR.format(date);
+
+        } catch (Exception e) {
+            return dataHoraUSA; // Caso aconteça erro, retorna como veio
+        }
+    }
+
 
     private void enviarReceituario() {
 

@@ -37,7 +37,7 @@ import java.util.Locale;
 
 public class AgendarExames extends AppCompatActivity {
 
-    private EditText editDate;
+    private EditText editDate, editPreco;
     private AutoCompleteTextView autoCompleteTime;
     private ImageView Voltar;
     private Button ConfirmarExame;
@@ -89,29 +89,18 @@ public class AgendarExames extends AppCompatActivity {
         Voltar = findViewById(R.id.btnVoltarConsulta);
         autoCompleteTime = findViewById(R.id.auto_complete_time);
         ConfirmarExame = findViewById(R.id.ConfirmarExame);
+        editPreco = findViewById(R.id.editPreco);
 
         Voltar.setOnClickListener(v -> finish());
 
         configurarListeners();
-        prepararHorarios();
         // início do fluxo: buscar especialidades do servidor e em seguida exames
         buscarEspecialidadesDoServidor();
     }
-    private void prepararHorarios() {
-        String[] times = {
-                "08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, times) {
-            @Override public View getView(int position, View convertView, ViewGroup parent) {
-                TextView tv = (TextView) super.getView(position, convertView, parent); tv.setTextSize(18); return tv; } };
 
-        autoCompleteTime.setAdapter(adapter);
-        autoCompleteTime.setOnClickListener(v -> autoCompleteTime.showDropDown());
-    }
 
-    // Mapa local para sabermos qual especialidade pertence a um exame (útil para buscar médicos depois)
 
     private void configurarListeners() {
-
         // Ao selecionar um exame, descobrir a especialidade desse exame (buscando no mapa local)
         autoCompleteExame.setOnItemClickListener((parent, view, position, id) -> {
 
@@ -127,6 +116,8 @@ public class AgendarExames extends AppCompatActivity {
                 listaMedicosIds.clear();
                 autoCompleteMedico.setAdapter(null);
             }
+            editPreco.setText("89.90");
+
         });
 
         editDate.setOnClickListener(v -> showDatePicker());
@@ -409,7 +400,7 @@ public class AgendarExames extends AppCompatActivity {
         editor.putString("medicoExame", medicoFormatado);
         editor.putString("dataExame", dataBR);
         editor.putString("horarioExame", hora);
-        editor.putString("valorExame", "120.00");
+        editor.putString("valor", "120.00");
         editor.putString("statusExame", "Agendado");
 
         editor.apply();
