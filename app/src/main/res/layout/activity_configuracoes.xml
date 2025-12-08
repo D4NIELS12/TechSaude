@@ -7,10 +7,11 @@
     android:padding="24dp"
     android:background="@color/cinza">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Carteira"
+        android:text="Configurações"
         android:textColor="@color/preto"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -46,6 +47,32 @@
         android:background="@color/preto"
         android:layout_marginBottom="16dp" />
 
+    <!-- Notificações -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:id="@+id/txtAlterarDadosPessoais"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Alterar dados pessoais"
+            android:textColor="@color/preto"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/preto"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Tema Escuro -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,16 +84,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Notificações"
+            android:text="Sobre nós"
             android:textColor="@color/preto"
             android:textSize="20sp" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/preto"
-        android:layout_marginBottom="16dp" />
 
 </LinearLayout>

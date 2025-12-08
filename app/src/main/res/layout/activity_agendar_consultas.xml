@@ -7,7 +7,7 @@
     android:background="@color/cinza"
     tools:context=".AgendarConsultas">
 
-    <!-- Botão Voltar -->
+    <!-- 🔙 Botão Voltar -->
     <ImageView
         android:id="@+id/btnVoltarConsulta"
         android:layout_width="48dp"
@@ -19,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/voltar" />
 
+    <!-- 🔹 Header -->
     <LinearLayout
         android:id="@+id/headerLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toEndOf="@id/btnVoltarConsulta"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -52,137 +52,160 @@
 
     <TextView
         android:id="@+id/textDescricao"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Escolha a especialidade, médico, data e horário desejado:"
         android:textAlignment="center"
         android:textColor="@color/preto"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
-    <!-- Especialidade -->
+    <!-- 🔹 Especialidade -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtEspecialidadeMedico"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="12dp"
-        app:boxBackgroundMode="filled"
         android:background="@drawable/recipiente_texto"
+        app:boxBackgroundMode="filled"
         app:endIconMode="dropdown_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textDescricao">
 
         <AutoCompleteTextView
             android:id="@+id/auto_complete_especialidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:hint="Especialidade médica"
-            android:inputType="none"
+            android:backgroundTint="@color/branco"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:textColorHint="@color/preto"
-            android:backgroundTint="@color/branco"
+            android:hint="Especialidade médica"
+            android:inputType="none"
+            android:minHeight="48dp"
             android:textColor="@color/preto"
+            android:textColorHint="@color/preto"
             android:textSize="18sp"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Médico -->
+    <!-- 🔹 Médico -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Medico"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="12dp"
-        app:boxBackgroundMode="filled"
         android:background="@drawable/recipiente_texto"
+        app:boxBackgroundMode="filled"
         app:endIconMode="dropdown_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtEspecialidadeMedico">
 
         <AutoCompleteTextView
             android:id="@+id/auto_complete_medico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:hint="Médico"
-            android:inputType="none"
+            android:background="@color/branco"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:background="@color/branco"
-            android:textColorHint="@color/preto"
+            android:hint="Médico"
+            android:inputType="none"
+            android:minHeight="48dp"
             android:textColor="@color/preto"
+            android:textColorHint="@color/preto"
             android:textSize="18sp"
             tools:ignore="SpeakableTextPresentCheck" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Data -->
+    <!-- 🔹 Data -->
     <EditText
         android:id="@+id/editTextDate"
-        android:layout_width="346dp"
-        android:layout_height="70dp"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
         android:background="@drawable/recipiente_texto"
         android:focusable="false"
         android:hint="Data da consulta"
+        android:padding="14dp"
         android:textColor="@color/preto"
         android:textColorHint="@color/preto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Medico" />
 
-    <!-- Horário -->
+    <!-- 🔹 Horário -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/time"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="12dp"
-        app:boxBackgroundMode="filled"
         android:background="@drawable/recipiente_texto"
+        app:boxBackgroundMode="filled"
         app:endIconMode="dropdown_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextDate">
 
         <AutoCompleteTextView
             android:id="@+id/auto_complete_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:hint="Horário da consulta"
-            android:inputType="none"
+            android:background="@color/branco"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:textColorHint="@color/preto"
-            android:background="@color/branco"
+            android:hint="Horário da consulta"
+            android:inputType="none"
+            android:minHeight="48dp"
             android:textColor="@color/preto"
+            android:textColorHint="@color/preto"
             android:textSize="18sp"
             tools:ignore="SpeakableTextPresentCheck" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Botão -->
+    <EditText
+        android:id="@+id/editPreco"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/recipiente_texto"
+        android:clickable="false"
+        android:focusable="false"
+        android:hint="Valor"
+        android:padding="14dp"
+        android:textColor="@color/preto"
+        android:textColorHint="@color/preto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time" />
+
+    <!-- 🔹 Botão -->
     <Button
         android:id="@+id/btnConfirmarConsulta"
-        android:layout_width="346dp"
-        android:layout_height="63dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:padding="18dp"
         android:backgroundTint="@color/azulEscuro"
         android:text="Confirmar Agendamento"
         android:textColor="@color/branco"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/time" />
+        app:layout_constraintTop_toBottomOf="@id/editPreco" />
 
-    <!-- Rodapé -->
+    <!-- 🔹 Rodapé -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

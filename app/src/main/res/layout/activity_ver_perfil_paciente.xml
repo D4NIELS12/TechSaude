@@ -142,7 +142,7 @@
 
             <LinearLayout
                 android:id="@+id/linearProntuario"
-                android:layout_width="310dp"
+                android:layout_width="0dp"
                 android:layout_height="290dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="50dp"
