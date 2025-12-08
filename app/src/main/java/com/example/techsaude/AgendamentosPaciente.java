@@ -2,6 +2,7 @@ package com.example.techsaude;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class AgendamentosPaciente extends Fragment {
@@ -38,6 +40,10 @@ public class AgendamentosPaciente extends Fragment {
     private final HashMap<String, List<AgendamentoItem>> agendamentos = new HashMap<>();
 
     private String dataSelecionada = "";
+
+    // contador de requisições pendentes (consultas, vacinas, exames)
+    private static final int TOTAL_REQUESTS = 3;
+    private int pendingRequests = 0;
 
     public AgendamentosPaciente() {
         super(R.layout.activity_agendamentos);
@@ -60,7 +66,6 @@ public class AgendamentosPaciente extends Fragment {
 
         carregarAgendamentosDoBanco();
 
-
         calendarView.setOnDateChangedListener((widget, date, selected) -> {
             dataSelecionada = String.format("%04d-%02d-%02d",
                     date.getYear(),
@@ -70,9 +75,7 @@ public class AgendamentosPaciente extends Fragment {
 
             mostrarAgendamentos(dataSelecionada);
         });
-
     }
-
 
     // -------------------------------------------------------------
     // CARREGAR DADOS DO BANCO
@@ -80,6 +83,7 @@ public class AgendamentosPaciente extends Fragment {
     private void carregarAgendamentosDoBanco() {
 
         agendamentos.clear();
+        pendingRequests = TOTAL_REQUESTS; // reset contador
 
         String URL_LISTAR_CONSULTAS = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_consulta.php?idUsuario=" + idUsuario;
         String URL_LISTAR_VACINAS   = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/lista_vacina.php?idUsuario=" + idUsuario;
@@ -92,33 +96,43 @@ public class AgendamentosPaciente extends Fragment {
                 null,
                 response -> {
                     try {
-                        if (!response.getBoolean("success")) return;
+                        if (!response.getBoolean("success")) {
+                            decrementAndMaybeFinish();
+                            return;
+                        }
 
                         JSONArray array = response.getJSONArray("consultas");
 
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
 
-                            String id = obj.getString("idConsulta");
-                            String data = obj.getString("dataConsulta");
-                            String hora = obj.getString("horarioConsulta").substring(0, 5);
-                            String esp = obj.getString("especialidadeConsulta");
-                            String medico = obj.getString("nome_completoMedico");
-                            String status = obj.getString("statusConsulta");
+                            String id = obj.optString("idConsulta", "");
+                            String data = obj.optString("dataConsulta", "");
+                            String horarioRaw = obj.optString("horarioConsulta", "");
+                            String hora = horarioRaw != null && horarioRaw.length() >= 5 ? horarioRaw.substring(0, 5) : horarioRaw;
+                            String esp = obj.optString("especialidadeConsulta", obj.optString("especialidade", ""));
+                            String medico = obj.optString("nome_completoMedico", obj.optString("nomePaciente", ""));
+                            String status = obj.optString("statusConsulta", "");
 
                             String desc = "Consulta com " + medico +
                                     "\nEspecialidade: " + esp +
-                                    "\nHorário: " + hora+
+                                    "\nHorário: " + hora +
                                     "\nStatus: " + status;
 
                             adicionarAgendamento(data, desc, id, "consulta");
                         }
 
-                        marcarAgendamentosNoCalendario();
-
-                    } catch (Exception ignored) {}
+                    } catch (Exception e) {
+                        Log.e("AGEND_PAC", "Erro parseando consultas", e);
+                    } finally {
+                        decrementAndMaybeFinish();
+                    }
                 },
-                error -> txtDetalhes.setText("Erro ao carregar consultas.")
+                error -> {
+                    Log.e("ERRO:", "Erro ao carregar consultas:" + error);
+                    txtDetalhes.setText("Erro ao carregar consultas.");
+                    decrementAndMaybeFinish();
+                }
         );
 
         // ------ VACINAS ------
@@ -128,31 +142,40 @@ public class AgendamentosPaciente extends Fragment {
                 null,
                 response -> {
                     try {
-                        if (!response.getBoolean("success")) return;
+                        if (!response.getBoolean("success")) {
+                            decrementAndMaybeFinish();
+                            return;
+                        }
 
                         JSONArray array = response.getJSONArray("vacinas");
 
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
 
-                            String id = obj.getString("idVacina");
-                            String data = obj.getString("dataVacina");
-                            String hora = obj.getString("horarioVacina").substring(0, 5);
-                            String tipo = obj.getString("tipoVacina");
-                            String status = obj.getString("statusVacina");
+                            String id = obj.optString("idVacina", "");
+                            String data = obj.optString("dataVacina", "");
+                            String horarioRaw = obj.optString("horarioVacina", "");
+                            String hora = horarioRaw != null && horarioRaw.length() >= 5 ? horarioRaw.substring(0,5) : horarioRaw;
+                            String tipo = obj.optString("tipoVacina", "");
+                            String status = obj.optString("statusVacina", "");
 
                             String desc = "Vacina: " + tipo +
-                                    "\nHorário: " + hora+
+                                    "\nHorário: " + hora +
                                     "\nStatus: " + status;
 
                             adicionarAgendamento(data, desc, id, "vacina");
                         }
 
-                        marcarAgendamentosNoCalendario();
-
-                    } catch (Exception ignored) {}
+                    } catch (Exception e) {
+                        Log.e("AGEND_PAC", "Erro parseando vacinas", e);
+                    } finally {
+                        decrementAndMaybeFinish();
+                    }
                 },
-                error -> txtDetalhes.setText("Erro ao carregar vacinas.")
+                error -> {
+                    txtDetalhes.setText("Erro ao carregar vacinas.");
+                    decrementAndMaybeFinish();
+                }
         );
 
         // ------ EXAMES ------
@@ -162,33 +185,42 @@ public class AgendamentosPaciente extends Fragment {
                 null,
                 response -> {
                     try {
-                        if (!response.getBoolean("success")) return;
+                        if (!response.getBoolean("success")) {
+                            decrementAndMaybeFinish();
+                            return;
+                        }
 
                         JSONArray array = response.getJSONArray("exames");
 
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
 
-                            String id = obj.getString("idExame");
-                            String data = obj.getString("dataExame");
-                            String hora = obj.getString("horarioExame").substring(0, 5);
-                            String tipo = obj.getString("tipoExame");
-                            String medico = obj.getString("nome_completoMedico");
-                            String status = obj.getString("statusExame");
+                            String id = obj.optString("idExame", "");
+                            String data = obj.optString("dataExame", "");
+                            String horarioRaw = obj.optString("horarioExame", "");
+                            String hora = horarioRaw != null && horarioRaw.length() >= 5 ? horarioRaw.substring(0,5) : horarioRaw;
+                            String tipo = obj.optString("tipoExame", "");
+                            String medico = obj.optString("nome_completoMedico", "");
+                            String status = obj.optString("statusExame", "");
 
                             String desc = "Exame: " + tipo +
                                     "\nMédico: " + medico +
-                                    "\nHorário: " + hora+
-                                    "\nExame: " + status;
+                                    "\nHorário: " + hora +
+                                    "\nStatus: " + status;
 
                             adicionarAgendamento(data, desc, id, "exame");
                         }
 
-                        marcarAgendamentosNoCalendario();
-
-                    } catch (Exception ignored) {}
+                    } catch (Exception e) {
+                        Log.e("AGEND_PAC", "Erro parseando exames", e);
+                    } finally {
+                        decrementAndMaybeFinish();
+                    }
                 },
-                error -> txtDetalhes.setText("Erro ao carregar exames.")
+                error -> {
+                    txtDetalhes.setText("Erro ao carregar exames.");
+                    decrementAndMaybeFinish();
+                }
         );
 
         Volley.newRequestQueue(requireContext()).add(reqConsultas);
@@ -196,43 +228,64 @@ public class AgendamentosPaciente extends Fragment {
         Volley.newRequestQueue(requireContext()).add(reqExames);
     }
 
+    // decrementa contador e, se zero, finaliza (marca calendário e mostra data selecionada)
+    private void decrementAndMaybeFinish() {
+        pendingRequests--;
+        if (pendingRequests <= 0) {
+            // garantir execução na thread UI
+            requireActivity().runOnUiThread(() -> {
+                marcarAgendamentosNoCalendario();
+                if (!dataSelecionada.isEmpty()) {
+                    mostrarAgendamentos(dataSelecionada);
+                }
+            });
+        }
+    }
 
     // -------------------------------------------------------------
     // ARMAZENAR AGENDAMENTO
     // -------------------------------------------------------------
     private void adicionarAgendamento(String data, String desc, String id, String tipo) {
+        if (data == null || data.trim().isEmpty()) return;
         if (!agendamentos.containsKey(data))
             agendamentos.put(data, new ArrayList<>());
 
         agendamentos.get(data).add(new AgendamentoItem(id, desc, tipo));
     }
 
-
     // -------------------------------------------------------------
     // MARCAR DIAS NO CALENDÁRIO
     // -------------------------------------------------------------
     private void marcarAgendamentosNoCalendario() {
+        // remove decoradores antigos pra não duplicar
+        calendarView.removeDecorators();
+        calendarView.addDecorator(new PastDaysDecorator());
+
         List<CalendarDay> dias = new ArrayList<>();
 
         for (String data : agendamentos.keySet()) {
-            String[] p = data.split("-");
-
-            dias.add(CalendarDay.from(
-                    Integer.parseInt(p[0]),
-                    Integer.parseInt(p[1]) - 1,
-                    Integer.parseInt(p[2])
-            ));
+            try {
+                String[] p = data.split("-");
+                CalendarDay day = CalendarDay.from(
+                        Integer.parseInt(p[0]),
+                        Integer.parseInt(p[1]) - 1,
+                        Integer.parseInt(p[2])
+                );
+                dias.add(day);
+            } catch (Exception e) {
+                // ignora datas inválidas
+            }
         }
 
-        calendarView.addDecorator(new ConsultaDecorator(dias));
+        if (!dias.isEmpty()) {
+            calendarView.addDecorator(new ConsultaDecorator(dias));
+        }
     }
-
 
     // -------------------------------------------------------------
     // MOSTRAR AGENDAMENTOS DO DIA
     // -------------------------------------------------------------
     private void mostrarAgendamentos(String data) {
-
         containerAgendamentos.removeAllViews();
 
         if (!agendamentos.containsKey(data)) {
@@ -240,13 +293,11 @@ public class AgendamentosPaciente extends Fragment {
             return;
         }
 
-        txtDetalhes.setText("📅 Agendamentos em " + data + ":");
 
         for (AgendamentoItem item : agendamentos.get(data)) {
             adicionarCard(item);
         }
     }
-
 
     // -------------------------------------------------------------
     // CRIAR CARD NA TELA
@@ -261,16 +312,25 @@ public class AgendamentosPaciente extends Fragment {
 
         txtInfo.setText(item.descricao);
 
-        btnCancelar.setOnClickListener(v -> cancelarAgendamento(item, card));
+        btnCancelar.setOnClickListener(v -> cancelarAgendamentosDialog(item, card));
 
         containerAgendamentos.addView(card);
     }
 
+    // abre diálogo de confirmação antes de cancelar
+    private void cancelarAgendamentosDialog(AgendamentoItem item, View card) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirmar cancelamento")
+                .setMessage("Deseja realmente cancelar este agendamento?")
+                .setPositiveButton("Sim", (dialog, which) -> cancelarAgendamentos(item, card))
+                .setNegativeButton("Não", null)
+                .show();
+    }
 
     // -------------------------------------------------------------
     // CANCELAR AGENDAMENTO
     // -------------------------------------------------------------
-    private void cancelarAgendamento(AgendamentoItem item, View card) {
+    private void cancelarAgendamentos(AgendamentoItem item, View card) {
 
         String url = "http://tcc3edsmodetecgr3.hospedagemdesites.ws/cancelar_agendamento_paciente.php";
 
@@ -279,7 +339,9 @@ public class AgendamentosPaciente extends Fragment {
             json.put("idUsuario", idUsuario);
             json.put("idAgendamento", item.id);
             json.put("tipo", item.tipo);
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         JsonObjectRequest req = new JsonObjectRequest(
                 Request.Method.POST,
@@ -289,25 +351,64 @@ public class AgendamentosPaciente extends Fragment {
                     try {
                         if (response.getBoolean("success")) {
                             Toast.makeText(requireContext(), "Agendamento cancelado!", Toast.LENGTH_SHORT).show();
+
+                            // remove view do card
                             containerAgendamentos.removeView(card);
+
+                            // remove do mapa local
+                            String dataRemovida = removeItemFromMapById(item.id);
+
+                            // se o dia removido for o atualmente exibido, atualiza visual
+                            if (dataRemovida != null && dataRemovida.equals(dataSelecionada)) {
+                                mostrarAgendamentos(dataSelecionada);
+                            }
+
+                            // atualiza calendário
+                            marcarAgendamentosNoCalendario();
+
+                            // recarrega do servidor para manter sincronizado (opcional, mas recomendado)
+                            carregarAgendamentosDoBanco();
+
                         } else {
-                            Toast.makeText(requireContext(),
-                                    response.getString("message"),
-                                    Toast.LENGTH_LONG).show();
+                            String msg = response.optString("message", "Falha ao cancelar.");
+                            Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show();
                         }
-                    } catch (Exception ignored) {}
+                    } catch (Exception e) {
+                        Log.e("AGEND_PAC", "Erro no response cancelar", e);
+                        Toast.makeText(requireContext(), "Resposta inválida do servidor.", Toast.LENGTH_SHORT).show();
+                    }
                 },
-                error -> Toast.makeText(requireContext(),
-                        "Falha ao conectar ao servidor.",
-                        Toast.LENGTH_SHORT).show()
+                error -> {
+                    Log.e("AGEND_PAC", "Erro ao cancelar", error);
+                    Toast.makeText(requireContext(),
+                            "Falha ao conectar ao servidor.",
+                            Toast.LENGTH_SHORT).show();
+                }
         );
 
         Volley.newRequestQueue(requireContext()).add(req);
     }
 
-
-
-
+    // procura e remove item do mapa usando o id; retorna a data onde foi removido ou null
+    private String removeItemFromMapById(String id) {
+        Iterator<String> it = agendamentos.keySet().iterator();
+        while (it.hasNext()) {
+            String data = it.next();
+            List<AgendamentoItem> lista = agendamentos.get(data);
+            if (lista != null) {
+                for (int i = 0; i < lista.size(); i++) {
+                    if (id.equals(lista.get(i).id)) {
+                        lista.remove(i);
+                        if (lista.isEmpty()) {
+                            it.remove();
+                        }
+                        return data;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     // -------------------------------------------------------------
     // CLASSE DE OBJETO DO AGENDAMENTO
