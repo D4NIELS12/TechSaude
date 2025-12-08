@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="@color/cinza">
 
     <ImageView
         android:id="@+id/imgVoltarSenha"
@@ -32,6 +32,8 @@
         android:padding="12dp"
         android:textColor="@color/preto"
         android:textColorHint="#F06E6C6C" />
+        android:background="@drawable/edittext_fundo"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/edtNovaSenha"
@@ -40,6 +42,7 @@
         android:layout_marginTop="16dp"
         android:hint="Nova senha"
         android:inputType="textPassword"
+        android:background="@drawable/edittext_fundo"
         android:padding="12dp"
         android:textColor="@color/preto"
         android:textColorHint="#F06E6C6C" />
@@ -50,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Confirmar nova senha"
+        android:background="@drawable/edittext_fundo"
         android:inputType="textPassword"
         android:padding="12dp"
         android:textColor="@color/preto"
